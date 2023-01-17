@@ -14,7 +14,7 @@ default: &default
   encoding: utf8mb4
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 20 } %>
   username: user
-  password: password
+  password: change_password
   host: 127.0.0.1
   port: 3306
 
