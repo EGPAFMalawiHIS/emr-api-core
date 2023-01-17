@@ -15,7 +15,8 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 20 } %>
   username: user
   password: password
-  host: localhost
+  host: 127.0.0.1
+  port: 3306
 
 development:
   <<: *default
@@ -27,10 +28,6 @@ development:
 test:
   <<: *default
   database: emr_api_core_test
-  <% if ENV['CI'] %>
-  host: 127.0.0.1
-  port: <%= ENV['DB_PORT'] %>
-  <% end %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
