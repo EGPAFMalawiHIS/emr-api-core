@@ -32,6 +32,7 @@ jobs:
     env:
       RAILS_ENV: test
       DB_PORT: 3306
+      CI: true
       # DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"
     steps:
       - name: Checkout code
