@@ -52,7 +52,9 @@ jobs:
       # Add or replace database setup steps here
       - name: Set up database schema
         run: |
-          sudo service mysql start
+          sudo systemctl enable mysql.service
+          sudo systemctl start mysql.service
+          sudo systemctl status mysql.service
           bundle exec rails db:prepare
       # Add or replace test runners here
       - name: Run tests
