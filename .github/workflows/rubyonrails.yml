@@ -10,6 +10,7 @@ on:
     branches: [ "development" ]
   pull_request:
     branches: [ "development" ]
+  workflow_dispatch:
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -17,8 +18,10 @@ jobs:
       mysql:
         image: mysql:8
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
           MYSQL_DATABASE: emr_api_core_test
+          MYSQL_USER: user
+          MYSQL_PASSWORD: password
+          MYSQL_ROOT_PASSWORD: password 
         ports:
           - 3306
         options: >-
