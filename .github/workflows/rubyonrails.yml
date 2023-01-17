@@ -53,10 +53,8 @@ jobs:
       # Add or replace database setup steps here
       - name: Set up database schema
         run: |
-          /etc/init.d/mysql stop
           sudo service mysql stop
-          killall -KILL mysql mysqld_safe mysqld
-          /etc/init.d/mysql start
+          sudo killall -KILL mysql mysqld_safe mysqld
           sudo service mysql start
           sudo systemctl status mysql.service
           bin/rails db:prepare
