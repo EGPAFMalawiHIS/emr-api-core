@@ -54,7 +54,7 @@ jobs:
         run: |
           sudo service mysql status
           sudo service mysql start
-          bin/rails db:prepare
+          bundle exec rails db:prepare
       # Add or replace test runners here
       - name: Run tests
-        run: bin/rake
+        run: bundle exec rails test
