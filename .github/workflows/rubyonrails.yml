@@ -53,6 +53,7 @@ jobs:
       - name: Set up database schema
         run: |
           sudo service mysql start
+          sudo service mysql status
           bin/rails db:prepare
           bin/rails db:schema:load
       # Add or replace test runners here
