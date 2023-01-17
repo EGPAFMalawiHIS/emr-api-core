@@ -52,7 +52,6 @@ jobs:
       # Add or replace database setup steps here
       - name: Set up database schema
         run: |
-          sudo service mysql restart
           sudo service mysql status
           bin/rails db:prepare
           bin/rails db:schema:load
