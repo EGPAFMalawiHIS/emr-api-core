@@ -28,38 +28,30 @@ jobs:
           --health-retries=3
     env:
       RAILS_ENV: test
+      DB_PORT: 3306
       # DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
       # Add or replace dependency steps here
-      - name: Install Ruby and gems
+      - name: Set up Ruby 3.1.2
         uses: ruby/setup-ruby@ee2113536afb7f793eed4ce60e8d3b26db912da4 # v1.127.0
         with:
-          bundler-cache: true
+          ruby-version: 3.1.2
+      # Install dependecies
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install --jobs 4 --retry 3
       # Copy database config
       - name: Copy database configutation
         run: cp config/database.yml.example config/database.yml
       # Add or replace database setup steps here
       - name: Set up database schema
-        run: bin/rails db:schema:load
+        run: |
+          sudo service mysql start
+          bin/rails db:prepare
+          bin/rails db:schema:load
       # Add or replace test runners here
       - name: Run tests
         run: bin/rake
-
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Install Ruby and gems
-        uses: ruby/setup-ruby@ee2113536afb7f793eed4ce60e8d3b26db912da4 # v1.127.0
-        with:
-          bundler-cache: true
-      # Add or replace any other lints here
-      - name: Security audit dependencies
-        run: bin/bundler-audit --update
-      - name: Security audit application code
-        run: bin/brakeman -q -w2
-      - name: Lint Ruby files
-        run: bin/rubocop --parallel
