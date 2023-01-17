@@ -27,6 +27,10 @@ development:
 test:
   <<: *default
   database: emr_api_core_test
+  <% if ENV['CI'] %>
+  host: 127.0.0.1
+  port: <%= ENV['DB_PORT'] %>
+  <% end %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
