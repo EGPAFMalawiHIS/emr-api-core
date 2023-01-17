@@ -22,20 +22,18 @@ jobs:
           MYSQL_PASSWORD: change_password
           MYSQL_ROOT_PASSWORD: change_password 
         ports:
-          - 3306:3306
+          - 3306
         options: >-
           --health-cmd="mysqladmin ping"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
-    env:
-      RAILS_ENV: test
-      DB_PORT: 3306
-      CI: true
       # DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       # Add or replace dependency steps here
       - name: Set up Ruby 3.1.2
         uses: ruby/setup-ruby@ee2113536afb7f793eed4ce60e8d3b26db912da4 # v1.127.0
@@ -45,17 +43,28 @@ jobs:
       - name: Install dependencies
         run: |
           gem install bundler
+          bundle config path vendor/bundle
           bundle install --jobs 4 --retry 3
+      - name: Verify MySQL connection from host
+        run: |
+          sudo apt-get install -y mysql-client libmysqlclient-dev
+          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports[3306] }} -uroot -pchange_password -e "SHOW GRANTS FOR 'root'@'localhost'"
+          mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports[3306] }} -uroot -pchange_password mysql
       # Copy database config
       - name: Copy database configutation
         run: cp config/database.yml.example config/database.yml
       # Add or replace database setup steps here
       - name: Set up database schema
+        env:
+          RAILS_ENV: test
+          DB_PORT: 3306
+          CI: true
         run: |
-          sudo systemctl enable mysql.service
-          sudo systemctl start mysql.service
-          sudo systemctl status mysql.service
           bundle exec rails db:prepare
       # Add or replace test runners here
       - name: Run tests
+        env:
+          RAILS_ENV: test
+          DB_PORT: 3306
+          CI: true
         run: bundle exec rails test
