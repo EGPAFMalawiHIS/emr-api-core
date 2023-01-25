@@ -159,7 +159,7 @@ PLATFORMS
 DEPENDENCIES
   bootsnap
   debug
-  mysql2 (~> 0.5)
+  mysql2
   puma (~> 5.0)
   rails (~> 7.0.4)
   tzinfo-data
