@@ -20,7 +20,7 @@ jobs:
           MYSQL_DATABASE: emr_api_core_test
           MYSQL_ROOT_PASSWORD: change_password 
         ports:
-          - 3306
+          - 3306:3306
         options: >-
           --health-cmd="mysqladmin ping"
           --health-interval=10s
