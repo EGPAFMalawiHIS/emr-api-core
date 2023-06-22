@@ -1,0 +1,2 @@
+class FormentryError < ApplicationRecord
+end

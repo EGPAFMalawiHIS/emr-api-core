@@ -1,0 +1,2 @@
+class TestOrder < ApplicationRecord
+end

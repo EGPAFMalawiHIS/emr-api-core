@@ -1,0 +1,2 @@
+class ConceptStopWord < ApplicationRecord
+end

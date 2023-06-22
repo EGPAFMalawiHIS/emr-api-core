@@ -1,0 +1,2 @@
+class ClobDatatypeStorage < ApplicationRecord
+end

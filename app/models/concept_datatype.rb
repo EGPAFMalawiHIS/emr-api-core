@@ -1,0 +1,2 @@
+class ConceptDatatype < ApplicationRecord
+end

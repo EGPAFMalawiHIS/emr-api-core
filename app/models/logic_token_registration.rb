@@ -1,0 +1,2 @@
+class LogicTokenRegistration < ApplicationRecord
+end

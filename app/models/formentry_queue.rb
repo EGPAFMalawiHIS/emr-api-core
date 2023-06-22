@@ -1,0 +1,2 @@
+class FormentryQueue < ApplicationRecord
+end

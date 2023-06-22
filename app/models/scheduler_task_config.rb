@@ -1,0 +1,2 @@
+class SchedulerTaskConfig < ApplicationRecord
+end

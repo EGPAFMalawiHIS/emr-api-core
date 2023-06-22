@@ -1,0 +1,2 @@
+class XformsMedicalHistoryField < ApplicationRecord
+end

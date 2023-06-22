@@ -1,0 +1,2 @@
+class SerializedObject < ApplicationRecord
+end

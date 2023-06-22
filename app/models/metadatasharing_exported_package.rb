@@ -1,0 +1,2 @@
+class MetadatasharingExportedPackage < ApplicationRecord
+end

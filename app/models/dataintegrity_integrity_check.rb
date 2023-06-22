@@ -1,0 +1,2 @@
+class DataintegrityIntegrityCheck < ApplicationRecord
+end

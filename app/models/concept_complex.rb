@@ -1,0 +1,2 @@
+class ConceptComplex < ApplicationRecord
+end

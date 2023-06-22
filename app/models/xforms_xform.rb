@@ -1,0 +1,2 @@
+class XformsXform < ApplicationRecord
+end

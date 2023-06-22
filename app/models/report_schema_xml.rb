@@ -1,0 +1,2 @@
+class ReportSchemaXml < ApplicationRecord
+end

@@ -1,0 +1,2 @@
+class Liquibasechangelog < ApplicationRecord
+end

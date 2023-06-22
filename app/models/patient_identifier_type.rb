@@ -1,0 +1,2 @@
+class PatientIdentifierType < ApplicationRecord
+end

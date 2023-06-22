@@ -1,0 +1,2 @@
+class NotificationAlert < ApplicationRecord
+end

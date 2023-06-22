@@ -1,0 +1,2 @@
+class LogicRuleDefinition < ApplicationRecord
+end

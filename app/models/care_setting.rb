@@ -1,0 +1,2 @@
+class CareSetting < ApplicationRecord
+end

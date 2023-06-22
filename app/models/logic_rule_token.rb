@@ -1,0 +1,2 @@
+class LogicRuleToken < ApplicationRecord
+end

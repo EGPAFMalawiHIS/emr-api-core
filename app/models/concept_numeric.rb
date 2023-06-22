@@ -1,0 +1,2 @@
+class ConceptNumeric < ApplicationRecord
+end

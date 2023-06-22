@@ -1,0 +1,2 @@
+class ProgramAttributeType < ApplicationRecord
+end

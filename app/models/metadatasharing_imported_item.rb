@@ -1,0 +1,2 @@
+class MetadatasharingImportedItem < ApplicationRecord
+end

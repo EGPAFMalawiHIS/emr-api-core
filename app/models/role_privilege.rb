@@ -1,0 +1,2 @@
+class RolePrivilege < ApplicationRecord
+end

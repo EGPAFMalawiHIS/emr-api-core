@@ -1,0 +1,2 @@
+class EncounterRole < ApplicationRecord
+end
