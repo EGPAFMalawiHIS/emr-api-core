@@ -1,4 +1,4 @@
-class Person < ApplicationRecord
+class Person < VoidableRecord
     self.table_name = 'person'
     has_many :names, class_name: 'PersonName', foreign_key: :person_id
     

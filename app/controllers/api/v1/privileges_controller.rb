@@ -5,7 +5,7 @@ class Api::V1::PrivilegesController < ApplicationController
 
   def index
     @privileges = Privilege.all
-    respond_with(@privileges)
+    respond_with(results: @privileges)
   end
 
   def show
@@ -30,7 +30,7 @@ class Api::V1::PrivilegesController < ApplicationController
 
   private
     def set_privilege
-      @privilege = Privilege.find(params[:id])
+      @privilege = Privilege.find_by_uuid(params[:id])
     end
 
     def privilege_params

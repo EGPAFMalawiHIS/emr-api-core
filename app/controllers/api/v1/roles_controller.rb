@@ -5,7 +5,7 @@ class Api::V1::RolesController < ApplicationController
 
   def index
     @roles = Role.all
-    respond_with(@roles)
+    respond_with(results: @roles)
   end
 
   def show
@@ -30,7 +30,7 @@ class Api::V1::RolesController < ApplicationController
 
   private
     def set_role
-      @role = Role.find(params[:id])
+      @role = Role.find_by_uuid(params[:id])
     end
 
     def role_params

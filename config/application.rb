@@ -13,6 +13,7 @@ module EmrApiCore
 
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
+    config.eager_load_paths << Rails.root.join('lib')
 
     config.generators do |g|
       g.hidden_namespaces << :test_unit << :erb # Hide unwanted generators

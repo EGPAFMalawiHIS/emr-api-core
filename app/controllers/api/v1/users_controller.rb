@@ -13,9 +13,20 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
-    @user.save
-    respond_with(@user)
+
+    user_params = params.permit(:username, :password)
+
+    person_params = params.require(:person).permit(
+      :gender, :birthdate, :birthdate_estimated, :creator, 
+      names: [:given_name, :family_name], 
+      addresses: [:address1, :city_village, :country, :postal_code]
+    )
+
+    role_params = params.require(:roles).map { |role| role.permit(:name, :description) }
+
+    user = UserService.create_user(user_params, person_params, role_params)
+    
+    render json: user, status: :created
   end
 
   def update
