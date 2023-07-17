@@ -13,19 +13,18 @@ class Api::V1::PrivilegesController < ApplicationController
   end
 
   def create
-    @privilege = Privilege.new(privilege_params)
-    @privilege.save
+    @privilege = PrivilegeService.create_privilege(privilege_params)
     respond_with(@privilege)
   end
 
   def update
-    @privilege.update(privilege_params)
+    @privilege = PrivilegeService.update_privilege(@privilege, privilege_params)
     respond_with(@privilege)
   end
 
   def destroy
     @privilege.destroy
-    respond_with(@privilege)
+    respond_with("Privilege deleted")
   end
 
   private
@@ -34,6 +33,6 @@ class Api::V1::PrivilegesController < ApplicationController
     end
 
     def privilege_params
-      params.require(:privilege).permit(:description, :uuid)
+      params.permit(:privilege, :description)
     end
 end
