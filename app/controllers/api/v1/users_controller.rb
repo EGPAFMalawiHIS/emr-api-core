@@ -5,7 +5,7 @@ class Api::V1::UsersController < ApplicationController
 
   def index
     @users = User.all
-    respond_with(@users)
+    respond_with(results: @users)
   end
 
   def show
@@ -30,7 +30,7 @@ class Api::V1::UsersController < ApplicationController
 
   private
     def set_user
-      @user = User.find(params[:id])
+      @user = User.find_by_uuid(params[:id])
     end
 
     def user_params
