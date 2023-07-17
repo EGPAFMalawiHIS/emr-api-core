@@ -1,0 +1,122 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/v1/users":
+    get:
+      summary: Get all non-retired Users
+      tags:
+      - Users
+      parameters:
+      - name: q
+        in: query
+        description: Query parameter
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        uuid:
+                          type: string
+                        display:
+                          type: string
+                        username:
+                          type: string
+                        systemId:
+                          type: string
+                        person:
+                          type: object
+                          properties:
+                            uuid:
+                              type: string
+                            display:
+                              type: string
+                            links:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  rel:
+                                    type: string
+                                  uri:
+                                    type: string
+                                required:
+                                - rel
+                                - uri
+                          required:
+                          - uuid
+                          - display
+                          - links
+                        privileges:
+                          type: array
+                        roles:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              uuid:
+                                type: string
+                              display:
+                                type: string
+                              links:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    rel:
+                                      type: string
+                                    uri:
+                                      type: string
+                                  required:
+                                  - rel
+                                  - uri
+                            required:
+                            - uuid
+                            - display
+                            - links
+                        retired:
+                          type: boolean
+                        links:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              rel:
+                                type: string
+                              uri:
+                                type: string
+                            required:
+                            - rel
+                            - uri
+                        resourceVersion:
+                          type: string
+                      required:
+                      - uuid
+                      - display
+                      - username
+                      - systemId
+                      - person
+                      - privileges
+                      - roles
+                      - retired
+                      - links
+                      - resourceVersion
+                required:
+                - results
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000
