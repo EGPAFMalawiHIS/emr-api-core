@@ -10,320 +10,290 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 0) do
-  create_table "allergy", primary_key: "allergy_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "patient_id", null: false
-    t.integer "severity_concept_id"
-    t.integer "coded_allergen", null: false
+ActiveRecord::Schema[7.0].define(version: 20231009112613590) do
+  create_table "allergy", primary_key: "allergy_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "patient_id", null: false
+    t.bigint "severity_concept_id"
+    t.bigint "coded_allergen", null: false
     t.string "non_coded_allergen"
     t.string "allergen_type", limit: 50, null: false
     t.string "comment", limit: 1024
-    t.integer "creator", null: false
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
-    t.boolean "voided", default: true, null: false
-    t.integer "voided_by"
+    t.boolean "voided", default: false, null: false
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
     t.string "uuid", limit: 38
-    t.index ["allergy_id"], name: "allergy_id", unique: true
-    t.index ["changed_by"], name: "allergy_changed_by_fk"
-    t.index ["coded_allergen"], name: "allergy_coded_allergen_fk"
-    t.index ["creator"], name: "allergy_creator_fk"
-    t.index ["patient_id"], name: "allergy_patient_id_fk"
-    t.index ["severity_concept_id"], name: "allergy_severity_concept_id_fk"
-    t.index ["voided_by"], name: "allergy_voided_by_fk"
+    t.index ["changed_by"], name: "fk_rails_8fbfc86cc1"
+    t.index ["coded_allergen"], name: "fk_rails_3e4c2e112e"
+    t.index ["creator"], name: "fk_rails_d5285f0102"
+    t.index ["patient_id"], name: "fk_rails_b3ed7bfbcf"
+    t.index ["severity_concept_id"], name: "fk_rails_5422675d03"
+    t.index ["voided_by"], name: "fk_rails_d33f44d21b"
   end
 
-  create_table "allergy_reaction", primary_key: "allergy_reaction_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "allergy_id", null: false
-    t.integer "reaction_concept_id", null: false
+  create_table "allergy_reaction", primary_key: "allergy_reaction_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "allergy_id", null: false
+    t.bigint "reaction_concept_id", null: false
     t.string "reaction_non_coded"
     t.string "uuid", limit: 38
-    t.index ["allergy_id"], name: "allergy_reaction_allergy_id_fk"
-    t.index ["allergy_reaction_id"], name: "allergy_reaction_id", unique: true
-    t.index ["reaction_concept_id"], name: "allergy_reaction_reaction_concept_id_fk"
+    t.index ["allergy_id"], name: "fk_rails_5f108144a7"
+    t.index ["reaction_concept_id"], name: "fk_rails_459f757afb"
   end
 
-  create_table "care_setting", primary_key: "care_setting_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "care_setting", primary_key: "care_setting_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "description"
     t.string "care_setting_type", limit: 50, null: false
-    t.integer "creator", null: false
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "care_setting_changed_by"
-    t.index ["creator"], name: "care_setting_creator"
-    t.index ["name"], name: "name", unique: true
-    t.index ["retired_by"], name: "care_setting_retired_by"
-    t.index ["uuid"], name: "uuid", unique: true
+    t.index ["changed_by"], name: "fk_rails_d1bf9e7191"
+    t.index ["creator"], name: "fk_rails_a68c9e4f11"
+    t.index ["retired_by"], name: "fk_rails_7b942ec168"
   end
 
-  create_table "clob_datatype_storage", id: :integer, charset: "latin1", force: :cascade do |t|
+  create_table "clob_datatype_storage", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "uuid", limit: 38, null: false
     t.text "value", size: :long, null: false
-    t.index ["uuid"], name: "clob_datatype_storage_uuid_index", unique: true
-    t.index ["uuid"], name: "uuid", unique: true
   end
 
-  create_table "cohort", primary_key: "cohort_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "cohort", primary_key: "cohort_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "description", limit: 1000
-    t.integer "creator", null: false
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "user_who_changed_cohort"
-    t.index ["creator"], name: "cohort_creator"
-    t.index ["uuid"], name: "cohort_uuid_index", unique: true
-    t.index ["voided_by"], name: "user_who_voided_cohort"
+    t.index ["changed_by"], name: "fk_rails_a52d391f13"
+    t.index ["creator"], name: "fk_rails_e4a8f35867"
+    t.index ["voided_by"], name: "fk_rails_a955a1f418"
   end
 
-  create_table "cohort_member", primary_key: "cohort_member_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "cohort_id", null: false
-    t.integer "patient_id", null: false
+  create_table "cohort_member", primary_key: "cohort_member_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "cohort_id", null: false
+    t.bigint "patient_id", null: false
     t.datetime "start_date", precision: nil, null: false
     t.datetime "end_date", precision: nil
-    t.integer "creator", null: false
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
     t.string "uuid", limit: 38, null: false
-    t.index ["cohort_id"], name: "cohort"
-    t.index ["creator"], name: "cohort_member_creator"
-    t.index ["patient_id"], name: "patient"
-    t.index ["uuid"], name: "uuid", unique: true
+    t.index ["cohort_id"], name: "fk_rails_d490342214"
+    t.index ["creator"], name: "fk_rails_b8ed28c3ca"
+    t.index ["patient_id"], name: "fk_rails_25fa4256a2"
   end
 
-  create_table "concept", primary_key: "concept_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "concept", primary_key: "concept_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.boolean "retired", default: false, null: false
     t.string "short_name"
     t.text "description"
     t.text "form_text"
-    t.integer "datatype_id", default: 0, null: false
-    t.integer "class_id", default: 0, null: false
+    t.bigint "datatype_id", default: 0, null: false
+    t.bigint "class_id", default: 0, null: false
     t.boolean "is_set", default: false, null: false
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "version", limit: 50
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "user_who_changed_concept"
-    t.index ["class_id"], name: "concept_classes"
-    t.index ["creator"], name: "concept_creator"
-    t.index ["datatype_id"], name: "concept_datatypes"
-    t.index ["retired_by"], name: "user_who_retired_concept"
-    t.index ["uuid"], name: "concept_uuid_index", unique: true
+    t.index ["changed_by"], name: "fk_rails_260701a3c7"
+    t.index ["class_id"], name: "fk_rails_70755d8c9b"
+    t.index ["creator"], name: "fk_rails_f28ec50ac4"
+    t.index ["datatype_id"], name: "fk_rails_dc70aea426"
+    t.index ["retired_by"], name: "fk_rails_deb6403020"
   end
 
-  create_table "concept_answer", primary_key: "concept_answer_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "concept_id", default: 0, null: false
-    t.integer "answer_concept"
-    t.integer "answer_drug"
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+  create_table "concept_answer", primary_key: "concept_answer_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "concept_id", default: 0, null: false
+    t.bigint "answer_concept"
+    t.bigint "answer_drug"
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "uuid", limit: 38, null: false
     t.float "sort_weight", limit: 53
-    t.index ["answer_concept"], name: "answer"
-    t.index ["answer_drug"], name: "answer_answer_drug_fk"
-    t.index ["concept_id"], name: "answers_for_concept"
-    t.index ["creator"], name: "answer_creator"
-    t.index ["uuid"], name: "concept_answer_uuid_index", unique: true
+    t.index ["answer_concept"], name: "fk_rails_cc7e0dafa4"
+    t.index ["answer_drug"], name: "fk_rails_f574a036e4"
+    t.index ["concept_id"], name: "fk_rails_6b5ee0c65b"
+    t.index ["creator"], name: "fk_rails_eb2d1c4c0f"
   end
 
-  create_table "concept_attribute", primary_key: "concept_attribute_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "concept_id", null: false
-    t.integer "attribute_type_id", null: false
+  create_table "concept_attribute", primary_key: "concept_attribute_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "concept_id", null: false
+    t.bigint "attribute_type_id", null: false
     t.text "value_reference", null: false
     t.string "uuid", limit: 38, null: false
-    t.integer "creator", null: false
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
-    t.index ["attribute_type_id"], name: "concept_attribute_attribute_type_id_fk"
-    t.index ["changed_by"], name: "concept_attribute_changed_by_fk"
-    t.index ["concept_id"], name: "concept_attribute_concept_fk"
-    t.index ["creator"], name: "concept_attribute_creator_fk"
-    t.index ["uuid"], name: "uuid", unique: true
-    t.index ["voided_by"], name: "concept_attribute_voided_by_fk"
+    t.index ["attribute_type_id"], name: "fk_rails_de8b0e7c3f"
+    t.index ["changed_by"], name: "fk_rails_b117d4eccc"
+    t.index ["concept_id"], name: "fk_rails_9f1b0e3de2"
+    t.index ["creator"], name: "fk_rails_efdf512074"
+    t.index ["voided_by"], name: "fk_rails_3e253396e5"
   end
 
-  create_table "concept_attribute_type", primary_key: "concept_attribute_type_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "concept_attribute_type", primary_key: "concept_attribute_type_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "description", limit: 1024
     t.string "datatype"
     t.text "datatype_config"
     t.string "preferred_handler"
     t.text "handler_config"
-    t.integer "min_occurs", null: false
-    t.integer "max_occurs"
-    t.integer "creator", null: false
+    t.bigint "min_occurs", null: false
+    t.bigint "max_occurs"
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "concept_attribute_type_changed_by_fk"
-    t.index ["creator"], name: "concept_attribute_type_creator_fk"
-    t.index ["retired_by"], name: "concept_attribute_type_retired_by_fk"
-    t.index ["uuid"], name: "uuid", unique: true
+    t.index ["changed_by"], name: "fk_rails_a399877c48"
+    t.index ["creator"], name: "fk_rails_3d76e004f2"
+    t.index ["retired_by"], name: "fk_rails_8ebbebfcab"
   end
 
-  create_table "concept_class", primary_key: "concept_class_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "concept_class", primary_key: "concept_class_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "description"
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
     t.string "uuid", limit: 38, null: false
     t.datetime "date_changed", precision: nil
-    t.integer "changed_by"
-    t.index ["changed_by"], name: "concept_class_changed_by"
-    t.index ["creator"], name: "concept_class_creator"
-    t.index ["name"], name: "concept_class_name_index"
-    t.index ["retired"], name: "concept_class_retired_status"
-    t.index ["retired_by"], name: "user_who_retired_concept_class"
-    t.index ["uuid"], name: "concept_class_uuid_index", unique: true
+    t.bigint "changed_by"
+    t.index ["changed_by"], name: "fk_rails_b1bd00ae15"
+    t.index ["creator"], name: "fk_rails_2e1472fc2c"
+    t.index ["retired_by"], name: "fk_rails_76ba91566e"
   end
 
-  create_table "concept_complex", primary_key: "concept_id", id: :integer, default: nil, charset: "utf8", force: :cascade do |t|
+  create_table "concept_complex", primary_key: "concept_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "handler"
   end
 
-  create_table "concept_datatype", primary_key: "concept_datatype_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "concept_datatype", primary_key: "concept_datatype_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "hl7_abbreviation", limit: 3
     t.string "description"
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
     t.string "uuid", limit: 38, null: false
-    t.index ["creator"], name: "concept_datatype_creator"
-    t.index ["name"], name: "concept_datatype_name_index"
-    t.index ["retired"], name: "concept_datatype_retired_status"
-    t.index ["retired_by"], name: "user_who_retired_concept_datatype"
-    t.index ["uuid"], name: "concept_datatype_uuid_index", unique: true
+    t.index ["creator"], name: "fk_rails_8e7a3b29cf"
+    t.index ["retired_by"], name: "fk_rails_12663768b3"
   end
 
-  create_table "concept_description", primary_key: "concept_description_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "concept_id", default: 0, null: false
+  create_table "concept_description", primary_key: "concept_description_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "concept_id", default: 0, null: false
     t.text "description", null: false
     t.string "locale", limit: 50, default: "", null: false
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "user_who_changed_description"
-    t.index ["concept_id"], name: "concept_being_described"
-    t.index ["creator"], name: "user_who_created_description"
-    t.index ["uuid"], name: "concept_description_uuid_index", unique: true
+    t.index ["changed_by"], name: "fk_rails_23ad9dab28"
+    t.index ["concept_id"], name: "fk_rails_e36b29134f"
+    t.index ["creator"], name: "fk_rails_97a508ae28"
   end
 
-  create_table "concept_map_type", primary_key: "concept_map_type_id", id: :integer, charset: "latin1", force: :cascade do |t|
+  create_table "concept_map_type", primary_key: "concept_map_type_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "description"
-    t.integer "creator", null: false
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "is_hidden"
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "mapped_user_changed_concept_map_type"
-    t.index ["creator"], name: "mapped_user_creator_concept_map_type"
-    t.index ["name"], name: "name", unique: true
-    t.index ["retired_by"], name: "mapped_user_retired_concept_map_type"
-    t.index ["uuid"], name: "uuid", unique: true
+    t.index ["changed_by"], name: "fk_rails_13f0eaca8c"
+    t.index ["creator"], name: "fk_rails_3c1d70f62a"
+    t.index ["retired_by"], name: "fk_rails_3c097812ed"
   end
 
-  create_table "concept_name", primary_key: "concept_name_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "concept_id"
+  create_table "concept_name", primary_key: "concept_name_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "concept_id"
     t.string "name", default: "", null: false
     t.string "locale", limit: 50, default: "", null: false
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
     t.string "uuid", limit: 38, null: false
     t.string "concept_name_type", limit: 50
     t.boolean "locale_preferred", default: false
     t.datetime "date_changed", precision: nil
-    t.integer "changed_by"
-    t.index ["changed_by"], name: "concept_name_changed_by"
-    t.index ["concept_id"], name: "unique_concept_name_id"
-    t.index ["concept_name_id"], name: "concept_name_id", unique: true
-    t.index ["creator"], name: "user_who_created_name"
-    t.index ["name"], name: "name_of_concept"
-    t.index ["uuid"], name: "concept_name_uuid_index", unique: true
-    t.index ["voided_by"], name: "user_who_voided_name"
+    t.bigint "changed_by"
+    t.index ["changed_by"], name: "fk_rails_a1d3f51af6"
+    t.index ["concept_id"], name: "fk_rails_c2956df48e"
+    t.index ["creator"], name: "fk_rails_a41261efc6"
+    t.index ["voided_by"], name: "fk_rails_10fd179534"
   end
 
-  create_table "concept_name_tag", primary_key: "concept_name_tag_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "concept_name_tag", primary_key: "concept_name_tag_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "tag", limit: 50, null: false
     t.text "description"
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
     t.string "uuid", limit: 38, null: false
     t.datetime "date_changed", precision: nil
-    t.integer "changed_by"
-    t.index ["changed_by"], name: "concept_name_tag_changed_by"
-    t.index ["concept_name_tag_id"], name: "concept_name_tag_id", unique: true
-    t.index ["concept_name_tag_id"], name: "concept_name_tag_id_2", unique: true
-    t.index ["creator"], name: "user_who_created_name_tag"
-    t.index ["tag"], name: "concept_name_tag_unique_tags", unique: true
-    t.index ["uuid"], name: "concept_name_tag_uuid_index", unique: true
-    t.index ["voided_by"], name: "user_who_voided_name_tag"
+    t.bigint "changed_by"
+    t.index ["changed_by"], name: "fk_rails_26fbc7d214"
   end
 
-  create_table "concept_name_tag_map", id: false, charset: "utf8", force: :cascade do |t|
-    t.integer "concept_name_id", null: false
-    t.integer "concept_name_tag_id", null: false
-    t.index ["concept_name_id"], name: "map_name"
-    t.index ["concept_name_tag_id"], name: "map_name_tag"
+  create_table "concept_name_tag_map", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "concept_name_id", null: false
+    t.bigint "concept_name_tag_id", null: false
+    t.index ["concept_name_id"], name: "fk_rails_40608dbdc2"
+    t.index ["concept_name_tag_id"], name: "fk_rails_13133d2567"
   end
 
-  create_table "concept_numeric", primary_key: "concept_id", id: :integer, default: 0, charset: "utf8", force: :cascade do |t|
+  create_table "concept_numeric", primary_key: "concept_id", id: :bigint, default: 0, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.float "hi_absolute", limit: 53
     t.float "hi_critical", limit: 53
     t.float "hi_normal", limit: 53
@@ -332,180 +302,163 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.float "low_normal", limit: 53
     t.string "units", limit: 50
     t.boolean "allow_decimal"
-    t.integer "display_precision"
+    t.bigint "display_precision"
   end
 
-  create_table "concept_proposal", primary_key: "concept_proposal_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "concept_id"
-    t.integer "encounter_id"
+  create_table "concept_proposal", primary_key: "concept_proposal_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "concept_id"
+    t.bigint "encounter_id"
     t.string "original_text", default: "", null: false
     t.string "final_text"
-    t.integer "obs_id"
-    t.integer "obs_concept_id"
-    t.string "state", limit: 32, default: "UNMAPPED", null: false, comment: "Valid values are: UNMAPPED, SYNONYM, CONCEPT, REJECT"
-    t.string "comments", comment: "Comment from concept admin/mapper"
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "obs_id"
+    t.bigint "obs_concept_id"
+    t.string "state", limit: 32, default: "", null: false
+    t.string "comments"
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.string "locale", limit: 50, default: "", null: false
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "user_who_changed_proposal"
-    t.index ["concept_id"], name: "concept_for_proposal"
-    t.index ["creator"], name: "user_who_created_proposal"
-    t.index ["encounter_id"], name: "encounter_for_proposal"
-    t.index ["obs_concept_id"], name: "proposal_obs_concept_id"
-    t.index ["obs_id"], name: "proposal_obs_id"
-    t.index ["uuid"], name: "concept_proposal_uuid_index", unique: true
+    t.index ["changed_by"], name: "fk_rails_53d6fd12aa"
+    t.index ["concept_id"], name: "fk_rails_17a4f638f4"
+    t.index ["creator"], name: "fk_rails_82d934e600"
+    t.index ["encounter_id"], name: "fk_rails_bc3fbdb76d"
+    t.index ["obs_concept_id"], name: "fk_rails_41c52981bf"
+    t.index ["obs_id"], name: "fk_rails_a320168ee1"
   end
 
-  create_table "concept_proposal_tag_map", id: false, charset: "utf8", force: :cascade do |t|
-    t.integer "concept_proposal_id", null: false
-    t.integer "concept_name_tag_id", null: false
-    t.index ["concept_name_tag_id"], name: "map_name_tag"
-    t.index ["concept_proposal_id"], name: "map_proposal"
+  create_table "concept_proposal_tag_map", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "concept_proposal_id", null: false
+    t.bigint "concept_name_tag_id", null: false
+    t.index ["concept_name_tag_id"], name: "fk_rails_b243514417"
+    t.index ["concept_proposal_id"], name: "fk_rails_da6b1082b5"
   end
 
-  create_table "concept_reference_map", primary_key: "concept_map_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
-    t.integer "concept_id", default: 0, null: false
+  create_table "concept_reference_map", primary_key: "concept_map_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "concept_id", default: 0, null: false
     t.string "uuid", limit: 38, null: false
-    t.integer "concept_reference_term_id", null: false
-    t.integer "concept_map_type_id", default: 1, null: false
-    t.integer "changed_by"
+    t.bigint "concept_reference_term_id", null: false
+    t.bigint "concept_map_type_id", default: 0, null: false
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
-    t.index ["changed_by"], name: "mapped_user_changed_ref_term"
-    t.index ["concept_id"], name: "map_for_concept"
-    t.index ["concept_map_type_id"], name: "mapped_concept_map_type"
-    t.index ["concept_reference_term_id"], name: "mapped_concept_reference_term"
-    t.index ["creator"], name: "map_creator"
-    t.index ["uuid"], name: "concept_map_uuid_index", unique: true
-    t.index ["uuid"], name: "concept_reference_map_uuid_id", unique: true
+    t.index ["changed_by"], name: "fk_rails_292bac4351"
+    t.index ["concept_id"], name: "fk_rails_bff7fad711"
+    t.index ["concept_map_type_id"], name: "fk_rails_2f5e64a9c0"
+    t.index ["concept_reference_term_id"], name: "fk_rails_0badfa7ed9"
+    t.index ["creator"], name: "fk_rails_4f8bc368e5"
   end
 
-  create_table "concept_reference_source", primary_key: "concept_source_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "concept_reference_source", primary_key: "concept_source_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", limit: 50, default: "", null: false
     t.text "description", null: false
     t.string "hl7_code", limit: 50
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
     t.string "uuid", limit: 38, null: false
     t.string "unique_id", limit: 250
     t.datetime "date_changed", precision: nil
-    t.integer "changed_by"
-    t.index ["changed_by"], name: "concept_reference_source_changed_by"
-    t.index ["creator"], name: "concept_source_creator"
-    t.index ["hl7_code", "retired"], name: "unique_hl7_code"
-    t.index ["hl7_code"], name: "concept_source_unique_hl7_codes", unique: true
-    t.index ["retired_by"], name: "user_who_voided_concept_source"
-    t.index ["unique_id"], name: "concept_reference_source_unique_id_unique", unique: true
-    t.index ["uuid"], name: "concept_reference_source_uuid_id", unique: true
-    t.index ["uuid"], name: "concept_source_uuid_index", unique: true
+    t.bigint "changed_by"
+    t.index ["changed_by"], name: "fk_rails_1dc041c405"
+    t.index ["creator"], name: "fk_rails_bca1281b0b"
+    t.index ["retired_by"], name: "fk_rails_65566f32fb"
   end
 
-  create_table "concept_reference_term", primary_key: "concept_reference_term_id", id: :integer, charset: "latin1", force: :cascade do |t|
-    t.integer "concept_source_id", null: false
+  create_table "concept_reference_term", primary_key: "concept_reference_term_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "concept_source_id", null: false
     t.string "name"
     t.string "code", null: false
     t.string "version"
     t.string "description"
-    t.integer "creator", null: false
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
     t.datetime "date_changed", precision: nil
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "mapped_user_changed"
-    t.index ["code"], name: "idx_code_concept_reference_term"
-    t.index ["concept_source_id"], name: "mapped_concept_source"
-    t.index ["creator"], name: "mapped_user_creator"
-    t.index ["retired_by"], name: "mapped_user_retired"
-    t.index ["uuid"], name: "uuid", unique: true
+    t.index ["changed_by"], name: "fk_rails_bd0a267be2"
+    t.index ["concept_source_id"], name: "fk_rails_dadfb16f58"
+    t.index ["creator"], name: "fk_rails_dae6a30cad"
+    t.index ["retired_by"], name: "fk_rails_55a6fc88a7"
   end
 
-  create_table "concept_reference_term_map", primary_key: "concept_reference_term_map_id", id: :integer, charset: "latin1", force: :cascade do |t|
-    t.integer "term_a_id", null: false
-    t.integer "term_b_id", null: false
-    t.integer "a_is_to_b_id", null: false
-    t.integer "creator", null: false
+  create_table "concept_reference_term_map", primary_key: "concept_reference_term_map_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "term_a_id", null: false
+    t.bigint "term_b_id", null: false
+    t.bigint "a_is_to_b_id", null: false
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.string "uuid", limit: 38, null: false
-    t.index ["a_is_to_b_id"], name: "mapped_concept_map_type_ref_term_map"
-    t.index ["changed_by"], name: "mapped_user_changed_ref_term_map"
-    t.index ["creator"], name: "mapped_user_creator_ref_term_map"
-    t.index ["term_a_id"], name: "mapped_term_a"
-    t.index ["term_b_id"], name: "mapped_term_b"
-    t.index ["uuid"], name: "uuid", unique: true
+    t.index ["a_is_to_b_id"], name: "fk_rails_f2810b3b99"
+    t.index ["changed_by"], name: "fk_rails_90cfdd824c"
+    t.index ["creator"], name: "fk_rails_d2592240ee"
+    t.index ["term_a_id"], name: "fk_rails_ff2b4d8a7b"
+    t.index ["term_b_id"], name: "fk_rails_8510d11098"
   end
 
-  create_table "concept_set", primary_key: "concept_set_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "concept_id", default: 0, null: false
-    t.integer "concept_set", default: 0, null: false
+  create_table "concept_set", primary_key: "concept_set_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "concept_id", default: 0, null: false
+    t.bigint "concept_set", default: 0, null: false
     t.float "sort_weight", limit: 53
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "uuid", limit: 38, null: false
-    t.index ["concept_id"], name: "idx_concept_set_concept"
-    t.index ["concept_set"], name: "has_a"
-    t.index ["creator"], name: "user_who_created"
-    t.index ["uuid"], name: "concept_set_uuid_index", unique: true
+    t.index ["concept_id"], name: "fk_rails_72fff446a5"
+    t.index ["concept_set"], name: "fk_rails_41c1cd8160"
+    t.index ["creator"], name: "fk_rails_d6debd0159"
   end
 
-  create_table "concept_set_derived", primary_key: ["concept_id", "concept_set"], charset: "utf8", force: :cascade do |t|
-    t.integer "concept_id", default: 0, null: false
-    t.integer "concept_set", default: 0, null: false
+  create_table "concept_set_derived", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "concept_id", default: 0, null: false
+    t.bigint "concept_set", default: 0, null: false
     t.float "sort_weight", limit: 53
     t.string "uuid", limit: 38
+    t.index ["concept_id", "concept_set"], name: "index_concept_set_derived_on_concept_id_and_concept_set", unique: true
   end
 
-  create_table "concept_state_conversion", primary_key: "concept_state_conversion_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "concept_id", default: 0
-    t.integer "program_workflow_id", default: 0
-    t.integer "program_workflow_state_id", default: 0
+  create_table "concept_state_conversion", primary_key: "concept_state_conversion_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "concept_id", default: 0
+    t.bigint "program_workflow_id", default: 0
+    t.bigint "program_workflow_state_id", default: 0
     t.string "uuid", limit: 38, null: false
-    t.index ["concept_id"], name: "triggering_concept"
-    t.index ["program_workflow_id", "concept_id"], name: "unique_workflow_concept_in_conversion", unique: true
-    t.index ["program_workflow_id"], name: "affected_workflow"
-    t.index ["program_workflow_state_id"], name: "resulting_state"
-    t.index ["uuid"], name: "concept_state_conversion_uuid_index", unique: true
+    t.index ["concept_id"], name: "fk_rails_b9cc2cfb29"
+    t.index ["program_workflow_id"], name: "fk_rails_98181d219d"
+    t.index ["program_workflow_state_id"], name: "fk_rails_1c1b87c6a2"
   end
 
-  create_table "concept_stop_word", primary_key: "concept_stop_word_id", id: :integer, charset: "latin1", force: :cascade do |t|
+  create_table "concept_stop_word", primary_key: "concept_stop_word_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "word", limit: 50, null: false
     t.string "locale", limit: 50
     t.string "uuid", limit: 38, null: false
-    t.index ["uuid"], name: "uuid", unique: true
-    t.index ["word", "locale"], name: "Unique_StopWord_Key", unique: true
   end
 
-  create_table "concept_word", primary_key: "concept_word_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "concept_id", default: 0, null: false
+  create_table "concept_word", primary_key: "concept_word_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "concept_id", default: 0, null: false
     t.string "word", limit: 50, default: "", null: false
     t.string "locale", limit: 20, default: "", null: false
-    t.integer "concept_name_id", null: false
-    t.float "weight", limit: 53, default: 1.0
-    t.index ["concept_id"], name: "concept_word_concept_idx"
-    t.index ["concept_name_id"], name: "word_for_name"
-    t.index ["weight"], name: "concept_word_weight_index"
-    t.index ["word"], name: "word_in_concept_name"
+    t.bigint "concept_name_id", null: false
+    t.float "weight", limit: 53
+    t.index ["concept_id"], name: "fk_rails_bd82c5b0be"
+    t.index ["concept_name_id"], name: "fk_rails_d65ffd7537"
   end
 
-  create_table "conditions", primary_key: "condition_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "conditions", primary_key: "condition_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "additional_detail"
-    t.integer "previous_version"
-    t.integer "condition_coded"
+    t.bigint "previous_version"
+    t.bigint "condition_coded"
     t.string "condition_non_coded"
-    t.integer "condition_coded_name"
+    t.bigint "condition_coded_name"
     t.string "clinical_status", limit: 50, null: false
     t.string "verification_status", limit: 50
     t.datetime "onset_date", precision: nil
@@ -514,22 +467,21 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
     t.string "uuid", limit: 38
-    t.integer "creator", null: false
-    t.integer "voided_by"
-    t.integer "changed_by"
-    t.integer "patient_id", null: false
+    t.bigint "creator", null: false
+    t.bigint "voided_by"
+    t.bigint "changed_by"
+    t.bigint "patient_id", null: false
     t.datetime "end_date", precision: nil
-    t.index ["changed_by"], name: "condition_changed_by_fk"
-    t.index ["condition_coded"], name: "condition_condition_coded_fk"
-    t.index ["condition_coded_name"], name: "condition_condition_coded_name_fk"
-    t.index ["creator"], name: "condition_creator_fk"
-    t.index ["patient_id"], name: "condition_patient_fk"
-    t.index ["previous_version"], name: "condition_previous_version_fk"
-    t.index ["uuid"], name: "uuid", unique: true
-    t.index ["voided_by"], name: "condition_voided_by_fk"
+    t.index ["changed_by"], name: "fk_rails_5e1023bb14"
+    t.index ["condition_coded"], name: "fk_rails_b55ae99446"
+    t.index ["condition_coded_name"], name: "fk_rails_a6dc792ee3"
+    t.index ["creator"], name: "fk_rails_d37da8cac8"
+    t.index ["patient_id"], name: "fk_rails_d1e8033368"
+    t.index ["previous_version"], name: "fk_rails_0385627bd2"
+    t.index ["voided_by"], name: "fk_rails_4b14f39a01"
   end
 
-  create_table "dataintegrity_integrity_checks", primary_key: "dataintegrity_integrity_check_id", id: { type: :integer, unsigned: true }, charset: "utf8", force: :cascade do |t|
+  create_table "dataintegrity_integrity_checks", primary_key: "dataintegrity_integrity_check_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "check_name", limit: 100, null: false
     t.string "check_type", limit: 45, null: false
     t.string "check_code", limit: 1000, null: false
@@ -541,318 +493,298 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.string "check_parameters", limit: 500
   end
 
-  create_table "drug", primary_key: "drug_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "concept_id", default: 0, null: false
+  create_table "drug", primary_key: "drug_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "concept_id", default: 0, null: false
     t.string "name"
     t.boolean "combination", default: false, null: false
-    t.integer "dosage_form"
+    t.bigint "dosage_form"
     t.float "maximum_daily_dose", limit: 53
     t.float "minimum_daily_dose", limit: 53
-    t.integer "route"
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+    t.bigint "route"
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
     t.string "uuid", limit: 38, null: false
     t.datetime "date_changed", precision: nil
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.string "strength"
-    t.index ["changed_by"], name: "drug_changed_by"
-    t.index ["concept_id"], name: "primary_drug_concept"
-    t.index ["creator"], name: "drug_creator"
-    t.index ["dosage_form"], name: "dosage_form_concept"
-    t.index ["retired_by"], name: "user_who_voided_drug"
-    t.index ["route"], name: "route_concept"
-    t.index ["uuid"], name: "drug_uuid_index", unique: true
+    t.index ["changed_by"], name: "fk_rails_22262b5d35"
+    t.index ["concept_id"], name: "fk_rails_34b2e3c546"
+    t.index ["creator"], name: "fk_rails_4383d11afd"
+    t.index ["dosage_form"], name: "fk_rails_e4521f7314"
+    t.index ["retired_by"], name: "fk_rails_077bc8e538"
+    t.index ["route"], name: "fk_rails_c6e968b5d9"
   end
 
-  create_table "drug_ingredient", primary_key: ["drug_id", "ingredient_id"], charset: "utf8", force: :cascade do |t|
-    t.integer "drug_id", null: false
-    t.integer "ingredient_id", null: false
+  create_table "drug_ingredient", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "drug_id", null: false
+    t.bigint "ingredient_id", null: false
     t.string "uuid", limit: 38, null: false
     t.float "strength", limit: 53
-    t.integer "units"
-    t.index ["ingredient_id"], name: "drug_ingredient_ingredient_id_fk"
-    t.index ["units"], name: "drug_ingredient_units_fk"
-    t.index ["uuid"], name: "uuid", unique: true
+    t.bigint "units"
+    t.index ["drug_id", "ingredient_id"], name: "index_drug_ingredient_on_drug_id_and_ingredient_id", unique: true
+    t.index ["ingredient_id"], name: "fk_rails_ffae3e2396"
+    t.index ["units"], name: "fk_rails_c0c09db9bd"
   end
 
-  create_table "drug_order", primary_key: "order_id", id: :integer, default: 0, charset: "utf8", force: :cascade do |t|
-    t.integer "drug_inventory_id"
+  create_table "drug_order", primary_key: "order_id", id: :bigint, default: 0, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "drug_inventory_id"
     t.float "dose", limit: 53
     t.boolean "as_needed"
     t.string "dosing_type"
     t.float "quantity", limit: 53
     t.string "as_needed_condition"
-    t.integer "num_refills"
+    t.bigint "num_refills"
     t.text "dosing_instructions"
-    t.integer "duration"
-    t.integer "duration_units"
-    t.integer "quantity_units"
-    t.integer "route"
-    t.integer "dose_units"
-    t.integer "frequency"
+    t.bigint "duration"
+    t.bigint "duration_units"
+    t.bigint "quantity_units"
+    t.bigint "route"
+    t.bigint "dose_units"
+    t.bigint "frequency"
     t.string "brand_name"
     t.boolean "dispense_as_written", default: false, null: false
     t.string "drug_non_coded"
-    t.index ["dose_units"], name: "drug_order_dose_units"
-    t.index ["drug_inventory_id"], name: "inventory_item"
-    t.index ["duration_units"], name: "drug_order_duration_units_fk"
-    t.index ["frequency"], name: "drug_order_frequency_fk"
-    t.index ["quantity_units"], name: "drug_order_quantity_units"
-    t.index ["route"], name: "drug_order_route_fk"
+    t.index ["dose_units"], name: "fk_rails_84c512448b"
+    t.index ["drug_inventory_id"], name: "fk_rails_939cf7e6a7"
+    t.index ["duration_units"], name: "fk_rails_a112734d59"
+    t.index ["frequency"], name: "fk_rails_c132557bce"
+    t.index ["quantity_units"], name: "fk_rails_375aec56af"
+    t.index ["route"], name: "fk_rails_21875f9246"
   end
 
-  create_table "drug_reference_map", primary_key: "drug_reference_map_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "drug_id", null: false
-    t.integer "term_id", null: false
-    t.integer "concept_map_type", null: false
-    t.integer "creator", null: false
+  create_table "drug_reference_map", primary_key: "drug_reference_map_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "drug_id", null: false
+    t.bigint "term_id", null: false
+    t.bigint "concept_map_type", null: false
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "user_who_changed_drug_reference_map"
-    t.index ["concept_map_type"], name: "concept_map_type_for_drug_reference_map"
-    t.index ["creator"], name: "drug_reference_map_creator"
-    t.index ["drug_id"], name: "drug_for_drug_reference_map"
-    t.index ["retired_by"], name: "user_who_retired_drug_reference_map"
-    t.index ["term_id"], name: "concept_reference_term_for_drug_reference_map"
-    t.index ["uuid"], name: "uuid", unique: true
+    t.index ["changed_by"], name: "fk_rails_f12223d857"
+    t.index ["concept_map_type"], name: "fk_rails_ac8836902b"
+    t.index ["creator"], name: "fk_rails_09eb4d835d"
+    t.index ["drug_id"], name: "fk_rails_e6ace15670"
+    t.index ["retired_by"], name: "fk_rails_1920f5f646"
+    t.index ["term_id"], name: "fk_rails_20df0663f9"
   end
 
-  create_table "encounter", primary_key: "encounter_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "encounter_type", null: false
-    t.integer "patient_id", default: 0, null: false
-    t.integer "location_id"
-    t.integer "form_id"
-    t.datetime "encounter_datetime", precision: nil, null: false
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+  create_table "encounter", primary_key: "encounter_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "encounter_type", null: false
+    t.bigint "patient_id", default: 0, null: false
+    t.bigint "location_id"
+    t.bigint "form_id"
+    t.datetime "encounter_datetime", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
     t.string "uuid", limit: 38, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
-    t.integer "visit_id"
-    t.index ["changed_by"], name: "encounter_changed_by"
-    t.index ["creator"], name: "encounter_creator"
-    t.index ["encounter_datetime"], name: "encounter_datetime_idx"
-    t.index ["encounter_type"], name: "encounter_type_id"
-    t.index ["form_id"], name: "encounter_form"
-    t.index ["location_id"], name: "encounter_location"
-    t.index ["patient_id"], name: "encounter_patient"
-    t.index ["uuid"], name: "encounter_uuid_index", unique: true
-    t.index ["visit_id"], name: "encounter_visit_id_fk"
-    t.index ["voided_by"], name: "user_who_voided_encounter"
+    t.bigint "visit_id"
+    t.index ["changed_by"], name: "fk_rails_cf8b1c5c97"
+    t.index ["creator"], name: "fk_rails_a2bb0d6281"
+    t.index ["encounter_type"], name: "fk_rails_302b88a03b"
+    t.index ["form_id"], name: "fk_rails_abd4662979"
+    t.index ["location_id"], name: "fk_rails_a32c5ae8fa"
+    t.index ["patient_id"], name: "fk_rails_653751c6c6"
+    t.index ["visit_id"], name: "fk_rails_618a1e853c"
+    t.index ["voided_by"], name: "fk_rails_af8248dd57"
   end
 
-  create_table "encounter_diagnosis", primary_key: "diagnosis_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "diagnosis_coded"
+  create_table "encounter_diagnosis", primary_key: "diagnosis_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "diagnosis_coded"
     t.string "diagnosis_non_coded"
-    t.integer "diagnosis_coded_name"
-    t.integer "encounter_id", null: false
-    t.integer "patient_id", null: false
-    t.integer "condition_id"
+    t.bigint "diagnosis_coded_name"
+    t.bigint "encounter_id", null: false
+    t.bigint "patient_id", null: false
+    t.bigint "condition_id"
     t.string "certainty", null: false
-    t.integer "rank", null: false
+    t.bigint "rank", null: false
     t.string "uuid", limit: 38, null: false
-    t.integer "creator", null: false
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
-    t.index ["changed_by"], name: "encounter_diagnosis_changed_by_fk"
-    t.index ["condition_id"], name: "encounter_diagnosis_condition_id_fk"
-    t.index ["creator"], name: "encounter_diagnosis_creator_fk"
-    t.index ["diagnosis_coded"], name: "encounter_diagnosis_coded_fk"
-    t.index ["diagnosis_coded_name"], name: "encounter_diagnosis_coded_name_fk"
-    t.index ["encounter_id"], name: "encounter_diagnosis_encounter_id_fk"
-    t.index ["patient_id"], name: "encounter_diagnosis_patient_fk"
-    t.index ["uuid"], name: "uuid", unique: true
-    t.index ["voided_by"], name: "encounter_diagnosis_voided_by_fk"
+    t.index ["changed_by"], name: "fk_rails_b4f9c70773"
+    t.index ["condition_id"], name: "fk_rails_7ae49713c8"
+    t.index ["creator"], name: "fk_rails_9b0d5994a1"
+    t.index ["diagnosis_coded"], name: "fk_rails_fb183900a5"
+    t.index ["diagnosis_coded_name"], name: "fk_rails_a87a24fd36"
+    t.index ["encounter_id"], name: "fk_rails_8f25d2c934"
+    t.index ["patient_id"], name: "fk_rails_89cac110ec"
+    t.index ["voided_by"], name: "fk_rails_2843606f30"
   end
 
-  create_table "encounter_provider", primary_key: "encounter_provider_id", id: :integer, charset: "latin1", force: :cascade do |t|
-    t.integer "encounter_id", null: false
-    t.integer "provider_id", null: false
-    t.integer "encounter_role_id", null: false
-    t.integer "creator", default: 0, null: false
+  create_table "encounter_provider", primary_key: "encounter_provider_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "encounter_id", null: false
+    t.bigint "provider_id", null: false
+    t.bigint "encounter_role_id", null: false
+    t.bigint "creator", default: 0, null: false
     t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "voided", default: false, null: false
     t.datetime "date_voided", precision: nil
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.string "void_reason"
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "encounter_provider_changed_by"
-    t.index ["creator"], name: "encounter_provider_creator"
-    t.index ["encounter_id"], name: "encounter_id_fk"
-    t.index ["encounter_role_id"], name: "encounter_role_id_fk"
-    t.index ["provider_id"], name: "provider_id_fk"
-    t.index ["uuid"], name: "uuid", unique: true
-    t.index ["voided_by"], name: "encounter_provider_voided_by"
+    t.index ["changed_by"], name: "fk_rails_e79adc4d68"
+    t.index ["creator"], name: "fk_rails_80de08b619"
+    t.index ["encounter_id"], name: "fk_rails_7c67e23cce"
+    t.index ["encounter_role_id"], name: "fk_rails_c0f5b47653"
+    t.index ["provider_id"], name: "fk_rails_48c18f70d4"
+    t.index ["voided_by"], name: "fk_rails_0cfc638e27"
   end
 
-  create_table "encounter_role", primary_key: "encounter_role_id", id: :integer, charset: "latin1", force: :cascade do |t|
+  create_table "encounter_role", primary_key: "encounter_role_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "description", limit: 1024
-    t.integer "creator", null: false
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "encounter_role_changed_by_fk"
-    t.index ["creator"], name: "encounter_role_creator_fk"
-    t.index ["name"], name: "encounter_role_unique_name", unique: true
-    t.index ["retired_by"], name: "encounter_role_retired_by_fk"
-    t.index ["uuid"], name: "uuid", unique: true
+    t.index ["changed_by"], name: "fk_rails_6e20a23635"
+    t.index ["creator"], name: "fk_rails_19ca5af229"
+    t.index ["retired_by"], name: "fk_rails_f88eef4c31"
   end
 
-  create_table "encounter_type", primary_key: "encounter_type_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "encounter_type", primary_key: "encounter_type_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", limit: 50, default: "", null: false
     t.text "description"
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
     t.string "uuid", limit: 38, null: false
     t.string "view_privilege"
     t.string "edit_privilege"
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
-    t.index ["changed_by"], name: "encounter_type_changed_by"
-    t.index ["creator"], name: "user_who_created_type"
-    t.index ["edit_privilege"], name: "privilege_which_can_edit_encounter_type"
-    t.index ["name"], name: "encounter_type_unique_name", unique: true
-    t.index ["retired"], name: "retired_status"
-    t.index ["retired_by"], name: "user_who_retired_encounter_type"
-    t.index ["uuid"], name: "encounter_type_uuid_index", unique: true
-    t.index ["view_privilege"], name: "privilege_which_can_view_encounter_type"
+    t.index ["changed_by"], name: "fk_rails_46c96c021e"
+    t.index ["creator"], name: "fk_rails_dc1426b7ba"
+    t.index ["edit_privilege"], name: "fk_rails_13f5b607a7"
+    t.index ["retired_by"], name: "fk_rails_4eb99f2541"
+    t.index ["view_privilege"], name: "fk_rails_7143e13146"
   end
 
-  create_table "field", primary_key: "field_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "field", primary_key: "field_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.text "description"
-    t.integer "field_type"
-    t.integer "concept_id"
+    t.bigint "field_type"
+    t.bigint "concept_id"
     t.string "table_name", limit: 50
     t.string "attribute_name", limit: 50
     t.text "default_value"
     t.boolean "select_multiple", default: false, null: false
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "user_who_changed_field"
-    t.index ["concept_id"], name: "concept_for_field"
-    t.index ["creator"], name: "user_who_created_field"
-    t.index ["field_type"], name: "type_of_field"
-    t.index ["retired"], name: "field_retired_status"
-    t.index ["retired_by"], name: "user_who_retired_field"
-    t.index ["uuid"], name: "field_uuid_index", unique: true
+    t.index ["changed_by"], name: "fk_rails_1acc3c35ba"
+    t.index ["concept_id"], name: "fk_rails_b52a96f045"
+    t.index ["creator"], name: "fk_rails_2ead793614"
+    t.index ["field_type"], name: "fk_rails_f24779e145"
+    t.index ["retired_by"], name: "fk_rails_969baeb672"
   end
 
-  create_table "field_answer", primary_key: ["field_id", "answer_id"], charset: "utf8", force: :cascade do |t|
-    t.integer "field_id", default: 0, null: false
-    t.integer "answer_id", default: 0, null: false
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+  create_table "field_answer", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "field_id", default: 0, null: false
+    t.bigint "answer_id", default: 0, null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "uuid", limit: 38, null: false
-    t.index ["answer_id"], name: "field_answer_concept"
-    t.index ["creator"], name: "user_who_created_field_answer"
-    t.index ["field_id"], name: "answers_for_field"
-    t.index ["uuid"], name: "field_answer_uuid_index", unique: true
+    t.index ["answer_id"], name: "fk_rails_e30f271ccb"
+    t.index ["creator"], name: "fk_rails_31518cedf4"
+    t.index ["field_id", "answer_id"], name: "index_field_answer_on_field_id_and_answer_id", unique: true
   end
 
-  create_table "field_type", primary_key: "field_type_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "field_type", primary_key: "field_type_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", limit: 50
     t.text "description", size: :long
     t.boolean "is_set", default: false, null: false
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "uuid", limit: 38, null: false
-    t.index ["creator"], name: "user_who_created_field_type"
-    t.index ["uuid"], name: "field_type_uuid_index", unique: true
+    t.index ["creator"], name: "fk_rails_fb67a16991"
   end
 
-  create_table "form", primary_key: "form_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "form", primary_key: "form_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "version", limit: 50, default: "", null: false
-    t.integer "build"
+    t.bigint "build"
     t.boolean "published", default: false, null: false
     t.text "description"
-    t.integer "encounter_type"
+    t.bigint "encounter_type"
     t.text "template", size: :medium
     t.text "xslt", size: :medium
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retired_reason"
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "user_who_last_changed_form"
-    t.index ["creator"], name: "user_who_created_form"
-    t.index ["encounter_type"], name: "encounter_type"
-    t.index ["published", "retired"], name: "form_published_and_retired_index"
-    t.index ["published"], name: "form_published_index"
-    t.index ["retired"], name: "form_retired_index"
-    t.index ["retired_by"], name: "user_who_retired_form"
-    t.index ["uuid"], name: "form_uuid_index", unique: true
+    t.index ["changed_by"], name: "fk_rails_07b7e57e6b"
+    t.index ["creator"], name: "fk_rails_031871073f"
+    t.index ["encounter_type"], name: "fk_rails_1766efac77"
+    t.index ["retired_by"], name: "fk_rails_8da6f03423"
   end
 
-  create_table "form_field", primary_key: "form_field_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "form_id", default: 0, null: false
-    t.integer "field_id", default: 0, null: false
-    t.integer "field_number"
+  create_table "form_field", primary_key: "form_field_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "form_id", default: 0, null: false
+    t.bigint "field_id", default: 0, null: false
+    t.bigint "field_number"
     t.string "field_part", limit: 5
-    t.integer "page_number"
-    t.integer "parent_form_field"
-    t.integer "min_occurs"
-    t.integer "max_occurs"
+    t.bigint "page_number"
+    t.bigint "parent_form_field"
+    t.bigint "min_occurs"
+    t.bigint "max_occurs"
     t.boolean "required", default: false, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.float "sort_weight"
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "user_who_last_changed_form_field"
-    t.index ["creator"], name: "user_who_created_form_field"
-    t.index ["field_id"], name: "field_within_form"
-    t.index ["form_id"], name: "form_containing_field"
-    t.index ["parent_form_field"], name: "form_field_hierarchy"
-    t.index ["uuid"], name: "form_field_uuid_index", unique: true
+    t.index ["changed_by"], name: "fk_rails_daf37e733c"
+    t.index ["creator"], name: "fk_rails_3e6a802e18"
+    t.index ["field_id"], name: "fk_rails_8de9852479"
+    t.index ["form_id"], name: "fk_rails_9f22a5922f"
+    t.index ["parent_form_field"], name: "fk_rails_1e3ff32f72"
   end
 
-  create_table "form_resource", primary_key: "form_resource_id", id: :integer, charset: "latin1", force: :cascade do |t|
-    t.integer "form_id", null: false
+  create_table "form_resource", primary_key: "form_resource_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "form_id", null: false
     t.string "name", null: false
     t.text "value_reference", null: false
     t.string "datatype"
@@ -861,51 +793,48 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.text "handler_config"
     t.string "uuid", limit: 38, null: false
     t.datetime "date_changed", precision: nil
-    t.integer "changed_by"
-    t.index ["changed_by"], name: "form_resource_changed_by"
-    t.index ["form_id", "name"], name: "unique_form_and_name", unique: true
-    t.index ["uuid"], name: "uuid", unique: true
+    t.bigint "changed_by"
+    t.index ["changed_by"], name: "fk_rails_9bbb174a6e"
+    t.index ["form_id"], name: "fk_rails_143aad8645"
   end
 
-  create_table "formentry_archive", primary_key: "formentry_archive_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "formentry_archive", primary_key: "formentry_archive_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.text "form_data", size: :medium, null: false
-    t.datetime "date_created", precision: nil, null: false
-    t.integer "creator", default: 0, null: false
-    t.index ["creator"], name: "User who created formentry_archive"
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "creator", default: 0, null: false
+    t.index ["creator"], name: "fk_rails_79c5cd2fe4"
   end
 
-  create_table "formentry_error", primary_key: "formentry_error_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "formentry_error", primary_key: "formentry_error_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.text "form_data", size: :medium, null: false
     t.string "error", default: "", null: false
     t.text "error_details"
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
-    t.index ["creator"], name: "User who created formentry_error"
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["creator"], name: "fk_rails_3d05227493"
   end
 
-  create_table "formentry_queue", primary_key: "formentry_queue_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "formentry_queue", primary_key: "formentry_queue_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.text "form_data", size: :medium, null: false
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
   end
 
-  create_table "formentry_xsn", primary_key: "formentry_xsn_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "form_id", null: false
+  create_table "formentry_xsn", primary_key: "formentry_xsn_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "form_id", null: false
     t.binary "xsn_data", size: :long, null: false
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
-    t.integer "archived", default: 0, null: false
-    t.integer "archived_by"
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "archived", default: 0, null: false
+    t.bigint "archived_by"
     t.datetime "date_archived", precision: nil
     t.string "uuid", limit: 38, null: false
-    t.index ["archived"], name: "formentry_xsn_archived_index"
-    t.index ["archived_by"], name: "User who archived formentry_xsn"
-    t.index ["creator"], name: "User who created formentry_xsn"
-    t.index ["form_id"], name: "Form with which this xsn is related"
-    t.index ["uuid"], name: "formentry_xsn_uuid_index", unique: true
+    t.index ["archived_by"], name: "fk_rails_9913467a77"
+    t.index ["creator"], name: "fk_rails_843208fcee"
+    t.index ["form_id"], name: "fk_rails_8090bc27ea"
   end
 
-  create_table "global_property", primary_key: "property", id: :string, default: "", charset: "utf8", force: :cascade do |t|
+  create_table "global_property", primary_key: "property", id: :string, default: "", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.text "property_value", size: :medium
     t.text "description"
     t.string "uuid", limit: 38, null: false
@@ -914,79 +843,71 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.string "preferred_handler"
     t.text "handler_config"
     t.datetime "date_changed", precision: nil
-    t.integer "changed_by"
-    t.index ["changed_by"], name: "global_property_changed_by"
-    t.index ["property"], name: "global_property_property_index"
-    t.index ["uuid"], name: "global_property_uuid_index", unique: true
+    t.bigint "changed_by"
+    t.index ["changed_by"], name: "fk_rails_1df8006efa"
   end
 
-  create_table "hl7_in_archive", primary_key: "hl7_in_archive_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "hl7_source", default: 0, null: false
+  create_table "hl7_in_archive", primary_key: "hl7_in_archive_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "hl7_source", default: 0, null: false
     t.string "hl7_source_key"
     t.text "hl7_data", size: :medium, null: false
-    t.datetime "date_created", precision: nil, null: false
-    t.integer "message_state", default: 2
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "message_state", default: 0
     t.string "uuid", limit: 38, null: false
-    t.index ["message_state"], name: "hl7_in_archive_message_state_idx"
-    t.index ["uuid"], name: "hl7_in_archive_uuid_index", unique: true
   end
 
-  create_table "hl7_in_error", primary_key: "hl7_in_error_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "hl7_source", default: 0, null: false
+  create_table "hl7_in_error", primary_key: "hl7_in_error_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "hl7_source", default: 0, null: false
     t.text "hl7_source_key"
     t.text "hl7_data", size: :medium, null: false
     t.string "error", default: "", null: false
     t.text "error_details", size: :medium
-    t.datetime "date_created", precision: nil, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "uuid", limit: 38, null: false
-    t.index ["uuid"], name: "hl7_in_error_uuid_index", unique: true
   end
 
-  create_table "hl7_in_queue", primary_key: "hl7_in_queue_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "hl7_source", default: 0, null: false
+  create_table "hl7_in_queue", primary_key: "hl7_in_queue_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "hl7_source", default: 0, null: false
     t.text "hl7_source_key"
     t.text "hl7_data", size: :medium, null: false
-    t.integer "message_state", default: 0, null: false
+    t.bigint "message_state", default: 0, null: false
     t.datetime "date_processed", precision: nil
     t.text "error_msg"
     t.datetime "date_created", precision: nil
     t.string "uuid", limit: 38, null: false
-    t.index ["hl7_source"], name: "hl7_source"
-    t.index ["uuid"], name: "hl7_in_queue_uuid_index", unique: true
+    t.index ["hl7_source"], name: "fk_rails_1b59d1dd20"
   end
 
-  create_table "hl7_source", primary_key: "hl7_source_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "hl7_source", primary_key: "hl7_source_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.text "description", size: :tiny
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "uuid", limit: 38, null: false
-    t.index ["creator"], name: "creator"
-    t.index ["uuid"], name: "hl7_source_uuid_index", unique: true
+    t.index ["creator"], name: "fk_rails_24c77ce8d0"
   end
 
-  create_table "htmlformentry_html_form", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "form_id"
+  create_table "htmlformentry_html_form", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "form_id"
     t.string "name"
     t.text "xml_data", size: :medium, null: false
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "retired", default: false, null: false
     t.string "uuid", limit: 38, null: false
     t.string "description", limit: 1000
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
-    t.index ["changed_by"], name: "User who changed htmlformentry_htmlform"
-    t.index ["creator"], name: "User who created htmlformentry_htmlform"
-    t.index ["form_id"], name: "Form with which this htmlform is related"
-    t.index ["retired_by"], name: "user_who_retired_html_form"
-    t.index ["uuid"], name: "htmlformentry_html_form_uuid_index", unique: true
+    t.index ["changed_by"], name: "fk_rails_a003d9aa3d"
+    t.index ["creator"], name: "fk_rails_5311cf25a7"
+    t.index ["form_id"], name: "fk_rails_b9719f7f16"
+    t.index ["retired_by"], name: "fk_rails_c259a20dcc"
   end
 
-  create_table "liquibasechangelog", primary_key: ["ID", "AUTHOR", "FILENAME"], charset: "utf8", force: :cascade do |t|
+  create_table "liquibasechangelog", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "ID", limit: 63, null: false
     t.string "AUTHOR", limit: 63, null: false
     t.string "FILENAME", limit: 200, null: false
@@ -996,17 +917,18 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.string "COMMENTS"
     t.string "TAG"
     t.string "LIQUIBASE", limit: 20
-    t.integer "ORDEREXECUTED", null: false
+    t.bigint "ORDEREXECUTED", null: false
     t.string "EXECTYPE", limit: 10, null: false
+    t.index ["ID", "AUTHOR", "FILENAME"], name: "index_liquibasechangelog_on_ID_and_AUTHOR_and_FILENAME", unique: true
   end
 
-  create_table "liquibasechangeloglock", primary_key: "ID", id: :integer, default: nil, charset: "utf8", force: :cascade do |t|
+  create_table "liquibasechangeloglock", primary_key: "ID", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.boolean "LOCKED", null: false
     t.datetime "LOCKGRANTED", precision: nil
     t.string "LOCKEDBY"
   end
 
-  create_table "location", primary_key: "location_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "location", primary_key: "location_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "description"
     t.string "address1"
@@ -1017,20 +939,20 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.string "country", limit: 50
     t.string "latitude", limit: 50
     t.string "longitude", limit: 50
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "county_district"
     t.string "address3"
     t.string "address6"
     t.string "address5"
     t.string "address4"
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
-    t.integer "parent_location"
+    t.bigint "parent_location"
     t.string "uuid", limit: 38, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.string "address7"
     t.string "address8"
@@ -1041,147 +963,138 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.string "address13"
     t.string "address14"
     t.string "address15"
-    t.index ["changed_by"], name: "location_changed_by"
-    t.index ["creator"], name: "user_who_created_location"
-    t.index ["name"], name: "name_of_location"
-    t.index ["parent_location"], name: "parent_location"
-    t.index ["retired"], name: "retired_status"
-    t.index ["retired_by"], name: "user_who_retired_location"
-    t.index ["uuid"], name: "location_uuid_index", unique: true
+    t.index ["changed_by"], name: "fk_rails_a2690def67"
+    t.index ["creator"], name: "fk_rails_44d885c17a"
+    t.index ["parent_location"], name: "fk_rails_c767895ed9"
+    t.index ["retired_by"], name: "fk_rails_2e4f6cc095"
   end
 
-  create_table "location_attribute", primary_key: "location_attribute_id", id: :integer, charset: "latin1", force: :cascade do |t|
-    t.integer "location_id", null: false
-    t.integer "attribute_type_id", null: false
+  create_table "location_attribute", primary_key: "location_attribute_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "location_id", null: false
+    t.bigint "attribute_type_id", null: false
     t.text "value_reference", null: false
     t.string "uuid", limit: 38, null: false
-    t.integer "creator", null: false
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
-    t.index ["attribute_type_id"], name: "location_attribute_attribute_type_id_fk"
-    t.index ["changed_by"], name: "location_attribute_changed_by_fk"
-    t.index ["creator"], name: "location_attribute_creator_fk"
-    t.index ["location_id"], name: "location_attribute_location_fk"
-    t.index ["uuid"], name: "uuid", unique: true
-    t.index ["voided_by"], name: "location_attribute_voided_by_fk"
+    t.index ["attribute_type_id"], name: "fk_rails_f5dd09128d"
+    t.index ["changed_by"], name: "fk_rails_144e657945"
+    t.index ["creator"], name: "fk_rails_7541369610"
+    t.index ["location_id"], name: "fk_rails_eed1c1619a"
+    t.index ["voided_by"], name: "fk_rails_b7add2bb00"
   end
 
-  create_table "location_attribute_type", primary_key: "location_attribute_type_id", id: :integer, charset: "latin1", force: :cascade do |t|
+  create_table "location_attribute_type", primary_key: "location_attribute_type_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "description", limit: 1024
     t.string "datatype"
     t.text "datatype_config"
     t.string "preferred_handler"
     t.text "handler_config"
-    t.integer "min_occurs", null: false
-    t.integer "max_occurs"
-    t.integer "creator", null: false
+    t.bigint "min_occurs", null: false
+    t.bigint "max_occurs"
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "location_attribute_type_changed_by_fk"
-    t.index ["creator"], name: "location_attribute_type_creator_fk"
-    t.index ["name"], name: "location_attribute_type_unique_name", unique: true
-    t.index ["retired_by"], name: "location_attribute_type_retired_by_fk"
-    t.index ["uuid"], name: "uuid", unique: true
+    t.index ["changed_by"], name: "fk_rails_d85fde62d6"
+    t.index ["creator"], name: "fk_rails_d0913fad79"
+    t.index ["retired_by"], name: "fk_rails_24eacc567e"
   end
 
-  create_table "location_tag", primary_key: "location_tag_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "location_tag", primary_key: "location_tag_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", limit: 50
     t.string "description"
-    t.integer "creator", null: false
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
     t.string "uuid", limit: 38, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
-    t.index ["changed_by"], name: "location_tag_changed_by"
-    t.index ["creator"], name: "location_tag_creator"
-    t.index ["retired_by"], name: "location_tag_retired_by"
-    t.index ["uuid"], name: "location_tag_uuid_index", unique: true
+    t.index ["changed_by"], name: "fk_rails_26fc451563"
+    t.index ["creator"], name: "fk_rails_bf4b70121e"
+    t.index ["retired_by"], name: "fk_rails_436fcb0816"
   end
 
-  create_table "location_tag_map", primary_key: ["location_id", "location_tag_id"], charset: "utf8", force: :cascade do |t|
-    t.integer "location_id", null: false
-    t.integer "location_tag_id", null: false
-    t.index ["location_tag_id"], name: "location_tag_map_tag"
+  create_table "location_tag_map", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "location_id", null: false
+    t.bigint "location_tag_id", null: false
+    t.index ["location_id", "location_tag_id"], name: "index_location_tag_map_on_location_id_and_location_tag_id", unique: true
+    t.index ["location_tag_id"], name: "fk_rails_649296214e"
   end
 
-  create_table "logic_rule_definition", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "logic_rule_definition", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "uuid", limit: 38, null: false
     t.string "name", null: false
     t.string "description", limit: 1000
     t.string "rule_content", limit: 2048, null: false
     t.string "language", null: false
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
-    t.index ["changed_by"], name: "changed_by for rule_definition"
-    t.index ["creator"], name: "creator for rule_definition"
-    t.index ["name"], name: "name", unique: true
-    t.index ["retired_by"], name: "retired_by for rule_definition"
+    t.index ["changed_by"], name: "fk_rails_87e3968a0f"
+    t.index ["creator"], name: "fk_rails_eeea24fa6d"
+    t.index ["retired_by"], name: "fk_rails_f4317bb047"
   end
 
-  create_table "logic_rule_token", primary_key: "logic_rule_token_id", id: :integer, charset: "latin1", force: :cascade do |t|
-    t.integer "creator", null: false
-    t.datetime "date_created", precision: nil, default: "0002-11-30 00:00:00", null: false
-    t.integer "changed_by"
+  create_table "logic_rule_token", primary_key: "logic_rule_token_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "creator", null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.string "token", limit: 512, null: false
     t.string "class_name", limit: 512, null: false
     t.string "state", limit: 512
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "token_changed_by"
-    t.index ["creator"], name: "token_creator"
-    t.index ["uuid"], name: "uuid", unique: true
+    t.index ["changed_by"], name: "fk_rails_464b54d9e6"
+    t.index ["creator"], name: "fk_rails_319acc68bd"
   end
 
-  create_table "logic_rule_token_tag", id: false, charset: "latin1", force: :cascade do |t|
-    t.integer "logic_rule_token_id", null: false
+  create_table "logic_rule_token_tag", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "logic_rule_token_id", null: false
     t.string "tag", limit: 512, null: false
-    t.index ["logic_rule_token_id"], name: "token_tag"
+    t.index ["logic_rule_token_id"], name: "fk_rails_a3f2a6c30d"
   end
 
-  create_table "logic_token_registration", primary_key: "token_registration_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "creator", null: false
-    t.datetime "date_created", precision: nil, default: "0002-11-30 00:00:00", null: false
-    t.integer "changed_by"
+  create_table "logic_token_registration", primary_key: "token_registration_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "creator", null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.string "token", limit: 512, null: false
     t.string "provider_class_name", limit: 512, null: false
     t.string "provider_token", limit: 512, null: false
     t.string "configuration", limit: 2000
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "token_registration_changed_by"
-    t.index ["creator"], name: "token_registration_creator"
-    t.index ["uuid"], name: "uuid", unique: true
+    t.index ["changed_by"], name: "fk_rails_82c37a98ca"
+    t.index ["creator"], name: "fk_rails_6cddb1a731"
   end
 
-  create_table "logic_token_registration_tag", id: false, charset: "utf8", force: :cascade do |t|
-    t.integer "token_registration_id", null: false
+  create_table "logic_token_registration_tag", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "token_registration_id", null: false
     t.string "tag", limit: 512, null: false
-    t.index ["token_registration_id"], name: "token_registration_tag"
+    t.index ["token_registration_id"], name: "fk_rails_d735dadb72"
   end
 
-  create_table "metadatasharing_exported_package", primary_key: "exported_package_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "metadatasharing_exported_package", primary_key: "exported_package_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "uuid", limit: 38, null: false
     t.datetime "date_created", precision: nil, null: false
     t.string "name", limit: 64, null: false
@@ -1189,12 +1102,12 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.binary "content"
   end
 
-  create_table "metadatasharing_imported_item", primary_key: "imported_item_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "metadatasharing_imported_item", primary_key: "imported_item_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "uuid", limit: 38, null: false
     t.string "itemUuid", limit: 38, null: false
   end
 
-  create_table "metadatasharing_imported_package", primary_key: "imported_package_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "metadatasharing_imported_package", primary_key: "imported_package_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "uuid", limit: 38, null: false
     t.string "package_uuid", limit: 38, null: false
     t.datetime "date_created", precision: nil, null: false
@@ -1203,439 +1116,417 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.datetime "date_imported", precision: nil, null: false
   end
 
-  create_table "metadatasharing_imported_package_item", primary_key: ["imported_package_id", "imported_item_id"], charset: "utf8", force: :cascade do |t|
-    t.integer "imported_package_id", default: 0, null: false
-    t.integer "imported_item_id", default: 0, null: false
+  create_table "metadatasharing_imported_package_item", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "imported_package_id", default: 0, null: false
+    t.bigint "imported_item_id", default: 0, null: false
+    t.index ["imported_package_id", "imported_item_id"], name: "index_imported_package_item", unique: true
   end
 
-  create_table "note", primary_key: "note_id", id: :integer, default: 0, charset: "utf8", force: :cascade do |t|
+  create_table "note", primary_key: "note_id", id: :bigint, default: 0, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "note_type", limit: 50
-    t.integer "patient_id"
-    t.integer "obs_id"
-    t.integer "encounter_id"
+    t.bigint "patient_id"
+    t.bigint "obs_id"
+    t.bigint "encounter_id"
     t.text "text", null: false
-    t.integer "priority"
-    t.integer "parent"
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "priority"
+    t.bigint "parent"
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "user_who_changed_note"
-    t.index ["creator"], name: "user_who_created_note"
-    t.index ["encounter_id"], name: "encounter_note"
-    t.index ["obs_id"], name: "obs_note"
-    t.index ["parent"], name: "note_hierarchy"
-    t.index ["patient_id"], name: "patient_note"
-    t.index ["uuid"], name: "note_uuid_index", unique: true
+    t.index ["changed_by"], name: "fk_rails_77a7d3aef0"
+    t.index ["creator"], name: "fk_rails_bd2156a638"
+    t.index ["encounter_id"], name: "fk_rails_54123c8d5b"
+    t.index ["obs_id"], name: "fk_rails_e6696b36aa"
+    t.index ["parent"], name: "fk_rails_91f81b9586"
+    t.index ["patient_id"], name: "fk_rails_291892be47"
   end
 
-  create_table "notification_alert", primary_key: "alert_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "notification_alert", primary_key: "alert_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "text", limit: 512, null: false
-    t.integer "satisfied_by_any", default: 0, null: false
-    t.integer "alert_read", default: 0, null: false
+    t.bigint "satisfied_by_any", default: 0, null: false
+    t.bigint "alert_read", default: 0, null: false
     t.datetime "date_to_expire", precision: nil
-    t.integer "creator", null: false
-    t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "creator", null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "user_who_changed_alert"
-    t.index ["creator"], name: "alert_creator"
-    t.index ["date_to_expire"], name: "alert_date_to_expire_idx"
-    t.index ["uuid"], name: "notification_alert_uuid_index", unique: true
+    t.index ["changed_by"], name: "fk_rails_1a0d1ffbc1"
+    t.index ["creator"], name: "fk_rails_874ce15ba2"
   end
 
-  create_table "notification_alert_recipient", primary_key: ["alert_id", "user_id"], charset: "utf8", force: :cascade do |t|
-    t.integer "alert_id", null: false
-    t.integer "user_id", null: false
-    t.integer "alert_read", default: 0, null: false
-    t.timestamp "date_changed", default: -> { "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" }
+  create_table "notification_alert_recipient", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "alert_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "alert_read", default: 0, null: false
+    t.datetime "date_changed", precision: nil
     t.string "uuid", limit: 38, null: false
-    t.index ["alert_id"], name: "id_of_alert"
-    t.index ["user_id"], name: "alert_read_by_user"
+    t.index ["alert_id", "user_id"], name: "index_notification_alert_recipient_on_alert_id_and_user_id", unique: true
+    t.index ["user_id"], name: "fk_rails_df681fd567"
   end
 
-  create_table "notification_template", primary_key: "template_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "notification_template", primary_key: "template_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", limit: 50
     t.text "template"
     t.string "subject", limit: 100
     t.string "sender"
     t.string "recipients", limit: 512
-    t.integer "ordinal", default: 0
+    t.bigint "ordinal", default: 0
     t.string "uuid", limit: 38, null: false
-    t.index ["uuid"], name: "notification_template_uuid_index", unique: true
   end
 
-  create_table "obs", primary_key: "obs_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "person_id", null: false
-    t.integer "concept_id", default: 0, null: false
-    t.integer "encounter_id"
-    t.integer "order_id"
-    t.datetime "obs_datetime", precision: nil, null: false
-    t.integer "location_id"
-    t.integer "obs_group_id"
+  create_table "obs", primary_key: "obs_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "person_id", null: false
+    t.bigint "concept_id", default: 0, null: false
+    t.bigint "encounter_id"
+    t.bigint "order_id"
+    t.datetime "obs_datetime", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "location_id"
+    t.bigint "obs_group_id"
     t.string "accession_number"
-    t.integer "value_group_id"
-    t.integer "value_coded"
-    t.integer "value_coded_name_id"
-    t.integer "value_drug"
+    t.bigint "value_group_id"
+    t.bigint "value_coded"
+    t.bigint "value_coded_name_id"
+    t.bigint "value_drug"
     t.datetime "value_datetime", precision: nil
     t.float "value_numeric", limit: 53
     t.string "value_modifier", limit: 2
     t.text "value_text"
     t.string "comments"
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
     t.string "value_complex", limit: 1000
     t.string "uuid", limit: 38, null: false
-    t.integer "previous_version"
+    t.bigint "previous_version"
     t.string "form_namespace_and_path"
-    t.string "status", limit: 16, default: "FINAL", null: false
+    t.string "status", limit: 16, default: "", null: false
     t.string "interpretation", limit: 32
-    t.index ["concept_id"], name: "obs_concept"
-    t.index ["creator"], name: "obs_enterer"
-    t.index ["encounter_id"], name: "encounter_observations"
-    t.index ["location_id"], name: "obs_location"
-    t.index ["obs_datetime"], name: "obs_datetime_idx"
-    t.index ["obs_group_id"], name: "obs_grouping_id"
-    t.index ["order_id"], name: "obs_order"
-    t.index ["person_id"], name: "patient_obs"
-    t.index ["previous_version"], name: "previous_version"
-    t.index ["uuid"], name: "obs_uuid_index", unique: true
-    t.index ["value_coded"], name: "answer_concept"
-    t.index ["value_coded_name_id"], name: "obs_name_of_coded_value"
-    t.index ["value_drug"], name: "answer_concept_drug"
-    t.index ["voided_by"], name: "user_who_voided_obs"
+    t.index ["concept_id"], name: "fk_rails_426a4f4d30"
+    t.index ["creator"], name: "fk_rails_e8785076bd"
+    t.index ["encounter_id"], name: "fk_rails_272aa1a48b"
+    t.index ["location_id"], name: "fk_rails_ff3354d104"
+    t.index ["obs_group_id"], name: "fk_rails_e401938308"
+    t.index ["order_id"], name: "fk_rails_31b59b3e1a"
+    t.index ["person_id"], name: "fk_rails_cb319f4077"
+    t.index ["previous_version"], name: "fk_rails_faec299856"
+    t.index ["value_coded"], name: "fk_rails_f660a82060"
+    t.index ["value_coded_name_id"], name: "fk_rails_a140fc81b3"
+    t.index ["value_drug"], name: "fk_rails_5263a52ac2"
+    t.index ["voided_by"], name: "fk_rails_66e672eeeb"
   end
 
-  create_table "order_frequency", primary_key: "order_frequency_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "concept_id", null: false
+  create_table "order_frequency", primary_key: "order_frequency_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "concept_id", null: false
     t.float "frequency_per_day", limit: 53
-    t.integer "creator", null: false
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "order_frequency_changed_by_fk"
-    t.index ["concept_id"], name: "concept_id", unique: true
-    t.index ["creator"], name: "order_frequency_creator_fk"
-    t.index ["retired_by"], name: "order_frequency_retired_by_fk"
-    t.index ["uuid"], name: "uuid", unique: true
+    t.index ["changed_by"], name: "fk_rails_ddff167d68"
+    t.index ["concept_id"], name: "fk_rails_a9a7e5a02a"
+    t.index ["creator"], name: "fk_rails_5a27577fe5"
+    t.index ["retired_by"], name: "fk_rails_21d54a6f16"
   end
 
-  create_table "order_group", primary_key: "order_group_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "order_set_id"
-    t.integer "patient_id", null: false
-    t.integer "encounter_id", null: false
-    t.integer "creator", null: false
+  create_table "order_group", primary_key: "order_group_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "order_set_id"
+    t.bigint "patient_id", null: false
+    t.bigint "encounter_id", null: false
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "order_group_changed_by_fk"
-    t.index ["creator"], name: "order_group_creator_fk"
-    t.index ["encounter_id"], name: "order_group_encounter_id_fk"
-    t.index ["order_set_id"], name: "order_group_set_id_fk"
-    t.index ["patient_id"], name: "order_group_patient_id_fk"
-    t.index ["uuid"], name: "uuid", unique: true
-    t.index ["voided_by"], name: "order_group_voided_by_fk"
+    t.index ["changed_by"], name: "fk_rails_44e40e16ed"
+    t.index ["creator"], name: "fk_rails_9f1f71e273"
+    t.index ["encounter_id"], name: "fk_rails_dded46f7f9"
+    t.index ["order_set_id"], name: "fk_rails_9b673cf0f1"
+    t.index ["patient_id"], name: "fk_rails_a5f3b6bf7a"
+    t.index ["voided_by"], name: "fk_rails_e14ee6a3a9"
   end
 
-  create_table "order_set", primary_key: "order_set_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "order_set", primary_key: "order_set_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "operator", limit: 50, null: false
     t.string "name", null: false
     t.string "description", limit: 1000
-    t.integer "creator", null: false
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "order_set_changed_by_fk"
-    t.index ["creator"], name: "order_set_creator_fk"
-    t.index ["retired_by"], name: "order_set_retired_by_fk"
-    t.index ["uuid"], name: "uuid", unique: true
+    t.index ["changed_by"], name: "fk_rails_2780dfe5b0"
+    t.index ["creator"], name: "fk_rails_8e01030155"
+    t.index ["retired_by"], name: "fk_rails_6574e1db8e"
   end
 
-  create_table "order_set_member", primary_key: "order_set_member_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "order_type", null: false
+  create_table "order_set_member", primary_key: "order_set_member_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "order_type", null: false
     t.text "order_template"
     t.string "order_template_type", limit: 1024
-    t.integer "order_set_id", null: false
-    t.integer "sequence_number", null: false
-    t.integer "concept_id", null: false
-    t.integer "creator", null: false
+    t.bigint "order_set_id", null: false
+    t.bigint "sequence_number", null: false
+    t.bigint "concept_id", null: false
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "order_set_member_changed_by_fk"
-    t.index ["concept_id"], name: "order_set_member_concept_id_fk"
-    t.index ["creator"], name: "order_set_member_creator_fk"
-    t.index ["order_set_id"], name: "order_set_member_order_set_id_fk"
-    t.index ["order_type"], name: "order_set_member_order_type_fk"
-    t.index ["retired_by"], name: "order_set_member_retired_by_fk"
-    t.index ["uuid"], name: "uuid", unique: true
+    t.index ["changed_by"], name: "fk_rails_5f18d672e0"
+    t.index ["concept_id"], name: "fk_rails_cff3bcd615"
+    t.index ["creator"], name: "fk_rails_e29ba02fda"
+    t.index ["order_set_id"], name: "fk_rails_a857681d17"
+    t.index ["order_type"], name: "fk_rails_183879a009"
+    t.index ["retired_by"], name: "fk_rails_1469d81cb3"
   end
 
-  create_table "order_type", primary_key: "order_type_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "order_type", primary_key: "order_type_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.text "description"
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
     t.string "uuid", limit: 38, null: false
     t.string "java_class_name", null: false
-    t.integer "parent"
-    t.integer "changed_by"
+    t.bigint "parent"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
-    t.index ["changed_by"], name: "order_type_changed_by"
-    t.index ["creator"], name: "type_created_by"
-    t.index ["name"], name: "name", unique: true
-    t.index ["parent"], name: "order_type_parent_order_type"
-    t.index ["retired"], name: "retired_status"
-    t.index ["retired_by"], name: "user_who_retired_order_type"
-    t.index ["uuid"], name: "order_type_uuid_index", unique: true
+    t.index ["changed_by"], name: "fk_rails_b1828b1b0c"
+    t.index ["creator"], name: "fk_rails_b7bdc679df"
+    t.index ["parent"], name: "fk_rails_d1f13609b2"
+    t.index ["retired_by"], name: "fk_rails_d8e0ccc9a4"
   end
 
-  create_table "order_type_class_map", primary_key: ["order_type_id", "concept_class_id"], charset: "utf8", force: :cascade do |t|
-    t.integer "order_type_id", null: false
-    t.integer "concept_class_id", null: false
-    t.index ["concept_class_id"], name: "concept_class_id", unique: true
+  create_table "order_type_class_map", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "order_type_id", null: false
+    t.bigint "concept_class_id", null: false
+    t.index ["concept_class_id"], name: "fk_rails_17aa819c0d"
+    t.index ["order_type_id", "concept_class_id"], name: "index_order_type_class_map_on_order_type_id_and_concept_class_id", unique: true
   end
 
-  create_table "orders", primary_key: "order_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "order_type_id", default: 0, null: false
-    t.integer "concept_id", default: 0, null: false
-    t.integer "orderer", null: false
-    t.integer "encounter_id", null: false
+  create_table "orders", primary_key: "order_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "order_type_id", default: 0, null: false
+    t.bigint "concept_id", default: 0, null: false
+    t.bigint "orderer", null: false
+    t.bigint "encounter_id", null: false
     t.text "instructions"
     t.datetime "date_activated", precision: nil
     t.datetime "auto_expire_date", precision: nil
     t.datetime "date_stopped", precision: nil
-    t.integer "order_reason"
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+    t.bigint "order_reason"
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
-    t.integer "patient_id", null: false
+    t.bigint "patient_id", null: false
     t.string "accession_number"
     t.string "uuid", limit: 38, null: false
     t.string "order_reason_non_coded"
-    t.string "urgency", limit: 50, default: "ROUTINE", null: false
+    t.string "urgency", limit: 50, default: "", null: false
     t.string "order_number", limit: 50, null: false
-    t.integer "previous_order_id"
+    t.bigint "previous_order_id"
     t.string "order_action", limit: 50, null: false
     t.string "comment_to_fulfiller", limit: 1024
-    t.integer "care_setting", null: false
+    t.bigint "care_setting", null: false
     t.datetime "scheduled_date", precision: nil
-    t.integer "order_group_id"
+    t.bigint "order_group_id"
     t.float "sort_weight", limit: 53
     t.string "fulfiller_comment", limit: 1024
     t.string "fulfiller_status", limit: 50
-    t.index ["care_setting"], name: "orders_care_setting"
-    t.index ["creator"], name: "order_creator"
-    t.index ["encounter_id"], name: "orders_in_encounter"
-    t.index ["order_group_id"], name: "orders_order_group_id_fk"
-    t.index ["order_reason"], name: "discontinued_because"
-    t.index ["order_type_id"], name: "type_of_order"
-    t.index ["orderer"], name: "orderer_not_drug"
-    t.index ["patient_id"], name: "order_for_patient"
-    t.index ["previous_order_id"], name: "previous_order_id_order_id"
-    t.index ["uuid"], name: "orders_uuid_index", unique: true
-    t.index ["voided_by"], name: "user_who_voided_order"
+    t.index ["care_setting"], name: "fk_rails_880a65d81d"
+    t.index ["creator"], name: "fk_rails_58c783a090"
+    t.index ["encounter_id"], name: "fk_rails_00212faa5d"
+    t.index ["order_group_id"], name: "fk_rails_14e3a5f623"
+    t.index ["order_reason"], name: "fk_rails_99cb9c8385"
+    t.index ["order_type_id"], name: "fk_rails_aea2044a0b"
+    t.index ["orderer"], name: "fk_rails_f395fa9e06"
+    t.index ["patient_id"], name: "fk_rails_cf338c8d9e"
+    t.index ["previous_order_id"], name: "fk_rails_1ed017fea6"
+    t.index ["voided_by"], name: "fk_rails_6891831a3d"
   end
 
-  create_table "patient", primary_key: "patient_id", id: :integer, default: nil, charset: "utf8", force: :cascade do |t|
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+  create_table "patient", primary_key: "patient_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
-    t.string "allergy_status", limit: 50, default: "Unknown", null: false
-    t.index ["changed_by"], name: "user_who_changed_pat"
-    t.index ["creator"], name: "user_who_created_patient"
-    t.index ["voided_by"], name: "user_who_voided_patient"
+    t.string "allergy_status", limit: 50, default: "", null: false
+    t.index ["changed_by"], name: "fk_rails_53ba74c797"
+    t.index ["creator"], name: "fk_rails_6aedfaea82"
+    t.index ["voided_by"], name: "fk_rails_255f46691d"
   end
 
-  create_table "patient_identifier", primary_key: "patient_identifier_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "patient_id", default: 0, null: false
+  create_table "patient_identifier", primary_key: "patient_identifier_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "patient_id", default: 0, null: false
     t.string "identifier", limit: 50, default: "", null: false
-    t.integer "identifier_type", default: 0, null: false
+    t.bigint "identifier_type", default: 0, null: false
     t.boolean "preferred", default: false, null: false
-    t.integer "location_id"
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+    t.bigint "location_id"
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
     t.string "uuid", limit: 38, null: false
     t.datetime "date_changed", precision: nil
-    t.integer "changed_by"
-    t.index ["changed_by"], name: "patient_identifier_changed_by"
-    t.index ["creator"], name: "identifier_creator"
-    t.index ["identifier"], name: "identifier_name"
-    t.index ["identifier_type"], name: "defines_identifier_type"
-    t.index ["location_id"], name: "identifier_location"
-    t.index ["patient_id"], name: "idx_patient_identifier_patient"
-    t.index ["uuid"], name: "patient_identifier_uuid_index", unique: true
-    t.index ["voided_by"], name: "identifier_voider"
+    t.bigint "changed_by"
+    t.index ["changed_by"], name: "fk_rails_0c6bd89555"
+    t.index ["creator"], name: "fk_rails_129de0b797"
+    t.index ["identifier_type"], name: "fk_rails_893ae6c8bf"
+    t.index ["location_id"], name: "fk_rails_00e2a0f2d2"
+    t.index ["patient_id"], name: "fk_rails_696d69e81e"
+    t.index ["voided_by"], name: "fk_rails_837c64369a"
   end
 
-  create_table "patient_identifier_type", primary_key: "patient_identifier_type_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "patient_identifier_type", primary_key: "patient_identifier_type_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", limit: 50, default: "", null: false
     t.text "description"
     t.string "format"
     t.boolean "check_digit", default: false, null: false
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "required", default: false, null: false
     t.string "format_description"
     t.string "validator", limit: 200
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
     t.string "uuid", limit: 38, null: false
     t.string "location_behavior", limit: 50
     t.string "uniqueness_behavior", limit: 50
     t.datetime "date_changed", precision: nil
-    t.integer "changed_by"
-    t.index ["changed_by"], name: "patient_identifier_type_changed_by"
-    t.index ["creator"], name: "type_creator"
-    t.index ["retired"], name: "retired_status"
-    t.index ["retired_by"], name: "user_who_retired_patient_identifier_type"
-    t.index ["uuid"], name: "patient_identifier_type_uuid_index", unique: true
+    t.bigint "changed_by"
+    t.index ["changed_by"], name: "fk_rails_822b6ab3a9"
+    t.index ["creator"], name: "fk_rails_858419a4f8"
+    t.index ["retired_by"], name: "fk_rails_639b8f2dde"
   end
 
-  create_table "patient_program", primary_key: "patient_program_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "patient_id", default: 0, null: false
-    t.integer "program_id", default: 0, null: false
+  create_table "patient_program", primary_key: "patient_program_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "patient_id", default: 0, null: false
+    t.bigint "program_id", default: 0, null: false
     t.datetime "date_enrolled", precision: nil
     t.datetime "date_completed", precision: nil
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
     t.string "uuid", limit: 38, null: false
-    t.integer "location_id"
-    t.integer "outcome_concept_id"
-    t.index ["changed_by"], name: "user_who_changed"
-    t.index ["creator"], name: "patient_program_creator"
-    t.index ["location_id"], name: "patient_program_location_id"
-    t.index ["outcome_concept_id"], name: "patient_program_outcome_concept_id_fk"
-    t.index ["patient_id"], name: "patient_in_program"
-    t.index ["program_id"], name: "program_for_patient"
-    t.index ["uuid"], name: "patient_program_uuid_index", unique: true
-    t.index ["voided_by"], name: "user_who_voided_patient_program"
+    t.bigint "location_id"
+    t.bigint "outcome_concept_id"
+    t.index ["changed_by"], name: "fk_rails_e9f82e0708"
+    t.index ["creator"], name: "fk_rails_2b734187fc"
+    t.index ["location_id"], name: "fk_rails_ea811118c2"
+    t.index ["outcome_concept_id"], name: "fk_rails_9093689131"
+    t.index ["patient_id"], name: "fk_rails_c69ce747db"
+    t.index ["program_id"], name: "fk_rails_cd93370d20"
+    t.index ["voided_by"], name: "fk_rails_14c9797d1f"
   end
 
-  create_table "patient_program_attribute", primary_key: "patient_program_attribute_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "patient_program_id", null: false
-    t.integer "attribute_type_id", null: false
+  create_table "patient_program_attribute", primary_key: "patient_program_attribute_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "patient_program_id", null: false
+    t.bigint "attribute_type_id", null: false
     t.text "value_reference", null: false
     t.string "uuid", limit: 38, null: false
-    t.integer "creator", null: false
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
-    t.index ["attribute_type_id"], name: "patient_program_attribute_attributetype_fk"
-    t.index ["changed_by"], name: "patient_program_attribute_changed_by_fk"
-    t.index ["creator"], name: "patient_program_attribute_creator_fk"
-    t.index ["patient_program_id"], name: "patient_program_attribute_programid_fk"
-    t.index ["uuid"], name: "uuid", unique: true
-    t.index ["voided_by"], name: "patient_program_attribute_voided_by_fk"
+    t.index ["attribute_type_id"], name: "fk_rails_7310559639"
+    t.index ["changed_by"], name: "fk_rails_e9923c9332"
+    t.index ["creator"], name: "fk_rails_72eada17c3"
+    t.index ["patient_program_id"], name: "fk_rails_75b2078c09"
+    t.index ["voided_by"], name: "fk_rails_c1bcf2c8a3"
   end
 
-  create_table "patient_state", primary_key: "patient_state_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "patient_program_id", default: 0, null: false
-    t.integer "state", default: 0, null: false
+  create_table "patient_state", primary_key: "patient_state_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "patient_program_id", default: 0, null: false
+    t.bigint "state", default: 0, null: false
     t.date "start_date"
     t.date "end_date"
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "patient_state_changer"
-    t.index ["creator"], name: "patient_state_creator"
-    t.index ["patient_program_id"], name: "patient_program_for_state"
-    t.index ["state"], name: "state_for_patient"
-    t.index ["uuid"], name: "patient_state_uuid_index", unique: true
-    t.index ["voided_by"], name: "patient_state_voider"
+    t.index ["changed_by"], name: "fk_rails_84f3119a0a"
+    t.index ["creator"], name: "fk_rails_0daf19d44c"
+    t.index ["patient_program_id"], name: "fk_rails_2911b458b2"
+    t.index ["state"], name: "fk_rails_d8d323e1f2"
+    t.index ["voided_by"], name: "fk_rails_2751849b8d"
   end
 
-  create_table "person", primary_key: "person_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "person", primary_key: "person_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "gender", limit: 50, default: ""
     t.date "birthdate"
     t.boolean "birthdate_estimated", default: false, null: false
     t.boolean "dead", default: false, null: false
     t.datetime "death_date", precision: nil
-    t.integer "cause_of_death"
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "cause_of_death"
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
     t.string "uuid", limit: 38, null: false
     t.boolean "deathdate_estimated", default: false, null: false
     t.time "birthtime"
     t.string "cause_of_death_non_coded"
-    t.index ["birthdate"], name: "person_birthdate"
-    t.index ["cause_of_death"], name: "person_died_because"
-    t.index ["changed_by"], name: "user_who_changed_pat"
-    t.index ["creator"], name: "user_who_created_patient"
-    t.index ["death_date"], name: "person_death_date"
-    t.index ["uuid"], name: "person_uuid_index", unique: true
-    t.index ["voided_by"], name: "user_who_voided_patient"
+    t.index ["cause_of_death"], name: "fk_rails_0e72f811f4"
+    t.index ["changed_by"], name: "fk_rails_80dade1053"
+    t.index ["creator"], name: "fk_rails_342e14d89c"
+    t.index ["voided_by"], name: "fk_rails_91d3b01986"
   end
 
-  create_table "person_address", primary_key: "person_address_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "person_id"
+  create_table "person_address", primary_key: "person_address_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "person_id"
     t.boolean "preferred", default: false, null: false
     t.string "address1"
     t.string "address2"
@@ -1645,10 +1536,10 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.string "country", limit: 50
     t.string "latitude", limit: 50
     t.string "longitude", limit: 50
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
     t.string "county_district"
@@ -1658,7 +1549,7 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.string "address4"
     t.string "uuid", limit: 38, null: false
     t.datetime "date_changed", precision: nil
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "start_date", precision: nil
     t.datetime "end_date", precision: nil
     t.string "address7"
@@ -1670,85 +1561,78 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.string "address13"
     t.string "address14"
     t.string "address15"
-    t.index ["changed_by"], name: "person_address_changed_by"
-    t.index ["creator"], name: "patient_address_creator"
-    t.index ["person_id"], name: "patient_addresses"
-    t.index ["uuid"], name: "person_address_uuid_index", unique: true
-    t.index ["voided_by"], name: "patient_address_void"
+    t.index ["changed_by"], name: "fk_rails_81b9b5046c"
+    t.index ["creator"], name: "fk_rails_bc5afcab2c"
+    t.index ["person_id"], name: "fk_rails_f018c903e8"
+    t.index ["voided_by"], name: "fk_rails_7637fbc857"
   end
 
-  create_table "person_attribute", primary_key: "person_attribute_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "person_id", default: 0, null: false
+  create_table "person_attribute", primary_key: "person_attribute_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "person_id", default: 0, null: false
     t.string "value", limit: 50, default: "", null: false
-    t.integer "person_attribute_type_id", default: 0, null: false
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "person_attribute_type_id", default: 0, null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "attribute_changer"
-    t.index ["creator"], name: "attribute_creator"
-    t.index ["person_attribute_type_id"], name: "defines_attribute_type"
-    t.index ["person_id"], name: "identifies_person"
-    t.index ["uuid"], name: "person_attribute_uuid_index", unique: true
-    t.index ["voided_by"], name: "attribute_voider"
+    t.index ["changed_by"], name: "fk_rails_64976c7765"
+    t.index ["creator"], name: "fk_rails_28123390c4"
+    t.index ["person_attribute_type_id"], name: "fk_rails_77e550699e"
+    t.index ["person_id"], name: "fk_rails_f4abb8c16f"
+    t.index ["voided_by"], name: "fk_rails_eb39572019"
   end
 
-  create_table "person_attribute_type", primary_key: "person_attribute_type_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "person_attribute_type", primary_key: "person_attribute_type_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", limit: 50, default: "", null: false
     t.text "description"
     t.string "format", limit: 50
-    t.integer "foreign_key"
+    t.bigint "foreign_key"
     t.boolean "searchable", default: false, null: false
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
     t.string "edit_privilege"
     t.string "uuid", limit: 38, null: false
     t.float "sort_weight", limit: 53
-    t.index ["changed_by"], name: "attribute_type_changer"
-    t.index ["creator"], name: "type_creator"
-    t.index ["edit_privilege"], name: "privilege_which_can_edit"
-    t.index ["name"], name: "name_of_attribute"
-    t.index ["retired"], name: "person_attribute_type_retired_status"
-    t.index ["retired_by"], name: "user_who_retired_person_attribute_type"
-    t.index ["searchable"], name: "attribute_is_searchable"
-    t.index ["uuid"], name: "person_attribute_type_uuid_index", unique: true
+    t.index ["changed_by"], name: "fk_rails_1d26f8eec5"
+    t.index ["creator"], name: "fk_rails_2e7c89c37e"
+    t.index ["edit_privilege"], name: "fk_rails_bc5218dd52"
+    t.index ["retired_by"], name: "fk_rails_b4f46d919f"
   end
 
-  create_table "person_merge_log", primary_key: "person_merge_log_id", id: :integer, charset: "latin1", force: :cascade do |t|
-    t.integer "winner_person_id", null: false
-    t.integer "loser_person_id", null: false
-    t.integer "creator", null: false
+  create_table "person_merge_log", primary_key: "person_merge_log_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "winner_person_id", null: false
+    t.bigint "loser_person_id", null: false
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
     t.text "merged_data", size: :long, null: false
     t.string "uuid", limit: 38, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
-    t.index ["changed_by"], name: "person_merge_log_changed_by_fk"
-    t.index ["creator"], name: "person_merge_log_creator"
-    t.index ["loser_person_id"], name: "person_merge_log_loser"
-    t.index ["uuid"], name: "person_merge_log_unique_uuid", unique: true
-    t.index ["voided_by"], name: "person_merge_log_voided_by_fk"
-    t.index ["winner_person_id"], name: "person_merge_log_winner"
+    t.index ["changed_by"], name: "fk_rails_e5615f0634"
+    t.index ["creator"], name: "fk_rails_81a9b29b2a"
+    t.index ["loser_person_id"], name: "fk_rails_e9e70461e4"
+    t.index ["voided_by"], name: "fk_rails_69890d00de"
+    t.index ["winner_person_id"], name: "fk_rails_0ca3f3c7ae"
   end
 
-  create_table "person_name", primary_key: "person_name_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "person_name", primary_key: "person_name_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.boolean "preferred", default: false, null: false
-    t.integer "person_id", null: false
+    t.bigint "person_id", null: false
     t.string "prefix", limit: 50
     t.string "given_name", limit: 50
     t.string "middle_name", limit: 50
@@ -1757,295 +1641,277 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.string "family_name2", limit: 50
     t.string "family_name_suffix", limit: 50
     t.string "degree", limit: 50
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.string "uuid", limit: 38, null: false
-    t.index ["creator"], name: "user_who_made_name"
-    t.index ["family_name"], name: "last_name"
-    t.index ["family_name2"], name: "family_name2"
-    t.index ["given_name"], name: "first_name"
-    t.index ["middle_name"], name: "middle_name"
-    t.index ["person_id"], name: "name_for_patient"
-    t.index ["uuid"], name: "person_name_uuid_index", unique: true
-    t.index ["voided_by"], name: "user_who_voided_name"
+    t.index ["creator"], name: "fk_rails_73f530aae0"
+    t.index ["person_id"], name: "fk_rails_1ab836ddf4"
+    t.index ["voided_by"], name: "fk_rails_c7e603bc4b"
   end
 
-  create_table "privilege", primary_key: "privilege", id: :string, charset: "utf8", force: :cascade do |t|
+  create_table "privilege", primary_key: "privilege", id: :string, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.text "description"
     t.string "uuid", limit: 38, null: false
-    t.index ["uuid"], name: "privilege_uuid_index", unique: true
   end
 
-  create_table "program", primary_key: "program_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "concept_id", default: 0, null: false
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+  create_table "program", primary_key: "program_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "concept_id", default: 0, null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "retired", default: false, null: false
     t.string "name", limit: 50, null: false
     t.text "description"
     t.string "uuid", limit: 38, null: false
-    t.integer "outcomes_concept_id"
-    t.index ["changed_by"], name: "user_who_changed_program"
-    t.index ["concept_id"], name: "program_concept"
-    t.index ["creator"], name: "program_creator"
-    t.index ["outcomes_concept_id"], name: "program_outcomes_concept_id_fk"
-    t.index ["uuid"], name: "program_uuid_index", unique: true
+    t.bigint "outcomes_concept_id"
+    t.index ["changed_by"], name: "fk_rails_4c59e6d352"
+    t.index ["concept_id"], name: "fk_rails_26f33988c0"
+    t.index ["creator"], name: "fk_rails_4e262a3906"
+    t.index ["outcomes_concept_id"], name: "fk_rails_2a2a7645c3"
   end
 
-  create_table "program_attribute_type", primary_key: "program_attribute_type_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "program_attribute_type", primary_key: "program_attribute_type_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "description", limit: 1024
     t.string "datatype"
     t.text "datatype_config"
     t.string "preferred_handler"
     t.text "handler_config"
-    t.integer "min_occurs", null: false
-    t.integer "max_occurs"
-    t.integer "creator", null: false
+    t.bigint "min_occurs", null: false
+    t.bigint "max_occurs"
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "program_attribute_type_changed_by_fk"
-    t.index ["creator"], name: "program_attribute_type_creator_fk"
-    t.index ["name"], name: "name", unique: true
-    t.index ["retired_by"], name: "program_attribute_type_retired_by_fk"
-    t.index ["uuid"], name: "uuid", unique: true
+    t.index ["changed_by"], name: "fk_rails_fdcbccdea8"
+    t.index ["creator"], name: "fk_rails_356a5b887c"
+    t.index ["retired_by"], name: "fk_rails_23d3487f36"
   end
 
-  create_table "program_workflow", primary_key: "program_workflow_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "program_id", default: 0, null: false
-    t.integer "concept_id", default: 0, null: false
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+  create_table "program_workflow", primary_key: "program_workflow_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "program_id", default: 0, null: false
+    t.bigint "concept_id", default: 0, null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "retired", default: false, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "workflow_voided_by"
-    t.index ["concept_id"], name: "workflow_concept"
-    t.index ["creator"], name: "workflow_creator"
-    t.index ["program_id"], name: "program_for_workflow"
-    t.index ["uuid"], name: "program_workflow_uuid_index", unique: true
+    t.index ["changed_by"], name: "fk_rails_276ac0f35c"
+    t.index ["concept_id"], name: "fk_rails_827395a831"
+    t.index ["creator"], name: "fk_rails_6f7263f556"
+    t.index ["program_id"], name: "fk_rails_2a25ae0f9f"
   end
 
-  create_table "program_workflow_state", primary_key: "program_workflow_state_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "program_workflow_id", default: 0, null: false
-    t.integer "concept_id", default: 0, null: false
+  create_table "program_workflow_state", primary_key: "program_workflow_state_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "program_workflow_id", default: 0, null: false
+    t.bigint "concept_id", default: 0, null: false
     t.boolean "initial", default: false, null: false
     t.boolean "terminal", default: false, null: false
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "retired", default: false, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "state_voided_by"
-    t.index ["concept_id"], name: "state_concept"
-    t.index ["creator"], name: "state_creator"
-    t.index ["program_workflow_id"], name: "workflow_for_state"
-    t.index ["uuid"], name: "program_workflow_state_uuid_index", unique: true
+    t.index ["changed_by"], name: "fk_rails_2f1d1c1144"
+    t.index ["concept_id"], name: "fk_rails_6317dc570a"
+    t.index ["creator"], name: "fk_rails_916df58b8b"
+    t.index ["program_workflow_id"], name: "fk_rails_1f136e3a61"
   end
 
-  create_table "provider", primary_key: "provider_id", id: :integer, charset: "latin1", force: :cascade do |t|
-    t.integer "person_id"
+  create_table "provider", primary_key: "provider_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "person_id"
     t.string "name"
     t.string "identifier"
-    t.integer "creator", null: false
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
     t.string "uuid", limit: 38, null: false
-    t.integer "role_id"
-    t.integer "speciality_id"
-    t.index ["changed_by"], name: "provider_changed_by_fk"
-    t.index ["creator"], name: "provider_creator_fk"
-    t.index ["person_id"], name: "provider_person_id_fk"
-    t.index ["retired_by"], name: "provider_retired_by_fk"
-    t.index ["role_id"], name: "provider_role_id_fk"
-    t.index ["speciality_id"], name: "provider_speciality_id_fk"
-    t.index ["uuid"], name: "uuid", unique: true
+    t.bigint "role_id"
+    t.bigint "speciality_id"
+    t.index ["changed_by"], name: "fk_rails_525d98b6d7"
+    t.index ["creator"], name: "fk_rails_122a660e9d"
+    t.index ["person_id"], name: "fk_rails_f8bfd9b2bf"
+    t.index ["retired_by"], name: "fk_rails_d43283236f"
+    t.index ["role_id"], name: "fk_rails_afc495e310"
+    t.index ["speciality_id"], name: "fk_rails_e8ef66c274"
   end
 
-  create_table "provider_attribute", primary_key: "provider_attribute_id", id: :integer, charset: "latin1", force: :cascade do |t|
-    t.integer "provider_id", null: false
-    t.integer "attribute_type_id", null: false
+  create_table "provider_attribute", primary_key: "provider_attribute_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "provider_id", null: false
+    t.bigint "attribute_type_id", null: false
     t.text "value_reference", null: false
     t.string "uuid", limit: 38, null: false
-    t.integer "creator", null: false
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
-    t.index ["attribute_type_id"], name: "provider_attribute_attribute_type_id_fk"
-    t.index ["changed_by"], name: "provider_attribute_changed_by_fk"
-    t.index ["creator"], name: "provider_attribute_creator_fk"
-    t.index ["provider_id"], name: "provider_attribute_provider_fk"
-    t.index ["uuid"], name: "uuid", unique: true
-    t.index ["voided_by"], name: "provider_attribute_voided_by_fk"
+    t.index ["attribute_type_id"], name: "fk_rails_255f6129b0"
+    t.index ["changed_by"], name: "fk_rails_87d12867e2"
+    t.index ["creator"], name: "fk_rails_379eb25a7d"
+    t.index ["provider_id"], name: "fk_rails_7c0ebea51b"
+    t.index ["voided_by"], name: "fk_rails_ea19d95c09"
   end
 
-  create_table "provider_attribute_type", primary_key: "provider_attribute_type_id", id: :integer, charset: "latin1", force: :cascade do |t|
+  create_table "provider_attribute_type", primary_key: "provider_attribute_type_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "description", limit: 1024
     t.string "datatype"
     t.text "datatype_config"
     t.string "preferred_handler"
     t.text "handler_config"
-    t.integer "min_occurs", null: false
-    t.integer "max_occurs"
-    t.integer "creator", null: false
+    t.bigint "min_occurs", null: false
+    t.bigint "max_occurs"
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "provider_attribute_type_changed_by_fk"
-    t.index ["creator"], name: "provider_attribute_type_creator_fk"
-    t.index ["retired_by"], name: "provider_attribute_type_retired_by_fk"
-    t.index ["uuid"], name: "uuid", unique: true
+    t.index ["changed_by"], name: "fk_rails_4fa6adffa7"
+    t.index ["creator"], name: "fk_rails_27557119d0"
+    t.index ["retired_by"], name: "fk_rails_18828de3ec"
   end
 
-  create_table "relationship", primary_key: "relationship_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "person_a", null: false
-    t.integer "relationship", default: 0, null: false
-    t.integer "person_b", null: false
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+  create_table "relationship", primary_key: "relationship_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "person_a", null: false
+    t.bigint "relationship", default: 0, null: false
+    t.bigint "person_b", null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
     t.string "uuid", limit: 38, null: false
     t.datetime "date_changed", precision: nil
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "start_date", precision: nil
     t.datetime "end_date", precision: nil
-    t.index ["changed_by"], name: "relationship_changed_by"
-    t.index ["creator"], name: "relation_creator"
-    t.index ["person_a"], name: "related_person"
-    t.index ["person_b"], name: "related_relative"
-    t.index ["relationship"], name: "relationship_type"
-    t.index ["uuid"], name: "relationship_uuid_index", unique: true
-    t.index ["voided_by"], name: "relation_voider"
+    t.index ["changed_by"], name: "fk_rails_b3f00e2bd5"
+    t.index ["creator"], name: "fk_rails_60aab55b8e"
+    t.index ["person_a"], name: "fk_rails_986529a426"
+    t.index ["person_b"], name: "fk_rails_2c1242bff5"
+    t.index ["relationship"], name: "fk_rails_20cdac4cb4"
+    t.index ["voided_by"], name: "fk_rails_2c5e68137f"
   end
 
-  create_table "relationship_type", primary_key: "relationship_type_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "relationship_type", primary_key: "relationship_type_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "a_is_to_b", limit: 50, null: false
     t.string "b_is_to_a", limit: 50, null: false
-    t.integer "preferred", default: 0, null: false
-    t.integer "weight", default: 0, null: false
+    t.bigint "preferred", default: 0, null: false
+    t.bigint "weight", default: 0, null: false
     t.string "description"
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "uuid", limit: 38, null: false
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
     t.datetime "date_changed", precision: nil
-    t.integer "changed_by"
-    t.index ["changed_by"], name: "relationship_type_changed_by"
-    t.index ["creator"], name: "user_who_created_rel"
-    t.index ["retired_by"], name: "user_who_retired_relationship_type"
-    t.index ["uuid"], name: "relationship_type_uuid_index", unique: true
+    t.bigint "changed_by"
+    t.index ["changed_by"], name: "fk_rails_7c656f0bae"
+    t.index ["creator"], name: "fk_rails_766a26d61b"
+    t.index ["retired_by"], name: "fk_rails_c9866cb0b8"
   end
 
-  create_table "report_object", primary_key: "report_object_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "report_object", primary_key: "report_object_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "description", limit: 1000
     t.string "report_object_type", null: false
     t.string "report_object_sub_type", null: false
     t.text "xml_data"
-    t.integer "creator", null: false
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "user_who_changed_report_object"
-    t.index ["creator"], name: "report_object_creator"
-    t.index ["uuid"], name: "report_object_uuid_index", unique: true
-    t.index ["voided_by"], name: "user_who_voided_report_object"
+    t.index ["changed_by"], name: "fk_rails_ebff13989d"
+    t.index ["creator"], name: "fk_rails_37e6399793"
+    t.index ["voided_by"], name: "fk_rails_0b59f25b7e"
   end
 
-  create_table "report_schema_xml", primary_key: "report_schema_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "report_schema_xml", primary_key: "report_schema_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.text "description", null: false
     t.text "xml_data", size: :medium, null: false
     t.string "uuid", limit: 38, null: false
-    t.index ["uuid"], name: "report_schema_xml_uuid_index", unique: true
   end
 
-  create_table "reporting_report_design", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "reporting_report_design", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "uuid", limit: 38, null: false
     t.string "name", null: false
     t.string "description", limit: 1000
-    t.integer "report_definition_id", default: 0, null: false
+    t.bigint "report_definition_id", default: 0, null: false
     t.string "renderer_type", null: false
     t.text "properties"
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
-    t.index ["changed_by"], name: "changed_by for reporting_report_design"
-    t.index ["creator"], name: "creator for reporting_report_design"
-    t.index ["report_definition_id"], name: "report_definition_id for reporting_report_design"
-    t.index ["retired_by"], name: "retired_by for reporting_report_design"
+    t.index ["changed_by"], name: "fk_rails_175110352f"
+    t.index ["creator"], name: "fk_rails_a382cb02d2"
+    t.index ["report_definition_id"], name: "fk_rails_755e8628eb"
+    t.index ["retired_by"], name: "fk_rails_3d73dd32ac"
   end
 
-  create_table "reporting_report_design_resource", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "reporting_report_design_resource", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "uuid", limit: 38, null: false
     t.string "name", null: false
     t.string "description", limit: 1000
-    t.integer "report_design_id", default: 0, null: false
+    t.bigint "report_design_id", default: 0, null: false
     t.string "content_type", limit: 50
     t.string "extension", limit: 20
     t.binary "contents", size: :long
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
-    t.index ["changed_by"], name: "changed_by for reporting_report_design_resource"
-    t.index ["creator"], name: "creator for reporting_report_design_resource"
-    t.index ["report_design_id"], name: "report_design_id for reporting_report_design_resource"
-    t.index ["retired_by"], name: "retired_by for reporting_report_design_resource"
+    t.index ["changed_by"], name: "fk_rails_225f1eac3b"
+    t.index ["creator"], name: "fk_rails_d95cf01516"
+    t.index ["report_design_id"], name: "fk_rails_3ac59593ea"
+    t.index ["retired_by"], name: "fk_rails_872128ffb0"
   end
 
-  create_table "reporting_report_request", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "reporting_report_request", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "uuid", limit: 38, null: false
     t.string "base_cohort_uuid", limit: 38
     t.text "base_cohort_parameters"
@@ -2053,69 +1919,69 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.text "report_definition_parameters"
     t.string "renderer_type", null: false
     t.string "renderer_argument"
-    t.integer "requested_by", default: 0, null: false
-    t.datetime "request_datetime", precision: nil, null: false
+    t.bigint "requested_by", default: 0, null: false
+    t.datetime "request_datetime", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "priority", null: false
     t.string "status", null: false
     t.datetime "evaluation_start_datetime", precision: nil
     t.datetime "evaluation_complete_datetime", precision: nil
     t.datetime "render_complete_datetime", precision: nil
     t.string "description", limit: 1000
-    t.index ["requested_by"], name: "requested_by for reporting_report_request"
+    t.index ["requested_by"], name: "fk_rails_3ac0c60286"
   end
 
-  create_table "role", primary_key: "role", id: { type: :string, limit: 50, default: "" }, charset: "utf8", force: :cascade do |t|
+  create_table "role", primary_key: "role", id: { type: :string, limit: 50, default: "" }, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "description"
     t.string "uuid", limit: 38, null: false
-    t.index ["uuid"], name: "role_uuid_index", unique: true
   end
 
-  create_table "role_privilege", primary_key: ["privilege", "role"], charset: "utf8", force: :cascade do |t|
+  create_table "role_privilege", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "role", limit: 50, default: "", null: false
     t.string "privilege", null: false
-    t.index ["role"], name: "role_privilege"
+    t.index ["privilege", "role"], name: "index_role_privilege_on_privilege_and_role", unique: true
+    t.index ["role"], name: "fk_rails_9b793b57fe"
   end
 
-  create_table "role_role", primary_key: ["parent_role", "child_role"], charset: "utf8", force: :cascade do |t|
+  create_table "role_role", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "parent_role", limit: 50, default: "", null: false
     t.string "child_role", default: "", null: false
-    t.index ["child_role"], name: "inherited_role"
+    t.index ["child_role"], name: "fk_rails_ae60fd244a"
+    t.index ["parent_role", "child_role"], name: "index_role_role_on_parent_role_and_child_role", unique: true
   end
 
-  create_table "room_temperature", primary_key: "room_temperature_id", id: :integer, charset: "utf8", options: "ENGINE=MyISAM", force: :cascade do |t|
+  create_table "room_temperature", primary_key: "room_temperature_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "time", precision: nil, null: false
-    t.integer "temp", null: false
+    t.bigint "temp", null: false
     t.string "uuid", limit: 38, null: false
   end
 
-  create_table "scheduler_task_config", primary_key: "task_config_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "scheduler_task_config", primary_key: "task_config_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "description", limit: 1024
     t.text "schedulable_class"
     t.datetime "start_time", precision: nil
     t.string "start_time_pattern", limit: 50
-    t.integer "repeat_interval", default: 0, null: false
-    t.integer "start_on_startup", default: 0, null: false
-    t.integer "started", default: 0, null: false
-    t.integer "created_by", default: 0
-    t.datetime "date_created", precision: nil, default: "2005-01-01 00:00:00"
-    t.integer "changed_by"
+    t.bigint "repeat_interval", default: 0, null: false
+    t.bigint "start_on_startup", default: 0, null: false
+    t.bigint "started", default: 0, null: false
+    t.bigint "created_by", default: 0
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.string "uuid", limit: 38, null: false
     t.datetime "last_execution_time", precision: nil
-    t.index ["changed_by"], name: "schedule_changer"
-    t.index ["created_by"], name: "schedule_creator"
-    t.index ["uuid"], name: "scheduler_task_config_uuid_index", unique: true
+    t.index ["changed_by"], name: "fk_rails_9503734d39"
+    t.index ["created_by"], name: "fk_rails_cda39bb3c1"
   end
 
-  create_table "scheduler_task_config_property", primary_key: "task_config_property_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "scheduler_task_config_property", primary_key: "task_config_property_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.text "value"
-    t.integer "task_config_id"
-    t.index ["task_config_id"], name: "task_config"
+    t.bigint "task_config_id"
+    t.index ["task_config_id"], name: "fk_rails_b80ac9481b"
   end
 
-  create_table "serialized_object", primary_key: "serialized_object_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "serialized_object", primary_key: "serialized_object_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "description", limit: 5000
     t.string "type", null: false
@@ -2123,614 +1989,607 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.string "serialization_class", null: false
     t.text "serialized_data", size: :medium, null: false
     t.datetime "date_created", precision: nil, null: false
-    t.integer "creator", null: false
+    t.bigint "creator", null: false
     t.datetime "date_changed", precision: nil
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.boolean "retired", default: false, null: false
     t.datetime "date_retired", precision: nil
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.string "retire_reason", limit: 1000
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "serialized_object_changed_by"
-    t.index ["creator"], name: "serialized_object_creator"
-    t.index ["retired_by"], name: "serialized_object_retired_by"
-    t.index ["uuid"], name: "serialized_object_uuid_index", unique: true
+    t.index ["changed_by"], name: "fk_rails_034f0a1caf"
+    t.index ["creator"], name: "fk_rails_dfcc7c44c9"
+    t.index ["retired_by"], name: "fk_rails_e1e5634e84"
   end
 
-  create_table "test_order", primary_key: "order_id", id: :integer, default: 0, charset: "latin1", force: :cascade do |t|
-    t.integer "specimen_source"
+  create_table "test_order", primary_key: "order_id", id: :bigint, default: 0, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "specimen_source"
     t.string "laterality", limit: 20
     t.text "clinical_history"
-    t.integer "frequency"
-    t.integer "number_of_repeats"
-    t.index ["frequency"], name: "test_order_frequency_fk"
-    t.index ["specimen_source"], name: "test_order_specimen_source_fk"
+    t.bigint "frequency"
+    t.bigint "number_of_repeats"
+    t.index ["frequency"], name: "fk_rails_f176dfe487"
+    t.index ["specimen_source"], name: "fk_rails_2ce60abca3"
   end
 
-  create_table "tribe", primary_key: "tribe_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "tribe", primary_key: "tribe_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.boolean "retired", default: false, null: false
     t.string "name", limit: 50, default: "", null: false
   end
 
-  create_table "user_property", primary_key: ["user_id", "property"], charset: "utf8", force: :cascade do |t|
-    t.integer "user_id", default: 0, null: false
+  create_table "user_property", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", default: 0, null: false
     t.string "property", limit: 100, default: "", null: false
     t.string "property_value", default: "", null: false
+    t.index ["user_id", "property"], name: "index_user_property_on_user_id_and_property", unique: true
   end
 
-  create_table "user_role", primary_key: ["role", "user_id"], charset: "utf8", force: :cascade do |t|
-    t.integer "user_id", default: 0, null: false
+  create_table "user_role", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", default: 0, null: false
     t.string "role", limit: 50, default: "", null: false
-    t.index ["user_id"], name: "user_role"
+    t.index ["role", "user_id"], name: "index_user_role_on_role_and_user_id", unique: true
+    t.index ["user_id"], name: "fk_rails_110a93bb80"
   end
 
-  create_table "users", primary_key: "user_id", id: :integer, charset: "utf8", force: :cascade do |t|
+  create_table "users", primary_key: "user_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "system_id", limit: 50, default: "", null: false
     t.string "username", limit: 50
     t.string "password", limit: 128
     t.string "salt", limit: 128
     t.string "secret_question"
     t.string "secret_answer"
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
-    t.integer "person_id", null: false
+    t.bigint "person_id", null: false
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
     t.string "uuid", limit: 38, null: false
     t.string "activation_key"
     t.string "email"
-    t.index ["changed_by"], name: "user_who_changed_user"
-    t.index ["creator"], name: "user_creator"
-    t.index ["email"], name: "email", unique: true
-    t.index ["person_id"], name: "person_id_for_user"
-    t.index ["retired_by"], name: "user_who_retired_this_user"
+    t.index ["changed_by"], name: "fk_rails_2b5948ae3b"
+    t.index ["creator"], name: "fk_rails_fd256d8564"
+    t.index ["person_id"], name: "fk_rails_fa67535741"
+    t.index ["retired_by"], name: "fk_rails_1a80c1c317"
   end
 
-  create_table "visit", primary_key: "visit_id", id: :integer, charset: "latin1", force: :cascade do |t|
-    t.integer "patient_id", null: false
-    t.integer "visit_type_id", null: false
+  create_table "visit", primary_key: "visit_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "patient_id", null: false
+    t.bigint "visit_type_id", null: false
     t.datetime "date_started", precision: nil, null: false
     t.datetime "date_stopped", precision: nil
-    t.integer "indication_concept_id"
-    t.integer "location_id"
-    t.integer "creator", null: false
+    t.bigint "indication_concept_id"
+    t.bigint "location_id"
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "visit_changed_by_fk"
-    t.index ["creator"], name: "visit_creator_fk"
-    t.index ["indication_concept_id"], name: "visit_indication_concept_fk"
-    t.index ["location_id"], name: "visit_location_fk"
-    t.index ["patient_id"], name: "visit_patient_index"
-    t.index ["uuid"], name: "uuid", unique: true
-    t.index ["visit_type_id"], name: "visit_type_fk"
-    t.index ["voided_by"], name: "visit_voided_by_fk"
+    t.index ["changed_by"], name: "fk_rails_a496173fc2"
+    t.index ["creator"], name: "fk_rails_a1f67b7ff2"
+    t.index ["indication_concept_id"], name: "fk_rails_8b0be4a56e"
+    t.index ["location_id"], name: "fk_rails_3bfd15f321"
+    t.index ["patient_id"], name: "fk_rails_eb98da7293"
+    t.index ["visit_type_id"], name: "fk_rails_c95796b732"
+    t.index ["voided_by"], name: "fk_rails_011dd6de27"
   end
 
-  create_table "visit_attribute", primary_key: "visit_attribute_id", id: :integer, charset: "latin1", force: :cascade do |t|
-    t.integer "visit_id", null: false
-    t.integer "attribute_type_id", null: false
+  create_table "visit_attribute", primary_key: "visit_attribute_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "visit_id", null: false
+    t.bigint "attribute_type_id", null: false
     t.text "value_reference", null: false
     t.string "uuid", limit: 38, null: false
-    t.integer "creator", null: false
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
-    t.index ["attribute_type_id"], name: "visit_attribute_attribute_type_id_fk"
-    t.index ["changed_by"], name: "visit_attribute_changed_by_fk"
-    t.index ["creator"], name: "visit_attribute_creator_fk"
-    t.index ["uuid"], name: "uuid", unique: true
-    t.index ["visit_id"], name: "visit_attribute_visit_fk"
-    t.index ["voided_by"], name: "visit_attribute_voided_by_fk"
+    t.index ["attribute_type_id"], name: "fk_rails_3befd9866d"
+    t.index ["changed_by"], name: "fk_rails_8142223796"
+    t.index ["creator"], name: "fk_rails_5590e34c96"
+    t.index ["visit_id"], name: "fk_rails_4f0fcd42e4"
+    t.index ["voided_by"], name: "fk_rails_affb1c0994"
   end
 
-  create_table "visit_attribute_type", primary_key: "visit_attribute_type_id", id: :integer, charset: "latin1", force: :cascade do |t|
+  create_table "visit_attribute_type", primary_key: "visit_attribute_type_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "description", limit: 1024
     t.string "datatype"
     t.text "datatype_config"
     t.string "preferred_handler"
     t.text "handler_config"
-    t.integer "min_occurs", null: false
-    t.integer "max_occurs"
-    t.integer "creator", null: false
+    t.bigint "min_occurs", null: false
+    t.bigint "max_occurs"
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "retired", default: false, null: false
-    t.integer "retired_by"
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
     t.string "uuid", limit: 38, null: false
-    t.index ["changed_by"], name: "visit_attribute_type_changed_by_fk"
-    t.index ["creator"], name: "visit_attribute_type_creator_fk"
-    t.index ["retired_by"], name: "visit_attribute_type_retired_by_fk"
-    t.index ["uuid"], name: "uuid", unique: true
+    t.index ["changed_by"], name: "fk_rails_2aca067745"
+    t.index ["creator"], name: "fk_rails_4e8b204823"
+    t.index ["retired_by"], name: "fk_rails_8aba0056e6"
   end
 
-  create_table "visit_type", primary_key: "visit_type_id", id: :integer, charset: "latin1", force: :cascade do |t|
+  create_table "visit_type", primary_key: "visit_type_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "description", limit: 1024
     t.string "uuid", limit: 38, null: false
-    t.integer "creator", null: false
+    t.bigint "creator", null: false
     t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
-    t.integer "retired", limit: 1, default: 0, null: false
-    t.integer "retired_by"
+    t.bigint "retired", default: 0, null: false
+    t.bigint "retired_by"
     t.datetime "date_retired", precision: nil
     t.string "retire_reason"
-    t.index ["changed_by"], name: "visit_type_changed_by"
-    t.index ["creator"], name: "visit_type_creator"
-    t.index ["retired_by"], name: "visit_type_retired_by"
-    t.index ["uuid"], name: "uuid", unique: true
+    t.index ["changed_by"], name: "fk_rails_cbbe2016cc"
+    t.index ["creator"], name: "fk_rails_ce7f875c6c"
+    t.index ["retired_by"], name: "fk_rails_df8447ea86"
   end
 
-  create_table "xforms_medical_history_field", primary_key: "field_id", id: :integer, default: nil, charset: "utf8", force: :cascade do |t|
+  create_table "xforms_medical_history_field", primary_key: "field_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
-    t.integer "tabIndex"
+    t.bigint "tabIndex"
   end
 
-  create_table "xforms_person_repeat_attribute", primary_key: "person_repeat_attribute_id", id: :integer, charset: "utf8", force: :cascade do |t|
-    t.integer "person_id", default: 0, null: false
+  create_table "xforms_person_repeat_attribute", primary_key: "person_repeat_attribute_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "person_id", default: 0, null: false
     t.string "value", limit: 50, default: "", null: false
-    t.integer "person_attribute_type_id", default: 0, null: false
-    t.integer "value_id", default: 0, null: false
-    t.integer "value_id_type", default: 0, null: false
-    t.integer "value_display_order", default: 0, null: false
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "person_attribute_type_id", default: 0, null: false
+    t.bigint "value_id", default: 0, null: false
+    t.bigint "value_id_type", default: 0, null: false
+    t.bigint "value_display_order", default: 0, null: false
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.boolean "voided", default: false, null: false
-    t.integer "voided_by"
+    t.bigint "voided_by"
     t.datetime "date_voided", precision: nil
     t.string "void_reason"
-    t.index ["changed_by"], name: "repeat_attribute_changer"
-    t.index ["creator"], name: "repeat_attribute_creator"
-    t.index ["person_attribute_type_id"], name: "repeat_defines_attribute_type"
-    t.index ["person_id"], name: "repeat_identifies_person"
-    t.index ["voided_by"], name: "repeat_attribute_voider"
+    t.index ["changed_by"], name: "fk_rails_3d991c4b24"
+    t.index ["creator"], name: "fk_rails_50c193acc7"
+    t.index ["person_attribute_type_id"], name: "fk_rails_e670ee0ce7"
+    t.index ["person_id"], name: "fk_rails_356b38b58d"
+    t.index ["voided_by"], name: "fk_rails_a0d047a9e4"
   end
 
-  create_table "xforms_xform", primary_key: "form_id", id: :integer, default: nil, charset: "utf8", force: :cascade do |t|
+  create_table "xforms_xform", primary_key: "form_id", id: :bigint, default: nil, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.text "xform_xml", size: :long
     t.text "layout_xml", size: :long
-    t.integer "creator", default: 0, null: false
-    t.datetime "date_created", precision: nil, null: false
-    t.integer "changed_by"
+    t.bigint "creator", default: 0, null: false
+    t.datetime "date_created", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "changed_by"
     t.datetime "date_changed", precision: nil
     t.text "locale_xml", size: :long
     t.text "javascript_src", size: :long
-    t.index ["changed_by"], name: "user_who_last_changed_xform"
-    t.index ["creator"], name: "user_who_created_xform"
-    t.index ["form_id"], name: "form_with_which_xform_is_related"
+    t.index ["changed_by"], name: "fk_rails_923b01d922"
+    t.index ["creator"], name: "fk_rails_bf229b6226"
   end
 
-  add_foreign_key "allergy", "concept", column: "coded_allergen", primary_key: "concept_id", name: "allergy_coded_allergen_fk"
-  add_foreign_key "allergy", "concept", column: "severity_concept_id", primary_key: "concept_id", name: "allergy_severity_concept_id_fk"
-  add_foreign_key "allergy", "patient", primary_key: "patient_id", name: "allergy_patient_id_fk"
-  add_foreign_key "allergy", "users", column: "changed_by", primary_key: "user_id", name: "allergy_changed_by_fk"
-  add_foreign_key "allergy", "users", column: "creator", primary_key: "user_id", name: "allergy_creator_fk"
-  add_foreign_key "allergy", "users", column: "voided_by", primary_key: "user_id", name: "allergy_voided_by_fk"
-  add_foreign_key "allergy_reaction", "allergy", primary_key: "allergy_id", name: "allergy_reaction_allergy_id_fk"
-  add_foreign_key "allergy_reaction", "concept", column: "reaction_concept_id", primary_key: "concept_id", name: "allergy_reaction_reaction_concept_id_fk"
-  add_foreign_key "care_setting", "users", column: "changed_by", primary_key: "user_id", name: "care_setting_changed_by"
-  add_foreign_key "care_setting", "users", column: "creator", primary_key: "user_id", name: "care_setting_creator"
-  add_foreign_key "care_setting", "users", column: "retired_by", primary_key: "user_id", name: "care_setting_retired_by"
-  add_foreign_key "cohort", "users", column: "changed_by", primary_key: "user_id", name: "user_who_changed_cohort"
-  add_foreign_key "cohort", "users", column: "creator", primary_key: "user_id", name: "cohort_creator"
-  add_foreign_key "cohort", "users", column: "voided_by", primary_key: "user_id", name: "user_who_voided_cohort"
-  add_foreign_key "cohort_member", "cohort", primary_key: "cohort_id", name: "parent_cohort"
-  add_foreign_key "cohort_member", "patient", primary_key: "patient_id", name: "member_patient"
-  add_foreign_key "cohort_member", "users", column: "creator", primary_key: "user_id", name: "cohort_member_creator"
-  add_foreign_key "concept", "concept_class", column: "class_id", primary_key: "concept_class_id", name: "concept_classes"
-  add_foreign_key "concept", "concept_datatype", column: "datatype_id", primary_key: "concept_datatype_id", name: "concept_datatypes"
-  add_foreign_key "concept", "users", column: "changed_by", primary_key: "user_id", name: "user_who_changed_concept"
-  add_foreign_key "concept", "users", column: "creator", primary_key: "user_id", name: "concept_creator"
-  add_foreign_key "concept", "users", column: "retired_by", primary_key: "user_id", name: "user_who_retired_concept"
-  add_foreign_key "concept_answer", "concept", column: "answer_concept", primary_key: "concept_id", name: "answer"
-  add_foreign_key "concept_answer", "concept", primary_key: "concept_id", name: "answers_for_concept"
-  add_foreign_key "concept_answer", "drug", column: "answer_drug", primary_key: "drug_id", name: "answer_answer_drug_fk"
-  add_foreign_key "concept_answer", "users", column: "creator", primary_key: "user_id", name: "answer_creator"
-  add_foreign_key "concept_attribute", "concept", primary_key: "concept_id", name: "concept_attribute_concept_fk"
-  add_foreign_key "concept_attribute", "concept_attribute_type", column: "attribute_type_id", primary_key: "concept_attribute_type_id", name: "concept_attribute_attribute_type_id_fk"
-  add_foreign_key "concept_attribute", "users", column: "changed_by", primary_key: "user_id", name: "concept_attribute_changed_by_fk"
-  add_foreign_key "concept_attribute", "users", column: "creator", primary_key: "user_id", name: "concept_attribute_creator_fk"
-  add_foreign_key "concept_attribute", "users", column: "voided_by", primary_key: "user_id", name: "concept_attribute_voided_by_fk"
-  add_foreign_key "concept_attribute_type", "users", column: "changed_by", primary_key: "user_id", name: "concept_attribute_type_changed_by_fk"
-  add_foreign_key "concept_attribute_type", "users", column: "creator", primary_key: "user_id", name: "concept_attribute_type_creator_fk"
-  add_foreign_key "concept_attribute_type", "users", column: "retired_by", primary_key: "user_id", name: "concept_attribute_type_retired_by_fk"
-  add_foreign_key "concept_class", "users", column: "changed_by", primary_key: "user_id", name: "concept_class_changed_by"
-  add_foreign_key "concept_class", "users", column: "creator", primary_key: "user_id", name: "concept_class_creator"
-  add_foreign_key "concept_class", "users", column: "retired_by", primary_key: "user_id", name: "user_who_retired_concept_class"
-  add_foreign_key "concept_complex", "concept", primary_key: "concept_id", name: "concept_attributes"
-  add_foreign_key "concept_datatype", "users", column: "creator", primary_key: "user_id", name: "concept_datatype_creator"
-  add_foreign_key "concept_datatype", "users", column: "retired_by", primary_key: "user_id", name: "user_who_retired_concept_datatype"
-  add_foreign_key "concept_description", "concept", primary_key: "concept_id", name: "description_for_concept"
-  add_foreign_key "concept_description", "users", column: "changed_by", primary_key: "user_id", name: "user_who_changed_description"
-  add_foreign_key "concept_description", "users", column: "creator", primary_key: "user_id", name: "user_who_created_description"
-  add_foreign_key "concept_map_type", "users", column: "changed_by", primary_key: "user_id", name: "mapped_user_changed_concept_map_type"
-  add_foreign_key "concept_map_type", "users", column: "creator", primary_key: "user_id", name: "mapped_user_creator_concept_map_type"
-  add_foreign_key "concept_map_type", "users", column: "retired_by", primary_key: "user_id", name: "mapped_user_retired_concept_map_type"
-  add_foreign_key "concept_name", "concept", primary_key: "concept_id", name: "name_for_concept"
-  add_foreign_key "concept_name", "users", column: "changed_by", primary_key: "user_id", name: "concept_name_changed_by"
-  add_foreign_key "concept_name", "users", column: "creator", primary_key: "user_id", name: "user_who_created_name"
-  add_foreign_key "concept_name", "users", column: "voided_by", primary_key: "user_id", name: "user_who_voided_this_name"
-  add_foreign_key "concept_name_tag", "users", column: "changed_by", primary_key: "user_id", name: "concept_name_tag_changed_by"
-  add_foreign_key "concept_name_tag_map", "concept_name", primary_key: "concept_name_id", name: "mapped_concept_name"
-  add_foreign_key "concept_name_tag_map", "concept_name_tag", primary_key: "concept_name_tag_id", name: "mapped_concept_name_tag"
-  add_foreign_key "concept_numeric", "concept", primary_key: "concept_id", name: "numeric_attributes"
-  add_foreign_key "concept_proposal", "concept", column: "obs_concept_id", primary_key: "concept_id", name: "proposal_obs_concept_id"
-  add_foreign_key "concept_proposal", "concept", primary_key: "concept_id", name: "concept_for_proposal"
-  add_foreign_key "concept_proposal", "encounter", primary_key: "encounter_id", name: "encounter_for_proposal"
-  add_foreign_key "concept_proposal", "obs", column: "obs_id", primary_key: "obs_id", name: "proposal_obs_id"
-  add_foreign_key "concept_proposal", "users", column: "changed_by", primary_key: "user_id", name: "user_who_changed_proposal"
-  add_foreign_key "concept_proposal", "users", column: "creator", primary_key: "user_id", name: "user_who_created_proposal"
-  add_foreign_key "concept_proposal_tag_map", "concept_name_tag", primary_key: "concept_name_tag_id", name: "mapped_concept_proposal_tag"
-  add_foreign_key "concept_proposal_tag_map", "concept_proposal", primary_key: "concept_proposal_id", name: "mapped_concept_proposal"
-  add_foreign_key "concept_reference_map", "concept", primary_key: "concept_id", name: "map_for_concept"
-  add_foreign_key "concept_reference_map", "concept_map_type", primary_key: "concept_map_type_id", name: "mapped_concept_map_type"
-  add_foreign_key "concept_reference_map", "concept_reference_term", primary_key: "concept_reference_term_id", name: "mapped_concept_reference_term"
-  add_foreign_key "concept_reference_map", "users", column: "changed_by", primary_key: "user_id", name: "mapped_user_changed_ref_term"
-  add_foreign_key "concept_reference_map", "users", column: "creator", primary_key: "user_id", name: "map_creator"
-  add_foreign_key "concept_reference_source", "users", column: "changed_by", primary_key: "user_id", name: "concept_reference_source_changed_by"
-  add_foreign_key "concept_reference_source", "users", column: "creator", primary_key: "user_id", name: "concept_source_creator"
-  add_foreign_key "concept_reference_source", "users", column: "retired_by", primary_key: "user_id", name: "user_who_retired_concept_source"
-  add_foreign_key "concept_reference_term", "concept_reference_source", column: "concept_source_id", primary_key: "concept_source_id", name: "mapped_concept_source"
-  add_foreign_key "concept_reference_term", "users", column: "changed_by", primary_key: "user_id", name: "mapped_user_changed"
-  add_foreign_key "concept_reference_term", "users", column: "creator", primary_key: "user_id", name: "mapped_user_creator"
-  add_foreign_key "concept_reference_term", "users", column: "retired_by", primary_key: "user_id", name: "mapped_user_retired"
-  add_foreign_key "concept_reference_term_map", "concept_map_type", column: "a_is_to_b_id", primary_key: "concept_map_type_id", name: "mapped_concept_map_type_ref_term_map"
-  add_foreign_key "concept_reference_term_map", "concept_reference_term", column: "term_a_id", primary_key: "concept_reference_term_id", name: "mapped_term_a"
-  add_foreign_key "concept_reference_term_map", "concept_reference_term", column: "term_b_id", primary_key: "concept_reference_term_id", name: "mapped_term_b"
-  add_foreign_key "concept_reference_term_map", "users", column: "changed_by", primary_key: "user_id", name: "mapped_user_changed_ref_term_map"
-  add_foreign_key "concept_reference_term_map", "users", column: "creator", primary_key: "user_id", name: "mapped_user_creator_ref_term_map"
-  add_foreign_key "concept_set", "concept", column: "concept_set", primary_key: "concept_id", name: "has_a"
-  add_foreign_key "concept_set", "concept", primary_key: "concept_id", name: "is_a"
-  add_foreign_key "concept_set", "users", column: "creator", primary_key: "user_id", name: "user_who_created"
-  add_foreign_key "concept_state_conversion", "concept", primary_key: "concept_id", name: "concept_triggers_conversion"
-  add_foreign_key "concept_state_conversion", "program_workflow", primary_key: "program_workflow_id", name: "conversion_involves_workflow"
-  add_foreign_key "concept_state_conversion", "program_workflow_state", primary_key: "program_workflow_state_id", name: "conversion_to_state"
-  add_foreign_key "concept_word", "concept", primary_key: "concept_id", name: "word_for"
-  add_foreign_key "concept_word", "concept_name", primary_key: "concept_name_id", name: "word_for_name"
-  add_foreign_key "conditions", "concept", column: "condition_coded", primary_key: "concept_id", name: "condition_condition_coded_fk"
-  add_foreign_key "conditions", "concept_name", column: "condition_coded_name", primary_key: "concept_name_id", name: "condition_condition_coded_name_fk"
-  add_foreign_key "conditions", "conditions", column: "previous_version", primary_key: "condition_id", name: "condition_previous_version_fk"
-  add_foreign_key "conditions", "patient", primary_key: "patient_id", name: "condition_patient_fk"
-  add_foreign_key "conditions", "users", column: "changed_by", primary_key: "user_id", name: "condition_changed_by_fk"
-  add_foreign_key "conditions", "users", column: "creator", primary_key: "user_id", name: "condition_creator_fk"
-  add_foreign_key "conditions", "users", column: "voided_by", primary_key: "user_id", name: "condition_voided_by_fk"
-  add_foreign_key "drug", "concept", column: "dosage_form", primary_key: "concept_id", name: "dosage_form_concept"
-  add_foreign_key "drug", "concept", column: "route", primary_key: "concept_id", name: "route_concept"
-  add_foreign_key "drug", "concept", primary_key: "concept_id", name: "primary_drug_concept"
-  add_foreign_key "drug", "users", column: "changed_by", primary_key: "user_id", name: "drug_changed_by"
-  add_foreign_key "drug", "users", column: "creator", primary_key: "user_id", name: "drug_creator"
-  add_foreign_key "drug", "users", column: "retired_by", primary_key: "user_id", name: "drug_retired_by"
-  add_foreign_key "drug_ingredient", "concept", column: "ingredient_id", primary_key: "concept_id", name: "drug_ingredient_ingredient_id_fk"
-  add_foreign_key "drug_ingredient", "concept", column: "units", primary_key: "concept_id", name: "drug_ingredient_units_fk"
-  add_foreign_key "drug_ingredient", "drug", primary_key: "drug_id", name: "drug_ingredient_drug_id_fk"
-  add_foreign_key "drug_order", "concept", column: "dose_units", primary_key: "concept_id", name: "drug_order_dose_units"
-  add_foreign_key "drug_order", "concept", column: "duration_units", primary_key: "concept_id", name: "drug_order_duration_units_fk"
-  add_foreign_key "drug_order", "concept", column: "quantity_units", primary_key: "concept_id", name: "drug_order_quantity_units"
-  add_foreign_key "drug_order", "concept", column: "route", primary_key: "concept_id", name: "drug_order_route_fk"
-  add_foreign_key "drug_order", "drug", column: "drug_inventory_id", primary_key: "drug_id", name: "inventory_item"
-  add_foreign_key "drug_order", "order_frequency", column: "frequency", primary_key: "order_frequency_id", name: "drug_order_frequency_fk"
-  add_foreign_key "drug_order", "orders", primary_key: "order_id", name: "extends_order"
-  add_foreign_key "drug_reference_map", "concept_map_type", column: "concept_map_type", primary_key: "concept_map_type_id", name: "concept_map_type_for_drug_reference_map"
-  add_foreign_key "drug_reference_map", "concept_reference_term", column: "term_id", primary_key: "concept_reference_term_id", name: "concept_reference_term_for_drug_reference_map"
-  add_foreign_key "drug_reference_map", "drug", primary_key: "drug_id", name: "drug_for_drug_reference_map"
-  add_foreign_key "drug_reference_map", "users", column: "changed_by", primary_key: "user_id", name: "user_who_changed_drug_reference_map"
-  add_foreign_key "drug_reference_map", "users", column: "creator", primary_key: "user_id", name: "drug_reference_map_creator"
-  add_foreign_key "drug_reference_map", "users", column: "retired_by", primary_key: "user_id", name: "user_who_retired_drug_reference_map"
-  add_foreign_key "encounter", "encounter_type", column: "encounter_type", primary_key: "encounter_type_id", name: "encounter_type_id"
-  add_foreign_key "encounter", "form", primary_key: "form_id", name: "encounter_form"
-  add_foreign_key "encounter", "location", primary_key: "location_id", name: "encounter_location"
-  add_foreign_key "encounter", "patient", primary_key: "patient_id", name: "encounter_patient", on_update: :cascade
-  add_foreign_key "encounter", "users", column: "changed_by", primary_key: "user_id", name: "encounter_changed_by"
-  add_foreign_key "encounter", "users", column: "creator", primary_key: "user_id", name: "encounter_ibfk_1"
-  add_foreign_key "encounter", "users", column: "voided_by", primary_key: "user_id", name: "user_who_voided_encounter"
-  add_foreign_key "encounter", "visit", primary_key: "visit_id", name: "encounter_visit_id_fk"
-  add_foreign_key "encounter_diagnosis", "concept", column: "diagnosis_coded", primary_key: "concept_id", name: "encounter_diagnosis_coded_fk"
-  add_foreign_key "encounter_diagnosis", "concept_name", column: "diagnosis_coded_name", primary_key: "concept_name_id", name: "encounter_diagnosis_coded_name_fk"
-  add_foreign_key "encounter_diagnosis", "conditions", primary_key: "condition_id", name: "encounter_diagnosis_condition_id_fk"
-  add_foreign_key "encounter_diagnosis", "encounter", primary_key: "encounter_id", name: "encounter_diagnosis_encounter_id_fk"
-  add_foreign_key "encounter_diagnosis", "patient", primary_key: "patient_id", name: "encounter_diagnosis_patient_fk"
-  add_foreign_key "encounter_diagnosis", "patient", primary_key: "patient_id", name: "encounter_diagnosis_patient_id_fk"
-  add_foreign_key "encounter_diagnosis", "users", column: "changed_by", primary_key: "user_id", name: "encounter_diagnosis_changed_by_fk"
-  add_foreign_key "encounter_diagnosis", "users", column: "creator", primary_key: "user_id", name: "encounter_diagnosis_creator_fk"
-  add_foreign_key "encounter_diagnosis", "users", column: "voided_by", primary_key: "user_id", name: "encounter_diagnosis_voided_by_fk"
-  add_foreign_key "encounter_provider", "encounter", primary_key: "encounter_id", name: "encounter_id_fk"
-  add_foreign_key "encounter_provider", "encounter_role", primary_key: "encounter_role_id", name: "encounter_role_id_fk"
-  add_foreign_key "encounter_provider", "provider", primary_key: "provider_id", name: "provider_id_fk"
-  add_foreign_key "encounter_provider", "users", column: "changed_by", primary_key: "user_id", name: "encounter_provider_changed_by"
-  add_foreign_key "encounter_provider", "users", column: "creator", primary_key: "user_id", name: "encounter_provider_creator"
-  add_foreign_key "encounter_provider", "users", column: "voided_by", primary_key: "user_id", name: "encounter_provider_voided_by"
-  add_foreign_key "encounter_role", "users", column: "changed_by", primary_key: "user_id", name: "encounter_role_changed_by_fk"
-  add_foreign_key "encounter_role", "users", column: "creator", primary_key: "user_id", name: "encounter_role_creator_fk"
-  add_foreign_key "encounter_role", "users", column: "retired_by", primary_key: "user_id", name: "encounter_role_retired_by_fk"
-  add_foreign_key "encounter_type", "privilege", column: "edit_privilege", primary_key: "privilege", name: "privilege_which_can_edit_encounter_type"
-  add_foreign_key "encounter_type", "privilege", column: "view_privilege", primary_key: "privilege", name: "privilege_which_can_view_encounter_type"
-  add_foreign_key "encounter_type", "users", column: "changed_by", primary_key: "user_id", name: "encounter_type_changed_by"
-  add_foreign_key "encounter_type", "users", column: "creator", primary_key: "user_id", name: "user_who_created_type"
-  add_foreign_key "encounter_type", "users", column: "retired_by", primary_key: "user_id", name: "user_who_retired_encounter_type"
-  add_foreign_key "field", "concept", primary_key: "concept_id", name: "concept_for_field"
-  add_foreign_key "field", "field_type", column: "field_type", primary_key: "field_type_id", name: "type_of_field"
-  add_foreign_key "field", "users", column: "changed_by", primary_key: "user_id", name: "user_who_changed_field"
-  add_foreign_key "field", "users", column: "creator", primary_key: "user_id", name: "user_who_created_field"
-  add_foreign_key "field", "users", column: "retired_by", primary_key: "user_id", name: "user_who_retired_field"
-  add_foreign_key "field_answer", "concept", column: "answer_id", primary_key: "concept_id", name: "field_answer_concept"
-  add_foreign_key "field_answer", "field", primary_key: "field_id", name: "answers_for_field"
-  add_foreign_key "field_answer", "users", column: "creator", primary_key: "user_id", name: "user_who_created_field_answer"
-  add_foreign_key "field_type", "users", column: "creator", primary_key: "user_id", name: "user_who_created_field_type"
-  add_foreign_key "form", "encounter_type", column: "encounter_type", primary_key: "encounter_type_id", name: "form_encounter_type"
-  add_foreign_key "form", "users", column: "changed_by", primary_key: "user_id", name: "user_who_last_changed_form"
-  add_foreign_key "form", "users", column: "creator", primary_key: "user_id", name: "user_who_created_form"
-  add_foreign_key "form", "users", column: "retired_by", primary_key: "user_id", name: "user_who_retired_form"
-  add_foreign_key "form_field", "field", primary_key: "field_id", name: "field_within_form"
-  add_foreign_key "form_field", "form", primary_key: "form_id", name: "form_containing_field"
-  add_foreign_key "form_field", "form_field", column: "parent_form_field", primary_key: "form_field_id", name: "form_field_hierarchy"
-  add_foreign_key "form_field", "users", column: "changed_by", primary_key: "user_id", name: "user_who_last_changed_form_field"
-  add_foreign_key "form_field", "users", column: "creator", primary_key: "user_id", name: "user_who_created_form_field"
-  add_foreign_key "form_resource", "form", primary_key: "form_id", name: "form_resource_form_fk"
-  add_foreign_key "form_resource", "users", column: "changed_by", primary_key: "user_id", name: "form_resource_changed_by"
-  add_foreign_key "formentry_archive", "users", column: "creator", primary_key: "user_id", name: "User who created formentry_archive"
-  add_foreign_key "formentry_error", "users", column: "creator", primary_key: "user_id", name: "User who created formentry_error"
-  add_foreign_key "formentry_xsn", "form", primary_key: "form_id", name: "Form with which this xsn is related"
-  add_foreign_key "formentry_xsn", "users", column: "archived_by", primary_key: "user_id", name: "User who archived formentry_xsn"
-  add_foreign_key "formentry_xsn", "users", column: "creator", primary_key: "user_id", name: "User who created formentry_xsn"
-  add_foreign_key "global_property", "users", column: "changed_by", primary_key: "user_id", name: "global_property_changed_by"
-  add_foreign_key "hl7_in_queue", "hl7_source", column: "hl7_source", primary_key: "hl7_source_id", name: "hl7_source"
-  add_foreign_key "hl7_source", "users", column: "creator", primary_key: "user_id", name: "creator"
-  add_foreign_key "htmlformentry_html_form", "form", primary_key: "form_id", name: "Form with which this htmlform is related"
-  add_foreign_key "htmlformentry_html_form", "users", column: "changed_by", primary_key: "user_id", name: "User who changed htmlformentry_htmlform"
-  add_foreign_key "htmlformentry_html_form", "users", column: "creator", primary_key: "user_id", name: "User who created htmlformentry_htmlform"
-  add_foreign_key "htmlformentry_html_form", "users", column: "retired_by", primary_key: "user_id", name: "user_who_retired_html_form"
-  add_foreign_key "location", "location", column: "parent_location", primary_key: "location_id", name: "parent_location"
-  add_foreign_key "location", "users", column: "changed_by", primary_key: "user_id", name: "location_changed_by"
-  add_foreign_key "location", "users", column: "creator", primary_key: "user_id", name: "user_who_created_location"
-  add_foreign_key "location", "users", column: "retired_by", primary_key: "user_id", name: "user_who_retired_location"
-  add_foreign_key "location_attribute", "location", primary_key: "location_id", name: "location_attribute_location_fk"
-  add_foreign_key "location_attribute", "location_attribute_type", column: "attribute_type_id", primary_key: "location_attribute_type_id", name: "location_attribute_attribute_type_id_fk"
-  add_foreign_key "location_attribute", "users", column: "changed_by", primary_key: "user_id", name: "location_attribute_changed_by_fk"
-  add_foreign_key "location_attribute", "users", column: "creator", primary_key: "user_id", name: "location_attribute_creator_fk"
-  add_foreign_key "location_attribute", "users", column: "voided_by", primary_key: "user_id", name: "location_attribute_voided_by_fk"
-  add_foreign_key "location_attribute_type", "users", column: "changed_by", primary_key: "user_id", name: "location_attribute_type_changed_by_fk"
-  add_foreign_key "location_attribute_type", "users", column: "creator", primary_key: "user_id", name: "location_attribute_type_creator_fk"
-  add_foreign_key "location_attribute_type", "users", column: "retired_by", primary_key: "user_id", name: "location_attribute_type_retired_by_fk"
-  add_foreign_key "location_tag", "users", column: "changed_by", primary_key: "user_id", name: "location_tag_changed_by"
-  add_foreign_key "location_tag", "users", column: "creator", primary_key: "user_id", name: "location_tag_creator"
-  add_foreign_key "location_tag", "users", column: "retired_by", primary_key: "user_id", name: "location_tag_retired_by"
-  add_foreign_key "location_tag_map", "location", primary_key: "location_id", name: "location_tag_map_location"
-  add_foreign_key "location_tag_map", "location_tag", primary_key: "location_tag_id", name: "location_tag_map_tag"
-  add_foreign_key "logic_rule_definition", "users", column: "changed_by", primary_key: "user_id", name: "changed_by for rule_definition"
-  add_foreign_key "logic_rule_definition", "users", column: "creator", primary_key: "user_id", name: "creator for rule_definition"
-  add_foreign_key "logic_rule_definition", "users", column: "retired_by", primary_key: "user_id", name: "retired_by for rule_definition"
-  add_foreign_key "logic_rule_token", "person", column: "changed_by", primary_key: "person_id", name: "token_changed_by"
-  add_foreign_key "logic_rule_token", "person", column: "creator", primary_key: "person_id", name: "token_creator"
-  add_foreign_key "logic_rule_token_tag", "logic_rule_token", primary_key: "logic_rule_token_id", name: "token_tag"
-  add_foreign_key "logic_token_registration", "users", column: "changed_by", primary_key: "user_id", name: "token_registration_changed_by"
-  add_foreign_key "logic_token_registration", "users", column: "creator", primary_key: "user_id", name: "token_registration_creator"
-  add_foreign_key "logic_token_registration_tag", "logic_token_registration", column: "token_registration_id", primary_key: "token_registration_id", name: "token_registration_tag"
-  add_foreign_key "note", "encounter", primary_key: "encounter_id", name: "encounter_note"
-  add_foreign_key "note", "note", column: "parent", primary_key: "note_id", name: "note_hierarchy"
-  add_foreign_key "note", "obs", column: "obs_id", primary_key: "obs_id", name: "obs_note"
-  add_foreign_key "note", "patient", primary_key: "patient_id", name: "patient_note", on_update: :cascade
-  add_foreign_key "note", "users", column: "changed_by", primary_key: "user_id", name: "user_who_changed_note"
-  add_foreign_key "note", "users", column: "creator", primary_key: "user_id", name: "user_who_created_note"
-  add_foreign_key "notification_alert", "users", column: "changed_by", primary_key: "user_id", name: "user_who_changed_alert"
-  add_foreign_key "notification_alert", "users", column: "creator", primary_key: "user_id", name: "alert_creator"
-  add_foreign_key "notification_alert_recipient", "notification_alert", column: "alert_id", primary_key: "alert_id", name: "id_of_alert"
-  add_foreign_key "notification_alert_recipient", "users", primary_key: "user_id", name: "alert_read_by_user"
-  add_foreign_key "obs", "concept", column: "value_coded", primary_key: "concept_id", name: "answer_concept"
-  add_foreign_key "obs", "concept", primary_key: "concept_id", name: "obs_concept"
-  add_foreign_key "obs", "concept_name", column: "value_coded_name_id", primary_key: "concept_name_id", name: "obs_name_of_coded_value"
-  add_foreign_key "obs", "drug", column: "value_drug", primary_key: "drug_id", name: "answer_concept_drug"
-  add_foreign_key "obs", "encounter", primary_key: "encounter_id", name: "encounter_observations"
-  add_foreign_key "obs", "location", primary_key: "location_id", name: "obs_location"
-  add_foreign_key "obs", "obs", column: "obs_group_id", primary_key: "obs_id", name: "obs_grouping_id"
-  add_foreign_key "obs", "obs", column: "previous_version", primary_key: "obs_id", name: "previous_version"
-  add_foreign_key "obs", "orders", primary_key: "order_id", name: "obs_order"
-  add_foreign_key "obs", "person", primary_key: "person_id", name: "person_obs", on_update: :cascade
-  add_foreign_key "obs", "users", column: "creator", primary_key: "user_id", name: "obs_enterer"
-  add_foreign_key "obs", "users", column: "voided_by", primary_key: "user_id", name: "user_who_voided_obs"
-  add_foreign_key "order_frequency", "concept", primary_key: "concept_id", name: "order_frequency_concept_id_fk"
-  add_foreign_key "order_frequency", "users", column: "changed_by", primary_key: "user_id", name: "order_frequency_changed_by_fk"
-  add_foreign_key "order_frequency", "users", column: "creator", primary_key: "user_id", name: "order_frequency_creator_fk"
-  add_foreign_key "order_frequency", "users", column: "retired_by", primary_key: "user_id", name: "order_frequency_retired_by_fk"
-  add_foreign_key "order_group", "encounter", primary_key: "encounter_id", name: "order_group_encounter_id_fk"
-  add_foreign_key "order_group", "order_set", primary_key: "order_set_id", name: "order_group_set_id_fk"
-  add_foreign_key "order_group", "patient", primary_key: "patient_id", name: "order_group_patient_id_fk"
-  add_foreign_key "order_group", "users", column: "changed_by", primary_key: "user_id", name: "order_group_changed_by_fk"
-  add_foreign_key "order_group", "users", column: "creator", primary_key: "user_id", name: "order_group_creator_fk"
-  add_foreign_key "order_group", "users", column: "voided_by", primary_key: "user_id", name: "order_group_voided_by_fk"
-  add_foreign_key "order_set", "users", column: "changed_by", primary_key: "user_id", name: "order_set_changed_by_fk"
-  add_foreign_key "order_set", "users", column: "creator", primary_key: "user_id", name: "order_set_creator_fk"
-  add_foreign_key "order_set", "users", column: "retired_by", primary_key: "user_id", name: "order_set_retired_by_fk"
-  add_foreign_key "order_set_member", "concept", primary_key: "concept_id", name: "order_set_member_concept_id_fk"
-  add_foreign_key "order_set_member", "order_set", primary_key: "order_set_id", name: "order_set_member_order_set_id_fk"
-  add_foreign_key "order_set_member", "order_type", column: "order_type", primary_key: "order_type_id", name: "order_set_member_order_type_fk"
-  add_foreign_key "order_set_member", "users", column: "changed_by", primary_key: "user_id", name: "order_set_member_changed_by_fk"
-  add_foreign_key "order_set_member", "users", column: "creator", primary_key: "user_id", name: "order_set_member_creator_fk"
-  add_foreign_key "order_set_member", "users", column: "retired_by", primary_key: "user_id", name: "order_set_member_retired_by_fk"
-  add_foreign_key "order_type", "order_type", column: "parent", primary_key: "order_type_id", name: "order_type_parent_order_type"
-  add_foreign_key "order_type", "users", column: "changed_by", primary_key: "user_id", name: "order_type_changed_by"
-  add_foreign_key "order_type", "users", column: "creator", primary_key: "user_id", name: "type_created_by"
-  add_foreign_key "order_type", "users", column: "retired_by", primary_key: "user_id", name: "user_who_retired_order_type"
-  add_foreign_key "order_type_class_map", "concept_class", primary_key: "concept_class_id", name: "fk_order_type_class_map_concept_class_concept_class_id"
-  add_foreign_key "order_type_class_map", "order_type", primary_key: "order_type_id", name: "fk_order_type_order_type_id"
-  add_foreign_key "orders", "care_setting", column: "care_setting", primary_key: "care_setting_id", name: "orders_care_setting"
-  add_foreign_key "orders", "concept", column: "order_reason", primary_key: "concept_id", name: "discontinued_because"
-  add_foreign_key "orders", "encounter", primary_key: "encounter_id", name: "orders_in_encounter"
-  add_foreign_key "orders", "order_group", primary_key: "order_group_id", name: "orders_order_group_id_fk"
-  add_foreign_key "orders", "order_type", primary_key: "order_type_id", name: "type_of_order"
-  add_foreign_key "orders", "orders", column: "previous_order_id", primary_key: "order_id", name: "previous_order_id_order_id"
-  add_foreign_key "orders", "patient", primary_key: "patient_id", name: "order_for_patient", on_update: :cascade
-  add_foreign_key "orders", "provider", column: "orderer", primary_key: "provider_id", name: "fk_orderer_provider"
-  add_foreign_key "orders", "users", column: "creator", primary_key: "user_id", name: "order_creator"
-  add_foreign_key "orders", "users", column: "voided_by", primary_key: "user_id", name: "user_who_voided_order"
-  add_foreign_key "patient", "person", column: "patient_id", primary_key: "person_id", name: "person_id_for_patient", on_update: :cascade
-  add_foreign_key "patient", "users", column: "changed_by", primary_key: "user_id", name: "user_who_changed_pat"
-  add_foreign_key "patient", "users", column: "creator", primary_key: "user_id", name: "user_who_created_patient"
-  add_foreign_key "patient", "users", column: "voided_by", primary_key: "user_id", name: "user_who_voided_patient"
-  add_foreign_key "patient_identifier", "location", primary_key: "location_id", name: "patient_identifier_ibfk_2"
-  add_foreign_key "patient_identifier", "patient", primary_key: "patient_id", name: "fk_patient_id_patient_identifier"
-  add_foreign_key "patient_identifier", "patient", primary_key: "patient_id", name: "identifies_patient"
-  add_foreign_key "patient_identifier", "patient_identifier_type", column: "identifier_type", primary_key: "patient_identifier_type_id", name: "defines_identifier_type"
-  add_foreign_key "patient_identifier", "users", column: "changed_by", primary_key: "user_id", name: "patient_identifier_changed_by"
-  add_foreign_key "patient_identifier", "users", column: "creator", primary_key: "user_id", name: "identifier_creator"
-  add_foreign_key "patient_identifier", "users", column: "voided_by", primary_key: "user_id", name: "identifier_voider"
-  add_foreign_key "patient_identifier_type", "users", column: "changed_by", primary_key: "user_id", name: "patient_identifier_type_changed_by"
-  add_foreign_key "patient_identifier_type", "users", column: "creator", primary_key: "user_id", name: "type_creator"
-  add_foreign_key "patient_identifier_type", "users", column: "retired_by", primary_key: "user_id", name: "user_who_retired_patient_identifier_type"
-  add_foreign_key "patient_program", "concept", column: "outcome_concept_id", primary_key: "concept_id", name: "patient_program_outcome_concept_id_fk"
-  add_foreign_key "patient_program", "location", primary_key: "location_id", name: "patient_program_location_id"
-  add_foreign_key "patient_program", "patient", primary_key: "patient_id", name: "patient_in_program", on_update: :cascade
-  add_foreign_key "patient_program", "program", primary_key: "program_id", name: "program_for_patient"
-  add_foreign_key "patient_program", "users", column: "changed_by", primary_key: "user_id", name: "user_who_changed"
-  add_foreign_key "patient_program", "users", column: "creator", primary_key: "user_id", name: "patient_program_creator"
-  add_foreign_key "patient_program", "users", column: "voided_by", primary_key: "user_id", name: "user_who_voided_patient_program"
-  add_foreign_key "patient_program_attribute", "patient_program", primary_key: "patient_program_id", name: "patient_program_attribute_programid_fk"
-  add_foreign_key "patient_program_attribute", "program_attribute_type", column: "attribute_type_id", primary_key: "program_attribute_type_id", name: "patient_program_attribute_attributetype_fk"
-  add_foreign_key "patient_program_attribute", "users", column: "changed_by", primary_key: "user_id", name: "patient_program_attribute_changed_by_fk"
-  add_foreign_key "patient_program_attribute", "users", column: "creator", primary_key: "user_id", name: "patient_program_attribute_creator_fk"
-  add_foreign_key "patient_program_attribute", "users", column: "voided_by", primary_key: "user_id", name: "patient_program_attribute_voided_by_fk"
-  add_foreign_key "patient_state", "patient_program", primary_key: "patient_program_id", name: "patient_program_for_state"
-  add_foreign_key "patient_state", "program_workflow_state", column: "state", primary_key: "program_workflow_state_id", name: "state_for_patient"
-  add_foreign_key "patient_state", "users", column: "changed_by", primary_key: "user_id", name: "patient_state_changer"
-  add_foreign_key "patient_state", "users", column: "creator", primary_key: "user_id", name: "patient_state_creator"
-  add_foreign_key "patient_state", "users", column: "voided_by", primary_key: "user_id", name: "patient_state_voider"
-  add_foreign_key "person", "concept", column: "cause_of_death", primary_key: "concept_id", name: "person_died_because"
-  add_foreign_key "person", "users", column: "changed_by", primary_key: "user_id", name: "user_who_changed_person"
-  add_foreign_key "person", "users", column: "creator", primary_key: "user_id", name: "user_who_created_person"
-  add_foreign_key "person", "users", column: "voided_by", primary_key: "user_id", name: "user_who_voided_person"
-  add_foreign_key "person_address", "person", primary_key: "person_id", name: "address_for_person", on_update: :cascade
-  add_foreign_key "person_address", "users", column: "changed_by", primary_key: "user_id", name: "person_address_changed_by"
-  add_foreign_key "person_address", "users", column: "creator", primary_key: "user_id", name: "patient_address_creator"
-  add_foreign_key "person_address", "users", column: "voided_by", primary_key: "user_id", name: "patient_address_void"
-  add_foreign_key "person_attribute", "person", primary_key: "person_id", name: "identifies_person"
-  add_foreign_key "person_attribute", "person_attribute_type", primary_key: "person_attribute_type_id", name: "defines_attribute_type"
-  add_foreign_key "person_attribute", "users", column: "changed_by", primary_key: "user_id", name: "attribute_changer"
-  add_foreign_key "person_attribute", "users", column: "creator", primary_key: "user_id", name: "attribute_creator"
-  add_foreign_key "person_attribute", "users", column: "voided_by", primary_key: "user_id", name: "attribute_voider"
-  add_foreign_key "person_attribute_type", "privilege", column: "edit_privilege", primary_key: "privilege", name: "privilege_which_can_edit"
-  add_foreign_key "person_attribute_type", "users", column: "changed_by", primary_key: "user_id", name: "attribute_type_changer"
-  add_foreign_key "person_attribute_type", "users", column: "creator", primary_key: "user_id", name: "attribute_type_creator"
-  add_foreign_key "person_attribute_type", "users", column: "retired_by", primary_key: "user_id", name: "user_who_retired_person_attribute_type"
-  add_foreign_key "person_merge_log", "person", column: "loser_person_id", primary_key: "person_id", name: "person_merge_log_loser"
-  add_foreign_key "person_merge_log", "person", column: "winner_person_id", primary_key: "person_id", name: "person_merge_log_winner"
-  add_foreign_key "person_merge_log", "users", column: "changed_by", primary_key: "user_id", name: "person_merge_log_changed_by_fk"
-  add_foreign_key "person_merge_log", "users", column: "creator", primary_key: "user_id", name: "person_merge_log_creator"
-  add_foreign_key "person_merge_log", "users", column: "voided_by", primary_key: "user_id", name: "person_merge_log_voided_by_fk"
-  add_foreign_key "person_name", "person", primary_key: "person_id", name: "name for person", on_update: :cascade
-  add_foreign_key "person_name", "users", column: "creator", primary_key: "user_id", name: "user_who_made_name"
-  add_foreign_key "person_name", "users", column: "voided_by", primary_key: "user_id", name: "user_who_voided_name"
-  add_foreign_key "program", "concept", column: "outcomes_concept_id", primary_key: "concept_id", name: "program_outcomes_concept_id_fk"
-  add_foreign_key "program", "concept", primary_key: "concept_id", name: "program_concept"
-  add_foreign_key "program", "users", column: "changed_by", primary_key: "user_id", name: "user_who_changed_program"
-  add_foreign_key "program", "users", column: "creator", primary_key: "user_id", name: "program_creator"
-  add_foreign_key "program_attribute_type", "users", column: "changed_by", primary_key: "user_id", name: "program_attribute_type_changed_by_fk"
-  add_foreign_key "program_attribute_type", "users", column: "creator", primary_key: "user_id", name: "program_attribute_type_creator_fk"
-  add_foreign_key "program_attribute_type", "users", column: "retired_by", primary_key: "user_id", name: "program_attribute_type_retired_by_fk"
-  add_foreign_key "program_workflow", "concept", primary_key: "concept_id", name: "workflow_concept"
-  add_foreign_key "program_workflow", "program", primary_key: "program_id", name: "program_for_workflow"
-  add_foreign_key "program_workflow", "users", column: "changed_by", primary_key: "user_id", name: "workflow_changed_by"
-  add_foreign_key "program_workflow", "users", column: "creator", primary_key: "user_id", name: "workflow_creator"
-  add_foreign_key "program_workflow_state", "concept", primary_key: "concept_id", name: "state_concept"
-  add_foreign_key "program_workflow_state", "program_workflow", primary_key: "program_workflow_id", name: "workflow_for_state"
-  add_foreign_key "program_workflow_state", "users", column: "changed_by", primary_key: "user_id", name: "state_changed_by"
-  add_foreign_key "program_workflow_state", "users", column: "creator", primary_key: "user_id", name: "state_creator"
-  add_foreign_key "provider", "concept", column: "role_id", primary_key: "concept_id", name: "provider_role_id_fk"
-  add_foreign_key "provider", "concept", column: "speciality_id", primary_key: "concept_id", name: "provider_speciality_id_fk"
-  add_foreign_key "provider", "person", primary_key: "person_id", name: "provider_person_id_fk"
-  add_foreign_key "provider", "users", column: "changed_by", primary_key: "user_id", name: "provider_changed_by_fk"
-  add_foreign_key "provider", "users", column: "creator", primary_key: "user_id", name: "provider_creator_fk"
-  add_foreign_key "provider", "users", column: "retired_by", primary_key: "user_id", name: "provider_retired_by_fk"
-  add_foreign_key "provider_attribute", "provider", primary_key: "provider_id", name: "provider_attribute_provider_fk"
-  add_foreign_key "provider_attribute", "provider_attribute_type", column: "attribute_type_id", primary_key: "provider_attribute_type_id", name: "provider_attribute_attribute_type_id_fk"
-  add_foreign_key "provider_attribute", "users", column: "changed_by", primary_key: "user_id", name: "provider_attribute_changed_by_fk"
-  add_foreign_key "provider_attribute", "users", column: "creator", primary_key: "user_id", name: "provider_attribute_creator_fk"
-  add_foreign_key "provider_attribute", "users", column: "voided_by", primary_key: "user_id", name: "provider_attribute_voided_by_fk"
-  add_foreign_key "provider_attribute_type", "users", column: "changed_by", primary_key: "user_id", name: "provider_attribute_type_changed_by_fk"
-  add_foreign_key "provider_attribute_type", "users", column: "creator", primary_key: "user_id", name: "provider_attribute_type_creator_fk"
-  add_foreign_key "provider_attribute_type", "users", column: "retired_by", primary_key: "user_id", name: "provider_attribute_type_retired_by_fk"
-  add_foreign_key "relationship", "person", column: "person_a", primary_key: "person_id", name: "person_a_is_person"
-  add_foreign_key "relationship", "person", column: "person_b", primary_key: "person_id", name: "person_b_is_person"
-  add_foreign_key "relationship", "relationship_type", column: "relationship", primary_key: "relationship_type_id", name: "relationship_type_id"
-  add_foreign_key "relationship", "users", column: "changed_by", primary_key: "user_id", name: "relationship_changed_by"
-  add_foreign_key "relationship", "users", column: "creator", primary_key: "user_id", name: "relation_creator"
-  add_foreign_key "relationship", "users", column: "voided_by", primary_key: "user_id", name: "relation_voider"
-  add_foreign_key "relationship_type", "users", column: "changed_by", primary_key: "user_id", name: "relationship_type_changed_by"
-  add_foreign_key "relationship_type", "users", column: "creator", primary_key: "user_id", name: "user_who_created_rel"
-  add_foreign_key "relationship_type", "users", column: "retired_by", primary_key: "user_id", name: "user_who_retired_relationship_type"
-  add_foreign_key "report_object", "users", column: "changed_by", primary_key: "user_id", name: "user_who_changed_report_object"
-  add_foreign_key "report_object", "users", column: "creator", primary_key: "user_id", name: "report_object_creator"
-  add_foreign_key "report_object", "users", column: "voided_by", primary_key: "user_id", name: "user_who_voided_report_object"
-  add_foreign_key "reporting_report_design", "serialized_object", column: "report_definition_id", primary_key: "serialized_object_id", name: "report_definition_id for reporting_report_design"
-  add_foreign_key "reporting_report_design", "users", column: "changed_by", primary_key: "user_id", name: "changed_by for reporting_report_design"
-  add_foreign_key "reporting_report_design", "users", column: "creator", primary_key: "user_id", name: "creator for reporting_report_design"
-  add_foreign_key "reporting_report_design", "users", column: "retired_by", primary_key: "user_id", name: "retired_by for reporting_report_design"
-  add_foreign_key "reporting_report_design_resource", "reporting_report_design", column: "report_design_id", name: "report_design_id for reporting_report_design_resource"
-  add_foreign_key "reporting_report_design_resource", "users", column: "changed_by", primary_key: "user_id", name: "changed_by for reporting_report_design_resource"
-  add_foreign_key "reporting_report_design_resource", "users", column: "creator", primary_key: "user_id", name: "creator for reporting_report_design_resource"
-  add_foreign_key "reporting_report_design_resource", "users", column: "retired_by", primary_key: "user_id", name: "retired_by for reporting_report_design_resource"
-  add_foreign_key "reporting_report_request", "users", column: "requested_by", primary_key: "user_id", name: "requested_by for reporting_report_request"
-  add_foreign_key "role_privilege", "privilege", column: "privilege", primary_key: "privilege", name: "privilege_definitions"
-  add_foreign_key "role_privilege", "role", column: "role", primary_key: "role", name: "role_privilege"
-  add_foreign_key "role_role", "role", column: "child_role", primary_key: "role", name: "inherited_role"
-  add_foreign_key "role_role", "role", column: "parent_role", primary_key: "role", name: "parent_role"
-  add_foreign_key "scheduler_task_config", "users", column: "changed_by", primary_key: "user_id", name: "scheduler_changer"
-  add_foreign_key "scheduler_task_config", "users", column: "created_by", primary_key: "user_id", name: "scheduler_creator"
-  add_foreign_key "scheduler_task_config_property", "scheduler_task_config", column: "task_config_id", primary_key: "task_config_id", name: "task_config_for_property"
-  add_foreign_key "serialized_object", "users", column: "changed_by", primary_key: "user_id", name: "serialized_object_changed_by"
-  add_foreign_key "serialized_object", "users", column: "creator", primary_key: "user_id", name: "serialized_object_creator"
-  add_foreign_key "serialized_object", "users", column: "retired_by", primary_key: "user_id", name: "serialized_object_retired_by"
-  add_foreign_key "test_order", "concept", column: "specimen_source", primary_key: "concept_id", name: "test_order_specimen_source_fk"
-  add_foreign_key "test_order", "order_frequency", column: "frequency", primary_key: "order_frequency_id", name: "test_order_frequency_fk"
-  add_foreign_key "test_order", "orders", primary_key: "order_id", name: "test_order_order_id_fk"
-  add_foreign_key "user_property", "users", primary_key: "user_id", name: "user_property"
-  add_foreign_key "user_role", "role", column: "role", primary_key: "role", name: "role_definitions"
-  add_foreign_key "user_role", "users", primary_key: "user_id", name: "user_role"
-  add_foreign_key "users", "person", primary_key: "person_id", name: "person_id_for_user"
-  add_foreign_key "users", "users", column: "changed_by", primary_key: "user_id", name: "user_who_changed_user"
-  add_foreign_key "users", "users", column: "creator", primary_key: "user_id", name: "user_creator"
-  add_foreign_key "users", "users", column: "retired_by", primary_key: "user_id", name: "user_who_retired_this_user"
-  add_foreign_key "visit", "concept", column: "indication_concept_id", primary_key: "concept_id", name: "visit_indication_concept_fk"
-  add_foreign_key "visit", "location", primary_key: "location_id", name: "visit_location_fk"
-  add_foreign_key "visit", "patient", primary_key: "patient_id", name: "visit_patient_fk"
-  add_foreign_key "visit", "users", column: "changed_by", primary_key: "user_id", name: "visit_changed_by_fk"
-  add_foreign_key "visit", "users", column: "creator", primary_key: "user_id", name: "visit_creator_fk"
-  add_foreign_key "visit", "users", column: "voided_by", primary_key: "user_id", name: "visit_voided_by_fk"
-  add_foreign_key "visit", "visit_type", primary_key: "visit_type_id", name: "visit_type_fk"
-  add_foreign_key "visit_attribute", "users", column: "changed_by", primary_key: "user_id", name: "visit_attribute_changed_by_fk"
-  add_foreign_key "visit_attribute", "users", column: "creator", primary_key: "user_id", name: "visit_attribute_creator_fk"
-  add_foreign_key "visit_attribute", "users", column: "voided_by", primary_key: "user_id", name: "visit_attribute_voided_by_fk"
-  add_foreign_key "visit_attribute", "visit", primary_key: "visit_id", name: "visit_attribute_visit_fk"
-  add_foreign_key "visit_attribute", "visit_attribute_type", column: "attribute_type_id", primary_key: "visit_attribute_type_id", name: "visit_attribute_attribute_type_id_fk"
-  add_foreign_key "visit_attribute_type", "users", column: "changed_by", primary_key: "user_id", name: "visit_attribute_type_changed_by_fk"
-  add_foreign_key "visit_attribute_type", "users", column: "creator", primary_key: "user_id", name: "visit_attribute_type_creator_fk"
-  add_foreign_key "visit_attribute_type", "users", column: "retired_by", primary_key: "user_id", name: "visit_attribute_type_retired_by_fk"
-  add_foreign_key "visit_type", "users", column: "changed_by", primary_key: "user_id", name: "visit_type_changed_by"
-  add_foreign_key "visit_type", "users", column: "creator", primary_key: "user_id", name: "visit_type_creator"
-  add_foreign_key "visit_type", "users", column: "retired_by", primary_key: "user_id", name: "visit_type_retired_by"
-  add_foreign_key "xforms_person_repeat_attribute", "person", primary_key: "person_id", name: "repeat_identifies_person"
-  add_foreign_key "xforms_person_repeat_attribute", "person_attribute_type", primary_key: "person_attribute_type_id", name: "repeat_defines_attribute_type"
-  add_foreign_key "xforms_person_repeat_attribute", "users", column: "changed_by", primary_key: "user_id", name: "repeat_attribute_changer"
-  add_foreign_key "xforms_person_repeat_attribute", "users", column: "creator", primary_key: "user_id", name: "repeat_attribute_creator"
-  add_foreign_key "xforms_person_repeat_attribute", "users", column: "voided_by", primary_key: "user_id", name: "repeat_attribute_voider"
-  add_foreign_key "xforms_xform", "users", column: "changed_by", primary_key: "user_id", name: "user_who_last_changed_xform"
-  add_foreign_key "xforms_xform", "users", column: "creator", primary_key: "user_id", name: "user_who_created_xform"
+  add_foreign_key "allergy", "concept", column: "coded_allergen", primary_key: "concept_id"
+  add_foreign_key "allergy", "concept", column: "severity_concept_id", primary_key: "concept_id"
+  add_foreign_key "allergy", "patient", primary_key: "patient_id"
+  add_foreign_key "allergy", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "allergy", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "allergy", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "allergy_reaction", "allergy", primary_key: "allergy_id"
+  add_foreign_key "allergy_reaction", "concept", column: "reaction_concept_id", primary_key: "concept_id"
+  add_foreign_key "care_setting", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "care_setting", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "care_setting", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "cohort", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "cohort", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "cohort", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "cohort_member", "cohort", primary_key: "cohort_id"
+  add_foreign_key "cohort_member", "patient", primary_key: "patient_id"
+  add_foreign_key "cohort_member", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "concept", "concept_class", column: "class_id", primary_key: "concept_class_id"
+  add_foreign_key "concept", "concept_datatype", column: "datatype_id", primary_key: "concept_datatype_id"
+  add_foreign_key "concept", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "concept", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "concept", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "concept_answer", "concept", column: "answer_concept", primary_key: "concept_id"
+  add_foreign_key "concept_answer", "concept", primary_key: "concept_id"
+  add_foreign_key "concept_answer", "drug", column: "answer_drug", primary_key: "drug_id"
+  add_foreign_key "concept_answer", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "concept_attribute", "concept", primary_key: "concept_id"
+  add_foreign_key "concept_attribute", "concept_attribute_type", column: "attribute_type_id", primary_key: "concept_attribute_type_id"
+  add_foreign_key "concept_attribute", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "concept_attribute", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "concept_attribute", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "concept_attribute_type", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "concept_attribute_type", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "concept_attribute_type", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "concept_class", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "concept_class", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "concept_class", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "concept_complex", "concept", primary_key: "concept_id"
+  add_foreign_key "concept_datatype", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "concept_datatype", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "concept_description", "concept", primary_key: "concept_id"
+  add_foreign_key "concept_description", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "concept_description", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "concept_map_type", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "concept_map_type", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "concept_map_type", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "concept_name", "concept", primary_key: "concept_id"
+  add_foreign_key "concept_name", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "concept_name", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "concept_name", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "concept_name_tag", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "concept_name_tag_map", "concept_name", primary_key: "concept_name_id"
+  add_foreign_key "concept_name_tag_map", "concept_name_tag", primary_key: "concept_name_tag_id"
+  add_foreign_key "concept_numeric", "concept", primary_key: "concept_id"
+  add_foreign_key "concept_proposal", "concept", column: "obs_concept_id", primary_key: "concept_id"
+  add_foreign_key "concept_proposal", "concept", primary_key: "concept_id"
+  add_foreign_key "concept_proposal", "encounter", primary_key: "encounter_id"
+  add_foreign_key "concept_proposal", "obs", column: "obs_id", primary_key: "obs_id"
+  add_foreign_key "concept_proposal", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "concept_proposal", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "concept_proposal_tag_map", "concept_name_tag", primary_key: "concept_name_tag_id"
+  add_foreign_key "concept_proposal_tag_map", "concept_proposal", primary_key: "concept_proposal_id"
+  add_foreign_key "concept_reference_map", "concept", primary_key: "concept_id"
+  add_foreign_key "concept_reference_map", "concept_map_type", primary_key: "concept_map_type_id"
+  add_foreign_key "concept_reference_map", "concept_reference_term", primary_key: "concept_reference_term_id"
+  add_foreign_key "concept_reference_map", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "concept_reference_map", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "concept_reference_source", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "concept_reference_source", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "concept_reference_source", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "concept_reference_term", "concept_reference_source", column: "concept_source_id", primary_key: "concept_source_id"
+  add_foreign_key "concept_reference_term", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "concept_reference_term", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "concept_reference_term", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "concept_reference_term_map", "concept_map_type", column: "a_is_to_b_id", primary_key: "concept_map_type_id"
+  add_foreign_key "concept_reference_term_map", "concept_reference_term", column: "term_a_id", primary_key: "concept_reference_term_id"
+  add_foreign_key "concept_reference_term_map", "concept_reference_term", column: "term_b_id", primary_key: "concept_reference_term_id"
+  add_foreign_key "concept_reference_term_map", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "concept_reference_term_map", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "concept_set", "concept", column: "concept_set", primary_key: "concept_id"
+  add_foreign_key "concept_set", "concept", primary_key: "concept_id"
+  add_foreign_key "concept_set", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "concept_state_conversion", "concept", primary_key: "concept_id"
+  add_foreign_key "concept_state_conversion", "program_workflow", primary_key: "program_workflow_id"
+  add_foreign_key "concept_state_conversion", "program_workflow_state", primary_key: "program_workflow_state_id"
+  add_foreign_key "concept_word", "concept", primary_key: "concept_id"
+  add_foreign_key "concept_word", "concept_name", primary_key: "concept_name_id"
+  add_foreign_key "conditions", "concept", column: "condition_coded", primary_key: "concept_id"
+  add_foreign_key "conditions", "concept_name", column: "condition_coded_name", primary_key: "concept_name_id"
+  add_foreign_key "conditions", "conditions", column: "previous_version", primary_key: "condition_id"
+  add_foreign_key "conditions", "patient", primary_key: "patient_id"
+  add_foreign_key "conditions", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "conditions", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "conditions", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "drug", "concept", column: "dosage_form", primary_key: "concept_id"
+  add_foreign_key "drug", "concept", column: "route", primary_key: "concept_id"
+  add_foreign_key "drug", "concept", primary_key: "concept_id"
+  add_foreign_key "drug", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "drug", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "drug", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "drug_ingredient", "concept", column: "ingredient_id", primary_key: "concept_id"
+  add_foreign_key "drug_ingredient", "concept", column: "units", primary_key: "concept_id"
+  add_foreign_key "drug_ingredient", "drug", primary_key: "drug_id"
+  add_foreign_key "drug_order", "concept", column: "dose_units", primary_key: "concept_id"
+  add_foreign_key "drug_order", "concept", column: "duration_units", primary_key: "concept_id"
+  add_foreign_key "drug_order", "concept", column: "quantity_units", primary_key: "concept_id"
+  add_foreign_key "drug_order", "concept", column: "route", primary_key: "concept_id"
+  add_foreign_key "drug_order", "drug", column: "drug_inventory_id", primary_key: "drug_id"
+  add_foreign_key "drug_order", "order_frequency", column: "frequency", primary_key: "order_frequency_id"
+  add_foreign_key "drug_order", "orders", primary_key: "order_id"
+  add_foreign_key "drug_reference_map", "concept_map_type", column: "concept_map_type", primary_key: "concept_map_type_id"
+  add_foreign_key "drug_reference_map", "concept_reference_term", column: "term_id", primary_key: "concept_reference_term_id"
+  add_foreign_key "drug_reference_map", "drug", primary_key: "drug_id"
+  add_foreign_key "drug_reference_map", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "drug_reference_map", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "drug_reference_map", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "encounter", "encounter_type", column: "encounter_type", primary_key: "encounter_type_id"
+  add_foreign_key "encounter", "form", primary_key: "form_id"
+  add_foreign_key "encounter", "location", primary_key: "location_id"
+  add_foreign_key "encounter", "patient", primary_key: "patient_id"
+  add_foreign_key "encounter", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "encounter", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "encounter", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "encounter", "visit", primary_key: "visit_id"
+  add_foreign_key "encounter_diagnosis", "concept", column: "diagnosis_coded", primary_key: "concept_id"
+  add_foreign_key "encounter_diagnosis", "concept_name", column: "diagnosis_coded_name", primary_key: "concept_name_id"
+  add_foreign_key "encounter_diagnosis", "conditions", primary_key: "condition_id"
+  add_foreign_key "encounter_diagnosis", "encounter", primary_key: "encounter_id"
+  add_foreign_key "encounter_diagnosis", "patient", primary_key: "patient_id"
+  add_foreign_key "encounter_diagnosis", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "encounter_diagnosis", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "encounter_diagnosis", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "encounter_provider", "encounter", primary_key: "encounter_id"
+  add_foreign_key "encounter_provider", "encounter_role", primary_key: "encounter_role_id"
+  add_foreign_key "encounter_provider", "provider", primary_key: "provider_id"
+  add_foreign_key "encounter_provider", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "encounter_provider", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "encounter_provider", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "encounter_role", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "encounter_role", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "encounter_role", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "encounter_type", "privilege", column: "edit_privilege", primary_key: "privilege"
+  add_foreign_key "encounter_type", "privilege", column: "view_privilege", primary_key: "privilege"
+  add_foreign_key "encounter_type", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "encounter_type", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "encounter_type", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "field", "concept", primary_key: "concept_id"
+  add_foreign_key "field", "field_type", column: "field_type", primary_key: "field_type_id"
+  add_foreign_key "field", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "field", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "field", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "field_answer", "concept", column: "answer_id", primary_key: "concept_id"
+  add_foreign_key "field_answer", "field", primary_key: "field_id"
+  add_foreign_key "field_answer", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "field_type", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "form", "encounter_type", column: "encounter_type", primary_key: "encounter_type_id"
+  add_foreign_key "form", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "form", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "form", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "form_field", "field", primary_key: "field_id"
+  add_foreign_key "form_field", "form", primary_key: "form_id"
+  add_foreign_key "form_field", "form_field", column: "parent_form_field", primary_key: "form_field_id"
+  add_foreign_key "form_field", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "form_field", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "form_resource", "form", primary_key: "form_id"
+  add_foreign_key "form_resource", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "formentry_archive", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "formentry_error", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "formentry_xsn", "form", primary_key: "form_id"
+  add_foreign_key "formentry_xsn", "users", column: "archived_by", primary_key: "user_id"
+  add_foreign_key "formentry_xsn", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "global_property", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "hl7_in_queue", "hl7_source", column: "hl7_source", primary_key: "hl7_source_id"
+  add_foreign_key "hl7_source", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "htmlformentry_html_form", "form", primary_key: "form_id"
+  add_foreign_key "htmlformentry_html_form", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "htmlformentry_html_form", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "htmlformentry_html_form", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "location", "location", column: "parent_location", primary_key: "location_id"
+  add_foreign_key "location", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "location", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "location", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "location_attribute", "location", primary_key: "location_id"
+  add_foreign_key "location_attribute", "location_attribute_type", column: "attribute_type_id", primary_key: "location_attribute_type_id"
+  add_foreign_key "location_attribute", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "location_attribute", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "location_attribute", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "location_attribute_type", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "location_attribute_type", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "location_attribute_type", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "location_tag", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "location_tag", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "location_tag", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "location_tag_map", "location", primary_key: "location_id"
+  add_foreign_key "location_tag_map", "location_tag", primary_key: "location_tag_id"
+  add_foreign_key "logic_rule_definition", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "logic_rule_definition", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "logic_rule_definition", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "logic_rule_token", "person", column: "changed_by", primary_key: "person_id"
+  add_foreign_key "logic_rule_token", "person", column: "creator", primary_key: "person_id"
+  add_foreign_key "logic_rule_token_tag", "logic_rule_token", primary_key: "logic_rule_token_id"
+  add_foreign_key "logic_token_registration", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "logic_token_registration", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "logic_token_registration_tag", "logic_token_registration", column: "token_registration_id", primary_key: "token_registration_id"
+  add_foreign_key "note", "encounter", primary_key: "encounter_id"
+  add_foreign_key "note", "note", column: "parent", primary_key: "note_id"
+  add_foreign_key "note", "obs", column: "obs_id", primary_key: "obs_id"
+  add_foreign_key "note", "patient", primary_key: "patient_id"
+  add_foreign_key "note", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "note", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "notification_alert", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "notification_alert", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "notification_alert_recipient", "notification_alert", column: "alert_id", primary_key: "alert_id"
+  add_foreign_key "notification_alert_recipient", "users", primary_key: "user_id"
+  add_foreign_key "obs", "concept", column: "value_coded", primary_key: "concept_id"
+  add_foreign_key "obs", "concept", primary_key: "concept_id"
+  add_foreign_key "obs", "concept_name", column: "value_coded_name_id", primary_key: "concept_name_id"
+  add_foreign_key "obs", "drug", column: "value_drug", primary_key: "drug_id"
+  add_foreign_key "obs", "encounter", primary_key: "encounter_id"
+  add_foreign_key "obs", "location", primary_key: "location_id"
+  add_foreign_key "obs", "obs", column: "obs_group_id", primary_key: "obs_id"
+  add_foreign_key "obs", "obs", column: "previous_version", primary_key: "obs_id"
+  add_foreign_key "obs", "orders", primary_key: "order_id"
+  add_foreign_key "obs", "person", primary_key: "person_id"
+  add_foreign_key "obs", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "obs", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "order_frequency", "concept", primary_key: "concept_id"
+  add_foreign_key "order_frequency", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "order_frequency", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "order_frequency", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "order_group", "encounter", primary_key: "encounter_id"
+  add_foreign_key "order_group", "order_set", primary_key: "order_set_id"
+  add_foreign_key "order_group", "patient", primary_key: "patient_id"
+  add_foreign_key "order_group", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "order_group", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "order_group", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "order_set", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "order_set", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "order_set", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "order_set_member", "concept", primary_key: "concept_id"
+  add_foreign_key "order_set_member", "order_set", primary_key: "order_set_id"
+  add_foreign_key "order_set_member", "order_type", column: "order_type", primary_key: "order_type_id"
+  add_foreign_key "order_set_member", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "order_set_member", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "order_set_member", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "order_type", "order_type", column: "parent", primary_key: "order_type_id"
+  add_foreign_key "order_type", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "order_type", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "order_type", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "order_type_class_map", "concept_class", primary_key: "concept_class_id"
+  add_foreign_key "order_type_class_map", "order_type", primary_key: "order_type_id"
+  add_foreign_key "orders", "care_setting", column: "care_setting", primary_key: "care_setting_id"
+  add_foreign_key "orders", "concept", column: "order_reason", primary_key: "concept_id"
+  add_foreign_key "orders", "encounter", primary_key: "encounter_id"
+  add_foreign_key "orders", "order_group", primary_key: "order_group_id"
+  add_foreign_key "orders", "order_type", primary_key: "order_type_id"
+  add_foreign_key "orders", "orders", column: "previous_order_id", primary_key: "order_id"
+  add_foreign_key "orders", "patient", primary_key: "patient_id"
+  add_foreign_key "orders", "provider", column: "orderer", primary_key: "provider_id"
+  add_foreign_key "orders", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "orders", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "patient", "person", column: "patient_id", primary_key: "person_id"
+  add_foreign_key "patient", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "patient", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "patient", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "patient_identifier", "location", primary_key: "location_id"
+  add_foreign_key "patient_identifier", "patient", primary_key: "patient_id"
+  add_foreign_key "patient_identifier", "patient_identifier_type", column: "identifier_type", primary_key: "patient_identifier_type_id"
+  add_foreign_key "patient_identifier", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "patient_identifier", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "patient_identifier", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "patient_identifier_type", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "patient_identifier_type", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "patient_identifier_type", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "patient_program", "concept", column: "outcome_concept_id", primary_key: "concept_id"
+  add_foreign_key "patient_program", "location", primary_key: "location_id"
+  add_foreign_key "patient_program", "patient", primary_key: "patient_id"
+  add_foreign_key "patient_program", "program", primary_key: "program_id"
+  add_foreign_key "patient_program", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "patient_program", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "patient_program", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "patient_program_attribute", "patient_program", primary_key: "patient_program_id"
+  add_foreign_key "patient_program_attribute", "program_attribute_type", column: "attribute_type_id", primary_key: "program_attribute_type_id"
+  add_foreign_key "patient_program_attribute", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "patient_program_attribute", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "patient_program_attribute", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "patient_state", "patient_program", primary_key: "patient_program_id"
+  add_foreign_key "patient_state", "program_workflow_state", column: "state", primary_key: "program_workflow_state_id"
+  add_foreign_key "patient_state", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "patient_state", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "patient_state", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "person", "concept", column: "cause_of_death", primary_key: "concept_id"
+  add_foreign_key "person", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "person", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "person", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "person_address", "person", primary_key: "person_id"
+  add_foreign_key "person_address", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "person_address", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "person_address", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "person_attribute", "person", primary_key: "person_id"
+  add_foreign_key "person_attribute", "person_attribute_type", primary_key: "person_attribute_type_id"
+  add_foreign_key "person_attribute", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "person_attribute", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "person_attribute", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "person_attribute_type", "privilege", column: "edit_privilege", primary_key: "privilege"
+  add_foreign_key "person_attribute_type", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "person_attribute_type", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "person_attribute_type", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "person_merge_log", "person", column: "loser_person_id", primary_key: "person_id"
+  add_foreign_key "person_merge_log", "person", column: "winner_person_id", primary_key: "person_id"
+  add_foreign_key "person_merge_log", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "person_merge_log", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "person_merge_log", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "person_name", "person", primary_key: "person_id"
+  add_foreign_key "person_name", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "person_name", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "program", "concept", column: "outcomes_concept_id", primary_key: "concept_id"
+  add_foreign_key "program", "concept", primary_key: "concept_id"
+  add_foreign_key "program", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "program", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "program_attribute_type", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "program_attribute_type", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "program_attribute_type", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "program_workflow", "concept", primary_key: "concept_id"
+  add_foreign_key "program_workflow", "program", primary_key: "program_id"
+  add_foreign_key "program_workflow", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "program_workflow", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "program_workflow_state", "concept", primary_key: "concept_id"
+  add_foreign_key "program_workflow_state", "program_workflow", primary_key: "program_workflow_id"
+  add_foreign_key "program_workflow_state", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "program_workflow_state", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "provider", "concept", column: "role_id", primary_key: "concept_id"
+  add_foreign_key "provider", "concept", column: "speciality_id", primary_key: "concept_id"
+  add_foreign_key "provider", "person", primary_key: "person_id"
+  add_foreign_key "provider", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "provider", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "provider", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "provider_attribute", "provider", primary_key: "provider_id"
+  add_foreign_key "provider_attribute", "provider_attribute_type", column: "attribute_type_id", primary_key: "provider_attribute_type_id"
+  add_foreign_key "provider_attribute", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "provider_attribute", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "provider_attribute", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "provider_attribute_type", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "provider_attribute_type", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "provider_attribute_type", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "relationship", "person", column: "person_a", primary_key: "person_id"
+  add_foreign_key "relationship", "person", column: "person_b", primary_key: "person_id"
+  add_foreign_key "relationship", "relationship_type", column: "relationship", primary_key: "relationship_type_id"
+  add_foreign_key "relationship", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "relationship", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "relationship", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "relationship_type", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "relationship_type", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "relationship_type", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "report_object", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "report_object", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "report_object", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "reporting_report_design", "serialized_object", column: "report_definition_id", primary_key: "serialized_object_id"
+  add_foreign_key "reporting_report_design", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "reporting_report_design", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "reporting_report_design", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "reporting_report_design_resource", "reporting_report_design", column: "report_design_id"
+  add_foreign_key "reporting_report_design_resource", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "reporting_report_design_resource", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "reporting_report_design_resource", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "reporting_report_request", "users", column: "requested_by", primary_key: "user_id"
+  add_foreign_key "role_privilege", "privilege", column: "privilege", primary_key: "privilege"
+  add_foreign_key "role_privilege", "role", column: "role", primary_key: "role"
+  add_foreign_key "role_role", "role", column: "child_role", primary_key: "role"
+  add_foreign_key "role_role", "role", column: "parent_role", primary_key: "role"
+  add_foreign_key "scheduler_task_config", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "scheduler_task_config", "users", column: "created_by", primary_key: "user_id"
+  add_foreign_key "scheduler_task_config_property", "scheduler_task_config", column: "task_config_id", primary_key: "task_config_id"
+  add_foreign_key "serialized_object", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "serialized_object", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "serialized_object", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "test_order", "concept", column: "specimen_source", primary_key: "concept_id"
+  add_foreign_key "test_order", "order_frequency", column: "frequency", primary_key: "order_frequency_id"
+  add_foreign_key "test_order", "orders", primary_key: "order_id"
+  add_foreign_key "user_property", "users", primary_key: "user_id"
+  add_foreign_key "user_role", "role", column: "role", primary_key: "role"
+  add_foreign_key "user_role", "users", primary_key: "user_id"
+  add_foreign_key "users", "person", primary_key: "person_id"
+  add_foreign_key "users", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "users", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "users", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "visit", "concept", column: "indication_concept_id", primary_key: "concept_id"
+  add_foreign_key "visit", "location", primary_key: "location_id"
+  add_foreign_key "visit", "patient", primary_key: "patient_id"
+  add_foreign_key "visit", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "visit", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "visit", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "visit", "visit_type", primary_key: "visit_type_id"
+  add_foreign_key "visit_attribute", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "visit_attribute", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "visit_attribute", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "visit_attribute", "visit", primary_key: "visit_id"
+  add_foreign_key "visit_attribute", "visit_attribute_type", column: "attribute_type_id", primary_key: "visit_attribute_type_id"
+  add_foreign_key "visit_attribute_type", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "visit_attribute_type", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "visit_attribute_type", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "visit_type", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "visit_type", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "visit_type", "users", column: "retired_by", primary_key: "user_id"
+  add_foreign_key "xforms_person_repeat_attribute", "person", primary_key: "person_id"
+  add_foreign_key "xforms_person_repeat_attribute", "person_attribute_type", primary_key: "person_attribute_type_id"
+  add_foreign_key "xforms_person_repeat_attribute", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "xforms_person_repeat_attribute", "users", column: "creator", primary_key: "user_id"
+  add_foreign_key "xforms_person_repeat_attribute", "users", column: "voided_by", primary_key: "user_id"
+  add_foreign_key "xforms_xform", "users", column: "changed_by", primary_key: "user_id"
+  add_foreign_key "xforms_xform", "users", column: "creator", primary_key: "user_id"
 end
