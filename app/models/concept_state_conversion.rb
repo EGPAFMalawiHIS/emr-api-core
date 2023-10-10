@@ -1,5 +1,9 @@
+# frozen_string_literal: true
+
+# Model: ConceptStateConversion
 class ConceptStateConversion < ApplicationRecord
-  belongs_to :concept
-  belongs_to :program_workflow
-  belongs_to :program_workflow_state
+  self.table_name = 'concept_state_conversion'
+  self.primary_key = 'concept_state_conversion_id'
+
+  validates :uuid, presence: true
 end

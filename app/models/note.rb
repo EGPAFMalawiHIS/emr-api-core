@@ -1,5 +1,13 @@
+# frozen_string_literal: true
+
+# Model: Note
 class Note < ApplicationRecord
-  belongs_to :patient
-  belongs_to :obs
-  belongs_to :encounter
+  self.table_name = 'note'
+  self.primary_key = 'note_id'
+
+  has_many :note, foreign_key: parent, primary_key: note_id
+  validates :text, presence: true
+  validates :creator, presence: true
+  validates :date_created, presence: true
+  validates :uuid, presence: true
 end

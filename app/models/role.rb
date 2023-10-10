@@ -1,23 +1,13 @@
+# frozen_string_literal: true
+
+# Model: Role
 class Role < ApplicationRecord
-    belongs_to :user
-    self.table_name = 'role'
+  self.table_name = 'role'
+  self.primary_key = 'role'
 
-    def as_json(options={})
-        super(options.merge(only: [:uuid, :description], methods: [:links, :display, :name]))
-    end
-
-    def display
-        role
-    end
-
-    def name
-        role
-    end
-
-    def links
-        {
-            "rel": "self",
-            "uri": "/api/v1/roles/#{uuid}"
-        }
-    end
+  has_many :role_privilege, foreign_key: role, primary_key: role
+  has_many :role_role, foreign_key: child_role, primary_key: role
+  has_many :role_role, foreign_key: parent_role, primary_key: role
+  has_many :user_role, foreign_key: role, primary_key: role
+  validates :uuid, presence: true
 end

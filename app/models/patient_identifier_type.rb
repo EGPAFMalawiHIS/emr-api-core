@@ -1,2 +1,16 @@
+# frozen_string_literal: true
+
+# Model: PatientIdentifierType
 class PatientIdentifierType < ApplicationRecord
+  self.table_name = 'patient_identifier_type'
+  self.primary_key = 'patient_identifier_type_id'
+
+  has_many :patient_identifier, foreign_key: identifier_type, primary_key: patient_identifier_type_id
+  validates :name, presence: true
+  validates :check_digit, presence: true
+  validates :creator, presence: true
+  validates :date_created, presence: true
+  validates :required, presence: true
+  validates :retired, presence: true
+  validates :uuid, presence: true
 end

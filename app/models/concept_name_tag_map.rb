@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
+# Model: ConceptNameTagMap
 class ConceptNameTagMap < ApplicationRecord
-  belongs_to :concept_name
-  belongs_to :concept_name_tag
+  self.table_name = 'concept_name_tag_map'
+  validates :concept_name_id, presence: true
+  validates :concept_name_tag_id, presence: true
 end
