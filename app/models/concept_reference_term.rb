@@ -5,10 +5,13 @@ class ConceptReferenceTerm < ApplicationRecord
   self.table_name = 'concept_reference_term'
   self.primary_key = 'concept_reference_term_id'
 
+  belongs_to :user, class_name: 'User', foreign_key: :creator, primary_key: :user_id, optional: true
+  belongs_to :voider, class_name: 'User', foreign_key: :voided_by, primary_key: :user_id, optional: true
   has_many :concept_reference_map, foreign_key: concept_reference_term_id, primary_key: concept_reference_term_id
   has_many :concept_reference_term_map, foreign_key: term_a_id, primary_key: concept_reference_term_id
   has_many :concept_reference_term_map, foreign_key: term_b_id, primary_key: concept_reference_term_id
   has_many :drug_reference_map, foreign_key: term_id, primary_key: concept_reference_term_id
+
   validates :concept_source_id, presence: true
   validates :code, presence: true
   validates :creator, presence: true

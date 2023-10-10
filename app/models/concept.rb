@@ -5,6 +5,11 @@ class Concept < ApplicationRecord
   self.table_name = 'concept'
   self.primary_key = 'concept_id'
 
+  belongs_to :user, class_name: 'User', foreign_key: :creator, primary_key: :user_id, optional: true
+  belongs_to :forcer, class_name: 'User', foreign_key: :retired_by, primary_key: :user_id, optional: true
+  belongs_to :concept_class, foreign_key: :class_id, primary_key: :concept_class_id, optional: true
+  belongs_to :concept_datatype, foreign_key: :datatype_id, primary_key: :concept_datatype_id, optional: true
+
   has_many :allergy, foreign_key: coded_allergen, primary_key: concept_id
   has_many :allergy, foreign_key: severity_concept_id, primary_key: concept_id
   has_many :allergy_reaction, foreign_key: reaction_concept_id, primary_key: concept_id
@@ -50,6 +55,7 @@ class Concept < ApplicationRecord
   has_many :provider, foreign_key: speciality_id, primary_key: concept_id
   has_many :test_order, foreign_key: specimen_source, primary_key: concept_id
   has_many :visit, foreign_key: indication_concept_id, primary_key: concept_id
+
   validates :retired, presence: true
   validates :datatype_id, presence: true
   validates :class_id, presence: true
