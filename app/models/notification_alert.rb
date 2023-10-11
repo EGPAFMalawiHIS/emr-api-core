@@ -5,7 +5,9 @@ class NotificationAlert < ApplicationRecord
   self.table_name = 'notification_alert'
   self.primary_key = 'alert_id'
 
+  belongs_to :user, class_name: 'User', foreign_key: :creator, primary_key: :user_id, optional: true
   has_many :notification_alert_recipient, foreign_key: alert_id, primary_key: alert_id
+
   validates :text, presence: true
   validates :satisfied_by_any, presence: true
   validates :alert_read, presence: true

@@ -5,7 +5,9 @@ class LogicTokenRegistration < ApplicationRecord
   self.table_name = 'logic_token_registration'
   self.primary_key = 'token_registration_id'
 
+  belongs_to :user, class_name: 'User', foreign_key: :creator, primary_key: :user_id, optional: true
   has_many :logic_token_registration_tag, foreign_key: token_registration_id, primary_key: token_registration_id
+
   validates :creator, presence: true
   validates :date_created, presence: true
   validates :token, presence: true
