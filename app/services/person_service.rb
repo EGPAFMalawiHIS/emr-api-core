@@ -16,7 +16,7 @@ class PersonService < OpenmrsService
         person = Person.new(
             birthdate: birthdate,
             gender: gender,
-            birthdate_estimated: birthdate_estimated,
+            birthdate_estimated: birthdate_estimated || false,
             birthtime: birthtime,
             creator: creator
         )
@@ -26,10 +26,12 @@ class PersonService < OpenmrsService
         
         # Create the person name
         person_name = PersonNameService.create_person_name(person, person_params)
-        
+
         # Create the person address
         address_params = person_params.delete(:addresses)
-        person_address = PersonAddressService.create_person_address(person, address_params)
+        person_address = PersonAddressService.create_person_address(person, address_params) if address_params.present?
+
+        
         
         person
     end

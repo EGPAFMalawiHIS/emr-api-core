@@ -7,5 +7,5 @@ class PersonName < VoidableRecord
 
   belongs_to :person, optional: false
 
-  validates :preferred,:person_id, presence: true
+  validates :person_id, presence: true
 end

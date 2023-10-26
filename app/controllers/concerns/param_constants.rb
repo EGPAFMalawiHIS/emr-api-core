@@ -21,12 +21,27 @@ module ParamConstants
     ]
     
     USER_WHITELISTED_PARAMS = [
-        :name, :description, :username, :password, :systemId, :secretQuestion,
+        :name, :description, :username, :password, :systemId, :secretQuestion, :secretAnswer,
         userProperties: {},
         person: PERSON_WHITELISTED_PARAMS,
         roles: ROLE_WHITELISTED_PARAMS,
         user: {}
     ]
 
+    PATIENT_SEARCH_PARAMS = [
+       :givenName, :middleName, :familyName, :familyName2, :preferred, :prefix, :familyNamePrefix, :familyNameSuffix, :degree, :gender, :age, :birthdate, :birthdateEstimated, :dead, :deathDate, :causeOfDeath, :deathdateEstimated
+    ]
+
+    PATIENT_WHITELISTED_PARAMS = [
+        :allergy_status,
+        patient: {},
+        person: PERSON_WHITELISTED_PARAMS,
+        identifiers: %i[
+            identifier
+            identifierType
+            location
+            preferred
+        ]
+    ]
 
 end

@@ -6,7 +6,7 @@ class PatientIdentifier < VoidableRecord
   self.primary_key = 'patient_identifier_id'
 
   belongs_to :patient
-  has_one :identifier_type, foreign_key: :identifier_type_id, primary_key: :patient_identifier_type_id
+  has_one :identifier_type, class_name: 'PatientIdentifierType', foreign_key: :identifier_type_id, primary_key: :patient_identifier_type_id
 
   validates :patient_id, :identifier, :identifier_type, :preferred, presence: true
 end

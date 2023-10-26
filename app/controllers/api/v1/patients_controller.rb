@@ -1,39 +1,33 @@
 class Api::V1::PatientsController < ApplicationController
-  before_action :set_patient, only: [:show, :update, :destroy]
-
   respond_to :json
+  include ParamConstants
 
   def index
-    @patients = Patient.all
-    respond_with(@patients)
+    patients = PatientService.find_patients(ParamConstants::PATIENT_SEARCH_PARAMS)
+    respond_with(patients)
   end
 
   def show
-    respond_with(@patient)
+    respond_with(Patient.find_by_uuid(params[:id]))
   end
 
   def create
-    @patient = Patient.new(patient_params)
-    @patient.save
-    respond_with(@patient)
+    create_params = params.permit ParamConstants::PATIENT_WHITELISTED_PARAMS
+
+    patient = PatientService.create_patient(create_params)
+    render json: patient, status: :created
   end
 
   def update
-    @patient.update(patient_params)
-    respond_with(@patient)
+    patient = Patient.find_by_uuid(params[:id])
+    edit_params = params.permit ParamConstants::PATIENT_WHITELISTED_PARAMS
+
+    render json: PatientService.update_patient(patient, edit_params), status: :ok
   end
 
   def destroy
-    @patient.destroy
-    respond_with(@patient)
+    patient = Patient.find_by_uuid(params[:id])
+    patient.void(ParamConstants::PATIENT_WHITELISTED_PARAMS)
+    render json: patient, status: :ok
   end
-
-  private
-    def set_patient
-      @patient = Patient.find(params[:id])
-    end
-
-    def patient_params
-      params.require(:patient).permit(:creator, :date_created, :changed_by, :date_changed, :voided, :voided_by, :date_voided, :void_reason, :allergy_status)
-    end
 end

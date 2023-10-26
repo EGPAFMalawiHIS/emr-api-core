@@ -6,6 +6,4 @@ class PersonAddress < VoidableRecord
   self.primary_key = 'person_address_id'
 
   belongs_to :person
-
-  validates :preferred, presence: true
 end
