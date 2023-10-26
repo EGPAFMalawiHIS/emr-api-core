@@ -1,4 +1,5 @@
-module PrivilegeService
+class PrivilegeService < OpenmrsService
+    
     def self.create_privilege(params)
         privilege = Privilege.new(params)
         privilege.save

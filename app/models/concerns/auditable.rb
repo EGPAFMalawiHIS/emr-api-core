@@ -26,7 +26,9 @@ module Auditable
       return
     end
 
-    self.changed_by ||= User.current ? User.current.user_id : nil
+    # self.changed_by ||= User.current ? User.current.user_id : nil
+    self.changed_by ||= 1
+    self.date_changed ||= Time.now
     Rails.logger.warn 'Auditable::update_change_trail called outside login' unless changed_by
 
     self.date_changed = Time.now
