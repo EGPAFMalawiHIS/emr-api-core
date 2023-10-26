@@ -1,6 +1,5 @@
 class Api::V1::PatientsController < ApplicationController
   respond_to :json
-  include ParamConstants
 
   def index
     patients = PatientService.find_patients(ParamConstants::PATIENT_SEARCH_PARAMS)

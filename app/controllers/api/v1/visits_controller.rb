@@ -1,39 +1,31 @@
 class Api::V1::VisitsController < ApplicationController
-  before_action :set_visit, only: [:show, :update, :destroy]
-
   respond_to :json
 
   def index
-    @visits = Visit.all
-    respond_with(@visits)
+    visits = VisitService.find_visits(ParamConstants::VISIT_SEARCH_PARAMS)
+    respond_with(visits)
   end
 
   def show
-    respond_with(@visit)
+    respond_with(Visit.find_by_uuid(params[:id]))
   end
 
   def create
-    @visit = Visit.new(visit_params)
-    @visit.save
-    respond_with(@visit)
+    create_params = params.permit ParamConstants::VISIT_WHITELISTED_PARAMS
+
+    visit = VisitService.create_visit(create_params)
+    render json: visit, status: :created
   end
 
   def update
-    @visit.update(visit_params)
-    respond_with(@visit)
+    update_params = params.permit ParamConstants::VISIT_WHITELISTED_PARAMS
+
+    visit = Visit.find_by_uuid(params[:id])
+    render json: VisitService.update_visit(visit, update_params), status: :ok
   end
 
   def destroy
-    @visit.destroy
-    respond_with(@visit)
+    Visit.find_by_uuid(params[:id]).void(ParamConstants::VISIT_WHITELISTED_PARAMS)
+    render json: {}, status: :ok
   end
-
-  private
-    def set_visit
-      @visit = Visit.find(params[:id])
-    end
-
-    def visit_params
-      params.require(:visit).permit(:patient_id, :visit_type_id, :date_started, :date_stopped, :indication_concept_id, :location_id, :creator, :date_created, :changed_by, :date_changed, :voided, :voided_by, :date_voided, :void_reason, :uuid)
-    end
 end

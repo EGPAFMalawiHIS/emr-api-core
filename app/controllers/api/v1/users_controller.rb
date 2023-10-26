@@ -1,6 +1,5 @@
 class Api::V1::UsersController < ApplicationController
   respond_to :json
-  include ParamConstants
 
   def index
     @users = User.all

@@ -8,9 +8,8 @@ class Visit < VoidableRecord
   belongs_to :location
   
   has_many :encounters, -> { order(encounter_datetime: :desc, encounter_id: :desc) }
-  has_many :attributes, -> { order(:voided) }, class_name: 'VisitAttribute', dependent: :destroy
   
-  validates :start_datetime, presence: true
+  validates :date_started, presence: true
   
   def voided_encounters
     encounters.where(voided: true)

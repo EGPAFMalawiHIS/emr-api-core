@@ -44,4 +44,23 @@ module ParamConstants
         ]
     ]
 
+
+    VISIT_SEARCH_PARAMS = [
+    ]
+
+    VISIT_WHITELISTED_PARAMS = [
+        :patient,
+        :visitType,
+        :startDatetime,
+        :location,
+        :indication,
+        :stopDatetime,
+        visit: {},
+        encounters: [],
+        attributes: [
+            :attributeType,
+            :value
+        ]
+    ]
+
 end
