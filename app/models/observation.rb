@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Model: Observation
-class Observation < ApplicationRecord
+class Observation < VoidableRecord
   self.table_name = 'obs'
   self.primary_key = 'obs_id'
 
@@ -15,13 +15,5 @@ class Observation < ApplicationRecord
   has_many :concept_proposal, foreign_key: obs_id, primary_key: obs_id
   has_many :note, foreign_key: obs_id, primary_key: obs_id
 
-  validates :obs_id, presence: true
-  validates :person_id, presence: true
-  validates :concept_id, presence: true
-  validates :obs_datetime, presence: true
-  validates :creator, presence: true
-  validates :date_created, presence: true
-  validates :voided, presence: true
-  validates :uuid, presence: true
-  validates :status, presence: true
+  validates :obs_id, :person_id, :concept_id, :obs_datetime, :status, presence: true
 end

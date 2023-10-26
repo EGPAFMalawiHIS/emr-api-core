@@ -1,17 +1,26 @@
-# frozen_string_literal: true
-
-# Model: Visit
-class Visit < ApplicationRecord
+class Visit < VoidableRecord
   self.table_name = 'visit'
   self.primary_key = 'visit_id'
-
-  has_many :encounter, foreign_key: visit_id, primary_key: visit_id
-  has_many :visit_attribute, foreign_key: visit_id, primary_key: visit_id
-  validates :patient_id, presence: true
-  validates :visit_type_id, presence: true
-  validates :date_started, presence: true
-  validates :creator, presence: true
-  validates :date_created, presence: true
-  validates :voided, presence: true
-  validates :uuid, presence: true
+  
+  belongs_to :patient, optional: false
+  belongs_to :visit_type, optional: false
+  belongs_to :indication, class_name: 'Concept'
+  belongs_to :location
+  
+  has_many :encounters, -> { order(encounter_datetime: :desc, encounter_id: :desc) }
+  has_many :attributes, -> { order(:voided) }, class_name: 'VisitAttribute', dependent: :destroy
+  
+  validates :start_datetime, presence: true
+  
+  def voided_encounters
+    encounters.where(voided: true)
+  end
+  
+  def add_encounter(encounter)
+    if encounter
+      encounter.visit = self
+      encounters << encounter
+    end
+  end
 end
+

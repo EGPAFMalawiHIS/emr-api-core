@@ -1,16 +1,12 @@
 # frozen_string_literal: true
 
 # Model: PatientIdentifier
-class PatientIdentifier < ApplicationRecord
+class PatientIdentifier < VoidableRecord
   self.table_name = 'patient_identifier'
   self.primary_key = 'patient_identifier_id'
 
-  validates :patient_id, presence: true
-  validates :identifier, presence: true
-  validates :identifier_type, presence: true
-  validates :preferred, presence: true
-  validates :creator, presence: true
-  validates :date_created, presence: true
-  validates :voided, presence: true
-  validates :uuid, presence: true
+  belongs_to :patient
+  has_one :identifier_type, foreign_key: :identifier_type_id, primary_key: :patient_identifier_type_id
+
+  validates :patient_id, :identifier, :identifier_type, :preferred, presence: true
 end

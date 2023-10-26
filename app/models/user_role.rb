@@ -3,8 +3,11 @@
 # Model: UserRole
 class UserRole < ApplicationRecord
   self.table_name = 'user_role'
-  self.primary_key = '["role", "user_id"]'
+  self.primary_key = 'user_id'
+  self.primary_key = 'role'
 
-  validates :user_id, presence: true
-  validates :role, presence: true
+  belongs_to :user, foreign_key: :user_id
+  belongs_to :role, foreign_key: :role
+
+  validates :user, :role, presence: true
 end

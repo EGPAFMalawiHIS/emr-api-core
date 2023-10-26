@@ -1,15 +1,8 @@
-# frozen_string_literal: true
-
-# Model: VisitAttribute
-class VisitAttribute < ApplicationRecord
+class VisitAttribute < VoidableRecord
   self.table_name = 'visit_attribute'
   self.primary_key = 'visit_attribute_id'
-
-  validates :visit_id, presence: true
-  validates :attribute_type_id, presence: true
-  validates :value_reference, presence: true
-  validates :uuid, presence: true
-  validates :creator, presence: true
-  validates :date_created, presence: true
-  validates :voided, presence: true
+  
+  belongs_to :visit
+  
+  validates :visit, :value_reference, presence: true
 end

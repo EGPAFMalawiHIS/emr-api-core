@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Model: OrderType
-class OrderType < ApplicationRecord
+class OrderType < RetirableRecord
   self.table_name = 'order_type'
   self.primary_key = 'order_type_id'
 
@@ -10,9 +10,5 @@ class OrderType < ApplicationRecord
   has_many :order_type_class_map, foreign_key: order_type_id, primary_key: order_type_id
   has_many :orders, foreign_key: order_type_id, primary_key: order_type_id
   validates :name, presence: true
-  validates :creator, presence: true
-  validates :date_created, presence: true
-  validates :retired, presence: true
-  validates :uuid, presence: true
   validates :java_class_name, presence: true
 end

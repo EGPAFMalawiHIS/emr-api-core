@@ -1,242 +1,64 @@
-# frozen_string_literal: true
+class User < RetirableRecord
+  validates :username, presence: true, uniqueness: true
+  validates :person, presence: true
+  
+  belongs_to :person
+  has_many :roles
+  has_many :user_properties
 
-# Model: User
-class User < ApplicationRecord
-  self.table_name = 'users'
-  self.primary_key = 'user_id'
+  def self.current
+    {
+      user_id: 1,
+      username: 'admin'
+    }
+  end
+  
+  def is_super_user?
+    roles.downcase.include?('superuser')
+  end
+  
+  def has_privilege?(privilege)
+    return true if privilege.blank?
+    return true if is_super_user?
+    
+    roles.any? { |role| role.has_privilege?(privilege) }
+  end
 
-  has_many :allergy, foreign_key: changed_by, primary_key: user_id
-  has_many :allergy, foreign_key: creator, primary_key: user_id
-  has_many :allergy, foreign_key: voided_by, primary_key: user_id
-  has_many :care_setting, foreign_key: changed_by, primary_key: user_id
-  has_many :care_setting, foreign_key: creator, primary_key: user_id
-  has_many :care_setting, foreign_key: retired_by, primary_key: user_id
-  has_many :cohort, foreign_key: creator, primary_key: user_id
-  has_many :cohort, foreign_key: changed_by, primary_key: user_id
-  has_many :cohort, foreign_key: voided_by, primary_key: user_id
-  has_many :cohort_member, foreign_key: creator, primary_key: user_id
-  has_many :concept, foreign_key: creator, primary_key: user_id
-  has_many :concept, foreign_key: changed_by, primary_key: user_id
-  has_many :concept, foreign_key: retired_by, primary_key: user_id
-  has_many :concept_answer, foreign_key: creator, primary_key: user_id
-  has_many :concept_attribute, foreign_key: changed_by, primary_key: user_id
-  has_many :concept_attribute, foreign_key: creator, primary_key: user_id
-  has_many :concept_attribute, foreign_key: voided_by, primary_key: user_id
-  has_many :concept_attribute_type, foreign_key: changed_by, primary_key: user_id
-  has_many :concept_attribute_type, foreign_key: creator, primary_key: user_id
-  has_many :concept_attribute_type, foreign_key: retired_by, primary_key: user_id
-  has_many :concept_class, foreign_key: changed_by, primary_key: user_id
-  has_many :concept_class, foreign_key: creator, primary_key: user_id
-  has_many :concept_class, foreign_key: retired_by, primary_key: user_id
-  has_many :concept_datatype, foreign_key: creator, primary_key: user_id
-  has_many :concept_datatype, foreign_key: retired_by, primary_key: user_id
-  has_many :concept_description, foreign_key: changed_by, primary_key: user_id
-  has_many :concept_description, foreign_key: creator, primary_key: user_id
-  has_many :concept_map_type, foreign_key: changed_by, primary_key: user_id
-  has_many :concept_map_type, foreign_key: creator, primary_key: user_id
-  has_many :concept_map_type, foreign_key: retired_by, primary_key: user_id
-  has_many :concept_name, foreign_key: changed_by, primary_key: user_id
-  has_many :concept_name, foreign_key: creator, primary_key: user_id
-  has_many :concept_name, foreign_key: voided_by, primary_key: user_id
-  has_many :concept_name_tag, foreign_key: changed_by, primary_key: user_id
-  has_many :concept_proposal, foreign_key: changed_by, primary_key: user_id
-  has_many :concept_proposal, foreign_key: creator, primary_key: user_id
-  has_many :concept_reference_map, foreign_key: changed_by, primary_key: user_id
-  has_many :concept_reference_map, foreign_key: creator, primary_key: user_id
-  has_many :concept_reference_source, foreign_key: changed_by, primary_key: user_id
-  has_many :concept_reference_source, foreign_key: creator, primary_key: user_id
-  has_many :concept_reference_source, foreign_key: retired_by, primary_key: user_id
-  has_many :concept_reference_term, foreign_key: changed_by, primary_key: user_id
-  has_many :concept_reference_term, foreign_key: creator, primary_key: user_id
-  has_many :concept_reference_term, foreign_key: retired_by, primary_key: user_id
-  has_many :concept_reference_term_map, foreign_key: changed_by, primary_key: user_id
-  has_many :concept_reference_term_map, foreign_key: creator, primary_key: user_id
-  has_many :concept_set, foreign_key: creator, primary_key: user_id
-  has_many :conditions, foreign_key: changed_by, primary_key: user_id
-  has_many :conditions, foreign_key: creator, primary_key: user_id
-  has_many :conditions, foreign_key: voided_by, primary_key: user_id
-  has_many :drug, foreign_key: changed_by, primary_key: user_id
-  has_many :drug, foreign_key: creator, primary_key: user_id
-  has_many :drug, foreign_key: retired_by, primary_key: user_id
-  has_many :drug_reference_map, foreign_key: creator, primary_key: user_id
-  has_many :drug_reference_map, foreign_key: changed_by, primary_key: user_id
-  has_many :drug_reference_map, foreign_key: retired_by, primary_key: user_id
-  has_many :encounter, foreign_key: changed_by, primary_key: user_id
-  has_many :encounter, foreign_key: creator, primary_key: user_id
-  has_many :encounter, foreign_key: voided_by, primary_key: user_id
-  has_many :encounter_diagnosis, foreign_key: changed_by, primary_key: user_id
-  has_many :encounter_diagnosis, foreign_key: creator, primary_key: user_id
-  has_many :encounter_diagnosis, foreign_key: voided_by, primary_key: user_id
-  has_many :encounter_provider, foreign_key: changed_by, primary_key: user_id
-  has_many :encounter_provider, foreign_key: creator, primary_key: user_id
-  has_many :encounter_provider, foreign_key: voided_by, primary_key: user_id
-  has_many :encounter_role, foreign_key: changed_by, primary_key: user_id
-  has_many :encounter_role, foreign_key: creator, primary_key: user_id
-  has_many :encounter_role, foreign_key: retired_by, primary_key: user_id
-  has_many :encounter_type, foreign_key: changed_by, primary_key: user_id
-  has_many :encounter_type, foreign_key: creator, primary_key: user_id
-  has_many :encounter_type, foreign_key: retired_by, primary_key: user_id
-  has_many :field, foreign_key: changed_by, primary_key: user_id
-  has_many :field, foreign_key: creator, primary_key: user_id
-  has_many :field, foreign_key: retired_by, primary_key: user_id
-  has_many :field_answer, foreign_key: creator, primary_key: user_id
-  has_many :field_type, foreign_key: creator, primary_key: user_id
-  has_many :form, foreign_key: creator, primary_key: user_id
-  has_many :form, foreign_key: changed_by, primary_key: user_id
-  has_many :form, foreign_key: retired_by, primary_key: user_id
-  has_many :form_field, foreign_key: creator, primary_key: user_id
-  has_many :form_field, foreign_key: changed_by, primary_key: user_id
-  has_many :form_resource, foreign_key: changed_by, primary_key: user_id
-  has_many :formentry_archive, foreign_key: creator, primary_key: user_id
-  has_many :formentry_error, foreign_key: creator, primary_key: user_id
-  has_many :formentry_xsn, foreign_key: archived_by, primary_key: user_id
-  has_many :formentry_xsn, foreign_key: creator, primary_key: user_id
-  has_many :global_property, foreign_key: changed_by, primary_key: user_id
-  has_many :hl7_source, foreign_key: creator, primary_key: user_id
-  has_many :htmlformentry_html_form, foreign_key: changed_by, primary_key: user_id
-  has_many :htmlformentry_html_form, foreign_key: creator, primary_key: user_id
-  has_many :htmlformentry_html_form, foreign_key: retired_by, primary_key: user_id
-  has_many :location, foreign_key: changed_by, primary_key: user_id
-  has_many :location, foreign_key: creator, primary_key: user_id
-  has_many :location, foreign_key: retired_by, primary_key: user_id
-  has_many :location_attribute, foreign_key: changed_by, primary_key: user_id
-  has_many :location_attribute, foreign_key: creator, primary_key: user_id
-  has_many :location_attribute, foreign_key: voided_by, primary_key: user_id
-  has_many :location_attribute_type, foreign_key: changed_by, primary_key: user_id
-  has_many :location_attribute_type, foreign_key: creator, primary_key: user_id
-  has_many :location_attribute_type, foreign_key: retired_by, primary_key: user_id
-  has_many :location_tag, foreign_key: changed_by, primary_key: user_id
-  has_many :location_tag, foreign_key: creator, primary_key: user_id
-  has_many :location_tag, foreign_key: retired_by, primary_key: user_id
-  has_many :logic_rule_definition, foreign_key: changed_by, primary_key: user_id
-  has_many :logic_rule_definition, foreign_key: creator, primary_key: user_id
-  has_many :logic_rule_definition, foreign_key: retired_by, primary_key: user_id
-  has_many :logic_token_registration, foreign_key: changed_by, primary_key: user_id
-  has_many :logic_token_registration, foreign_key: creator, primary_key: user_id
-  has_many :note, foreign_key: changed_by, primary_key: user_id
-  has_many :note, foreign_key: creator, primary_key: user_id
-  has_many :notification_alert, foreign_key: creator, primary_key: user_id
-  has_many :notification_alert, foreign_key: changed_by, primary_key: user_id
-  has_many :notification_alert_recipient, foreign_key: user_id, primary_key: user_id
-  has_many :obs, foreign_key: creator, primary_key: user_id
-  has_many :obs, foreign_key: voided_by, primary_key: user_id
-  has_many :order_frequency, foreign_key: changed_by, primary_key: user_id
-  has_many :order_frequency, foreign_key: creator, primary_key: user_id
-  has_many :order_frequency, foreign_key: retired_by, primary_key: user_id
-  has_many :order_group, foreign_key: changed_by, primary_key: user_id
-  has_many :order_group, foreign_key: creator, primary_key: user_id
-  has_many :order_group, foreign_key: voided_by, primary_key: user_id
-  has_many :order_set, foreign_key: changed_by, primary_key: user_id
-  has_many :order_set, foreign_key: creator, primary_key: user_id
-  has_many :order_set, foreign_key: retired_by, primary_key: user_id
-  has_many :order_set_member, foreign_key: changed_by, primary_key: user_id
-  has_many :order_set_member, foreign_key: creator, primary_key: user_id
-  has_many :order_set_member, foreign_key: retired_by, primary_key: user_id
-  has_many :order_type, foreign_key: changed_by, primary_key: user_id
-  has_many :order_type, foreign_key: creator, primary_key: user_id
-  has_many :order_type, foreign_key: retired_by, primary_key: user_id
-  has_many :orders, foreign_key: creator, primary_key: user_id
-  has_many :orders, foreign_key: voided_by, primary_key: user_id
-  has_many :patient, foreign_key: changed_by, primary_key: user_id
-  has_many :patient, foreign_key: creator, primary_key: user_id
-  has_many :patient, foreign_key: voided_by, primary_key: user_id
-  has_many :patient_identifier, foreign_key: creator, primary_key: user_id
-  has_many :patient_identifier, foreign_key: voided_by, primary_key: user_id
-  has_many :patient_identifier, foreign_key: changed_by, primary_key: user_id
-  has_many :patient_identifier_type, foreign_key: changed_by, primary_key: user_id
-  has_many :patient_identifier_type, foreign_key: creator, primary_key: user_id
-  has_many :patient_identifier_type, foreign_key: retired_by, primary_key: user_id
-  has_many :patient_program, foreign_key: creator, primary_key: user_id
-  has_many :patient_program, foreign_key: changed_by, primary_key: user_id
-  has_many :patient_program, foreign_key: voided_by, primary_key: user_id
-  has_many :patient_program_attribute, foreign_key: changed_by, primary_key: user_id
-  has_many :patient_program_attribute, foreign_key: creator, primary_key: user_id
-  has_many :patient_program_attribute, foreign_key: voided_by, primary_key: user_id
-  has_many :patient_state, foreign_key: changed_by, primary_key: user_id
-  has_many :patient_state, foreign_key: creator, primary_key: user_id
-  has_many :patient_state, foreign_key: voided_by, primary_key: user_id
-  has_many :person, foreign_key: changed_by, primary_key: user_id
-  has_many :person, foreign_key: creator, primary_key: user_id
-  has_many :person, foreign_key: voided_by, primary_key: user_id
-  has_many :person_address, foreign_key: creator, primary_key: user_id
-  has_many :person_address, foreign_key: voided_by, primary_key: user_id
-  has_many :person_address, foreign_key: changed_by, primary_key: user_id
-  has_many :person_attribute, foreign_key: changed_by, primary_key: user_id
-  has_many :person_attribute, foreign_key: creator, primary_key: user_id
-  has_many :person_attribute, foreign_key: voided_by, primary_key: user_id
-  has_many :person_attribute_type, foreign_key: changed_by, primary_key: user_id
-  has_many :person_attribute_type, foreign_key: creator, primary_key: user_id
-  has_many :person_attribute_type, foreign_key: retired_by, primary_key: user_id
-  has_many :person_merge_log, foreign_key: changed_by, primary_key: user_id
-  has_many :person_merge_log, foreign_key: creator, primary_key: user_id
-  has_many :person_merge_log, foreign_key: voided_by, primary_key: user_id
-  has_many :person_name, foreign_key: creator, primary_key: user_id
-  has_many :person_name, foreign_key: voided_by, primary_key: user_id
-  has_many :program, foreign_key: creator, primary_key: user_id
-  has_many :program, foreign_key: changed_by, primary_key: user_id
-  has_many :program_attribute_type, foreign_key: changed_by, primary_key: user_id
-  has_many :program_attribute_type, foreign_key: creator, primary_key: user_id
-  has_many :program_attribute_type, foreign_key: retired_by, primary_key: user_id
-  has_many :program_workflow, foreign_key: changed_by, primary_key: user_id
-  has_many :program_workflow, foreign_key: creator, primary_key: user_id
-  has_many :program_workflow_state, foreign_key: changed_by, primary_key: user_id
-  has_many :program_workflow_state, foreign_key: creator, primary_key: user_id
-  has_many :provider, foreign_key: changed_by, primary_key: user_id
-  has_many :provider, foreign_key: creator, primary_key: user_id
-  has_many :provider, foreign_key: retired_by, primary_key: user_id
-  has_many :provider_attribute, foreign_key: changed_by, primary_key: user_id
-  has_many :provider_attribute, foreign_key: creator, primary_key: user_id
-  has_many :provider_attribute, foreign_key: voided_by, primary_key: user_id
-  has_many :provider_attribute_type, foreign_key: changed_by, primary_key: user_id
-  has_many :provider_attribute_type, foreign_key: creator, primary_key: user_id
-  has_many :provider_attribute_type, foreign_key: retired_by, primary_key: user_id
-  has_many :relationship, foreign_key: changed_by, primary_key: user_id
-  has_many :relationship, foreign_key: creator, primary_key: user_id
-  has_many :relationship, foreign_key: voided_by, primary_key: user_id
-  has_many :relationship_type, foreign_key: changed_by, primary_key: user_id
-  has_many :relationship_type, foreign_key: creator, primary_key: user_id
-  has_many :relationship_type, foreign_key: retired_by, primary_key: user_id
-  has_many :report_object, foreign_key: creator, primary_key: user_id
-  has_many :report_object, foreign_key: changed_by, primary_key: user_id
-  has_many :report_object, foreign_key: voided_by, primary_key: user_id
-  has_many :reporting_report_design, foreign_key: changed_by, primary_key: user_id
-  has_many :reporting_report_design, foreign_key: creator, primary_key: user_id
-  has_many :reporting_report_design, foreign_key: retired_by, primary_key: user_id
-  has_many :reporting_report_design_resource, foreign_key: changed_by, primary_key: user_id
-  has_many :reporting_report_design_resource, foreign_key: creator, primary_key: user_id
-  has_many :reporting_report_design_resource, foreign_key: retired_by, primary_key: user_id
-  has_many :reporting_report_request, foreign_key: requested_by, primary_key: user_id
-  has_many :scheduler_task_config, foreign_key: changed_by, primary_key: user_id
-  has_many :scheduler_task_config, foreign_key: created_by, primary_key: user_id
-  has_many :serialized_object, foreign_key: changed_by, primary_key: user_id
-  has_many :serialized_object, foreign_key: creator, primary_key: user_id
-  has_many :serialized_object, foreign_key: retired_by, primary_key: user_id
-  has_many :user_property, foreign_key: user_id, primary_key: user_id
-  has_many :user_role, foreign_key: user_id, primary_key: user_id
-  has_many :users, foreign_key: creator, primary_key: user_id
-  has_many :users, foreign_key: changed_by, primary_key: user_id
-  has_many :users, foreign_key: retired_by, primary_key: user_id
-  has_many :visit, foreign_key: changed_by, primary_key: user_id
-  has_many :visit, foreign_key: creator, primary_key: user_id
-  has_many :visit, foreign_key: voided_by, primary_key: user_id
-  has_many :visit_attribute, foreign_key: changed_by, primary_key: user_id
-  has_many :visit_attribute, foreign_key: creator, primary_key: user_id
-  has_many :visit_attribute, foreign_key: voided_by, primary_key: user_id
-  has_many :visit_attribute_type, foreign_key: changed_by, primary_key: user_id
-  has_many :visit_attribute_type, foreign_key: creator, primary_key: user_id
-  has_many :visit_attribute_type, foreign_key: retired_by, primary_key: user_id
-  has_many :visit_type, foreign_key: changed_by, primary_key: user_id
-  has_many :visit_type, foreign_key: creator, primary_key: user_id
-  has_many :visit_type, foreign_key: retired_by, primary_key: user_id
-  has_many :xforms_person_repeat_attribute, foreign_key: changed_by, primary_key: user_id
-  has_many :xforms_person_repeat_attribute, foreign_key: creator, primary_key: user_id
-  has_many :xforms_person_repeat_attribute, foreign_key: voided_by, primary_key: user_id
-  has_many :xforms_xform, foreign_key: creator, primary_key: user_id
-  has_many :xforms_xform, foreign_key: changed_by, primary_key: user_id
-  validates :system_id, presence: true
-  validates :creator, presence: true
-  validates :date_created, presence: true
-  validates :person_id, presence: true
-  validates :retired, presence: true
-  validates :uuid, presence: true
+  def add_property(property_name, property_value)
+    user_properties << UserProperty.new(name: property_name, value: property_value)
+  end
+
+  def remove_property(property_name)
+    user_properties.find_by(name: property_name).destroy
+  end
+  
+  def has_role?(role_name, ignore_super_user = false)
+    return true if !ignore_super_user && is_super_user?
+    return false if roles.blank?
+    
+    roles.any? { |role| role.name.casecmp(role_name).zero? }
+  end
+  
+  def get_privileges
+    roles.map(&:privileges).flatten.uniq
+  end
+  
+  def add_role(role)
+    roles << role unless roles.include?(role)
+  end
+
+  def display_string
+    return_string = ""
+    return_string += "#{person.name.full_name} " if person.name
+    return_string += "(#{username})"
+    return_string
+  end
+
+  def get_all_roles
+    roles
+  end
+  
+  def remove_role(role)
+    roles.delete(role)
+  end
 end
