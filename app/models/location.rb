@@ -12,6 +12,6 @@ class Location < ApplicationRecord
   validates :name, :creator, :date_created, :retired, :uuid, presence: true
 
   def self.current_location
-    GlobalProperty.find_by_property('current_health_center_id').property_value
+    Location.find_by_uuid(GlobalProperty.find_by_property('current_health_center_id').property_value)
   end
 end
