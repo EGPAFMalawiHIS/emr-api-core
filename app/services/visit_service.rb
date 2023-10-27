@@ -5,8 +5,6 @@ class VisitService < OpenmrsService
     end
 
     def self.create_visit(params)
-        params = Helpers.to_snake_case(params)
-
         patient = Person.find_by_uuid(params[:patient])
         visit_type = VisitType.find_by_uuid(params[:visit_type])
         location = Location.find_by_uuid(params[:location])

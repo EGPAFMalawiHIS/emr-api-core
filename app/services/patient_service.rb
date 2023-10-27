@@ -1,15 +1,13 @@
 class PatientService < OpenmrsService
 
     def self.find_patients(params)
-        params = Helpers.to_snake_case(params)
-
+        
         patients = Patient.where(params)
         patients
     end
 
     def self.create_patient(params)
         ActiveRecord::Base.transaction do
-            params = Helpers.to_snake_case(params)
 
             person_params = params.delete(:person)
             identifiers_params = params.delete(:identifiers)

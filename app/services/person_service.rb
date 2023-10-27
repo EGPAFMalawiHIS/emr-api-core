@@ -21,8 +21,6 @@ class PersonService < OpenmrsService
             creator: creator
         )
         person.save!
-
-        person_params = Helpers.to_snake_case(person_params)
         
         # Create the person name
         person_name = PersonNameService.create_person_name(person, person_params)
@@ -40,8 +38,6 @@ class PersonService < OpenmrsService
         birthdate = person_params.delete(:birthdate)
         gender = person_params.delete(:gender)
         birthdate_estimated = person_params.delete(:birthdateEstimated)
-        
-        person_params = Helpers.to_snake_case(person_params)
 
         PersonNameService.update_person_name(person_params) if person_params[:names].present?
         
