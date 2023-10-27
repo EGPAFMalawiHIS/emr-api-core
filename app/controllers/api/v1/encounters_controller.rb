@@ -22,7 +22,7 @@ class Api::V1::EncountersController < ApplicationController
 
   def destroy
     encounter = Encounter.find_by_uuid(params[:id])
-    encounter.void(params[:reason])
+    encounter.void(params[:void_reason])
   end
 
   private

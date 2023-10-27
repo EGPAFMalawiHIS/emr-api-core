@@ -1,39 +1,31 @@
 class Api::V1::ObsController < ApplicationController
-  before_action :set_ob, only: [:show, :update, :destroy]
-
-  respond_to :json
 
   def index
-    @obs = Observation.all
-    respond_with(@obs)
+    render ObservationService.find_observations(obs_params), status: :ok
   end
 
   def show
-    respond_with(@ob)
+    respond_with(Observation.find_by_uuid(params[:id]))
   end
 
   def create
-    @ob = Observation.new(ob_params)
-    @ob.save
-    respond_with(@ob)
+    obs = ObservationService.create_observations(obs_params)
+    render obs, status: :created
   end
 
   def update
-    @ob.update(ob_params)
-    respond_with(@ob)
+    obs = Observation.find_by_uuid(params[:id])
+    render ObservationService.update_observations(obs, obs_params), status: :ok
   end
 
   def destroy
-    @ob.destroy
-    respond_with(@ob)
+    obs = Observation.find_by_uuid(params[:id])
+    obs.void(obs_params[:void_reason])
   end
 
   private
-    def set_ob
-      @ob = Observation.find(params[:id])
-    end
 
-    def ob_params
-      params.require(:ob).permit(:person_id, :concept_id, :encounter_id, :order_id, :obs_datetime, :location_id, :obs_group_id, :accession_number, :value_group_id, :value_coded, :value_coded_name_id, :value_drug, :value_datetime, :value_numeric, :value_modifier, :value_text, :comments, :creator, :date_created, :voided, :voided_by, :date_voided, :void_reason, :value_complex, :uuid, :previous_version, :form_namespace_and_path, :status, :interpretation)
+    def obs_params
+      params.permit ParamConstants::OBS_WHITELISTED_PARAMS
     end
 end

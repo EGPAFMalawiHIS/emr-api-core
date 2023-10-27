@@ -72,4 +72,8 @@ module ParamConstants
         :visit_id
     ]
 
+    OBS_WHITELISTED_PARAMS = [
+        :person_id, :concept_id, :encounter_id, :order_id, :obs_datetime, :location_id, :obs_group_id, :accession_number, :value_group_id, :value_coded, :value_coded_name_id, :value_drug, :value_datetime, :value_numeric, :value_modifier, :value_text, :comments, :value_complex, :uuid, :previous_version, :form_namespace_and_path, :status, :interpretation
+    ]
+
 end
