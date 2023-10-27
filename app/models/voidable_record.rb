@@ -14,7 +14,7 @@ class VoidableRecord < ApplicationRecord
   def set_default_void_fields
     self.voided ||= 0
     self.creator = 1
-    self.location = Location.current_location if self.class.column_names.include?('location')
+    self.location = Location.current_location if self.class.column_names.include?('location_id')
     self.uuid = SecureRandom.uuid if self.class.column_names.include?('uuid')
   end
 
