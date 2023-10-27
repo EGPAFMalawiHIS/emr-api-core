@@ -16,4 +16,14 @@ class Observation < VoidableRecord
   has_many :note, foreign_key: obs_id, primary_key: obs_id
 
   validates :obs_id, :person_id, :concept_id, :obs_datetime, :status, presence: true
+
+  validates :status, inclusion: { in: %w(PRELIMINARY FINAL AMENDED) }
+
+  validate :at_least_one_value_present
+
+  def at_least_one_value_present
+    if [value_group_id, value_coded, value_coded_name_id, value_drug, value_datetime, value_numeric, value_modifier, value_text, value_complex].all?(&:blank?)
+      errors.add(:base, "Obs must have at least one value present")
+    end
+  end
 end

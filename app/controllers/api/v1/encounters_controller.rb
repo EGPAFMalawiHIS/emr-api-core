@@ -1,39 +1,33 @@
 class Api::V1::EncountersController < ApplicationController
-  before_action :set_encounter, only: [:show, :update, :destroy]
-
   respond_to :json
+  before_action :permit_params
 
   def index
-    @encounters = Encounter.all
-    respond_with(@encounters)
+    EncounterService.find_encounters(encounter_params) 
   end
 
   def show
-    respond_with(@encounter)
+    respond_with(Encounter.find_by_uuid(params[:id]))
   end
 
   def create
-    @encounter = Encounter.new(encounter_params)
-    @encounter.save
-    respond_with(@encounter)
+    encounter = EncounterService.create_encounter(encounter_params)
+    render json: encounter, status: :created
   end
 
   def update
-    @encounter.update(encounter_params)
-    respond_with(@encounter)
+    encounter = EncounterService.update_encounter(Encounter.find_by_uuid(params[:id], encounter_params))
+    render json: encounter, status: :ok
   end
 
   def destroy
-    @encounter.destroy
-    respond_with(@encounter)
+    encounter = Encounter.find_by_uuid(params[:id])
+    encounter.void(params[:reason])
   end
 
   private
-    def set_encounter
-      @encounter = Encounter.find(params[:id])
-    end
 
     def encounter_params
-      params.require(:encounter).permit(:encounter_type, :patient_id, :location_id, :form_id, :encounter_datetime, :creator, :date_created, :voided, :voided_by, :date_voided, :void_reason, :uuid, :changed_by, :date_changed, :visit_id)
+      params.permit ParamConstants::ENCOUNTER_WHITELISTED_PARAMS
     end
-end
+  end

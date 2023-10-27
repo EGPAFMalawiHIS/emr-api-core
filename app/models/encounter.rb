@@ -17,5 +17,9 @@ class Encounter < VoidableRecord
   has_many :order_group, foreign_key: encounter_id, primary_key: encounter_id
   has_many :orders, foreign_key: encounter_id, primary_key: encounter_id
 
-  validates :encounter_type, :patient_id, :encounter_datetime, presence: true
+  validates :encounter_type, :patient_id, :encounter_datetime, presence: truede
+
+  def self.add_provider(provider)
+    self.encounter_provider.create(provider)
+  end
 end

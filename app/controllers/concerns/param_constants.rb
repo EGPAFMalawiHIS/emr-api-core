@@ -63,4 +63,13 @@ module ParamConstants
         ]
     ]
 
+    ENCOUNTER_SEARCH_PARAMS = [
+        :encounter_type,
+        :patient_id,
+        :location_id,
+        :form_id,
+        :encounter_datetime,
+        :visit_id
+    ]
+
 end
