@@ -1,5 +1,23 @@
 class ObservationService < OpenmrsService
 
+    def self.find_observations(params)
+        obs_datetime = params[:obs_datetime]
+        person = Person.find_by_uuid(params[:person])
+        encounter = Encounter.find_by_uuid(params[:encounter])
+        concept = Concept.find_by_uuid(params[:concept])
+
+        obs =  Observation.all
+        obs = obs.where(obs_datetime: obs_datetime) if obs_datetime
+        obs = obs.where(person: person) if person
+        obs = obs.where(encounter: encounter) if encounter
+        obs = obs.where(concept: concept) if concept
+        obs
+    end
+
+    def self.update_observations(params)
+        throw NotImplementedError.new("Method not implemented")
+    end
+
     def self.create_observations(encounter, obs, parent=nil)
         obs.collect! do |ob|
             child_obs = ob[:group_members]

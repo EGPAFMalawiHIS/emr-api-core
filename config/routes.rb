@@ -57,7 +57,7 @@ Rails.application.routes.draw do
       resources :order_sets
       resources :order_groups
       resources :order_frequencies
-      resources :obs
+      resources :observations
       resources :notification_templates
       resources :notification_alert_recipients
       resources :notification_alerts

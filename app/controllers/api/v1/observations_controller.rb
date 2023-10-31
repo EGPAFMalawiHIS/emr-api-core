@@ -1,7 +1,7 @@
-class Api::V1::ObsController < ApplicationController
+class Api::V1::ObservationsController < ApplicationController
 
   def index
-    render ObservationService.find_observations(obs_params), status: :ok
+    render json: ObservationService.find_observations(obs_params), status: :ok
   end
 
   def show

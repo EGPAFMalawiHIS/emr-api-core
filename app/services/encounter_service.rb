@@ -1,26 +1,37 @@
 class EncounterService < OpenmrsService
 
-    def self.find_encounter(params)
-        Encounter.where(params)
+    def self.find_encounters(params)
+        visit = Visit.find_by_uuid(params[:visit])
+        encounter_datetime = params[:encounter_datetime]
+        person = Person.find_by_uuid(params[:patient])
+        encounter_type = EncounterType.find_by_uuid(params[:encounter_type])
+        encounter_providers = params[:encounter_providers]
+
+
+        encounter = Encounter.all
+
+        encounter = encounter.where('patient_id = ?', person.id) unless person.blank?
+        encounter = encounter.where('encounter_datetime = ?', encounter_datetime) unless encounter_datetime.blank?
+        encounter = encounter.where('encounter_type = ?', encounter_type.id) unless encounter_type.blank?
+        encounter = encounter.where('visit_id = ?', visit.id) unless visit.blank?
+        
+        encounter
     end
 
     def self.create_encounter(params)
         visit = Visit.find_by_uuid(params[:visit])
         encounter_datetime = params[:encounter_datetime]
-        patient = Patient.find_by_uuid(params[:patient])
+        person = Person.find_by_uuid(params[:patient])
         encounter_type = EncounterType.find_by_uuid(params[:encounter_type])
-        location = Location.find_by_uuid(params[:location])
         encounter_providers = params[:encounter_providers]
         obs = params.delete(:obs)
         orders = params.delete(:orders)
         
-
         encounter = Encounter.new
-        encounter.patient = patient
+        encounter.patient_id = person.id
         encounter.encounter_datetime = encounter_datetime
-        encounter.encounter_type = encounter_type
-        encounter.location = location
-        encounter.visit = visit
+        encounter.encounter_type = encounter_type.id
+        encounter.visit_id = visit.id
         encounter.save!
 
         # save providers for the encounter

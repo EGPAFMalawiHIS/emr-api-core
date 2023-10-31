@@ -1,9 +1,8 @@
 class Api::V1::EncountersController < ApplicationController
   respond_to :json
-  before_action :permit_params
 
   def index
-    EncounterService.find_encounters(encounter_params) 
+    render json: EncounterService.find_encounters(encounter_params), status: :ok
   end
 
   def show

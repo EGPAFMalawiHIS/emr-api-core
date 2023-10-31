@@ -64,16 +64,20 @@ module ParamConstants
     ]
 
     ENCOUNTER_SEARCH_PARAMS = [
-        :encounter_type,
-        :patient_id,
-        :location_id,
-        :form_id,
-        :encounter_datetime,
-        :visit_id
+        :encounterType,
+        :patient,
+        :location,
+        :form,
+        :encounterDatetime,
+        :visit
+    ]
+
+    ENCOUNTER_WHITELISTED_PARAMS = [
+        :encounterType, :patient, :location, :form, :encounterDatetime, :visit, encounter: {}
     ]
 
     OBS_WHITELISTED_PARAMS = [
-        :person_id, :concept_id, :encounter_id, :order_id, :obs_datetime, :location_id, :obs_group_id, :accession_number, :value_group_id, :value_coded, :value_coded_name_id, :value_drug, :value_datetime, :value_numeric, :value_modifier, :value_text, :comments, :value_complex, :uuid, :previous_version, :form_namespace_and_path, :status, :interpretation
+        :person, :concept, :encounter, :order, :obsDatetime, :location, :formFieldNamespace, :accessionNumber, :valueGroup, :valueCoded, :valueCodedName, :valueDrug, :valueDatetime, :valueNumeric, :valueModifier, :valueText, :comments, :valueComplex, :previousVersion, :status, :interpretation, :comment, :value, :formFieldPath, observation: {}, groupMembers: []
     ]
 
 end
