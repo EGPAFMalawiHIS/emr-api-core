@@ -72,3 +72,4 @@ yarn-debug.log*
 /config/master.key
 
 /bin/convenient_script/*
+Gemfile.lock

@@ -11,8 +11,7 @@ module UserService
             user = User.new
             user.username = username
             user.system_id = username
-            user.password = Digest::SHA1.hexdigest(user_params[:password])
-            user.salt = SecureRandom.base64
+            user.password = User.user_password(user_params[:password])
             user.person = person
             user.secret_question = security_question
             user.secret_answer = security_answer
