@@ -5,6 +5,8 @@ class ConceptName < ApplicationRecord
   self.table_name = 'concept_name'
   self.primary_key = 'concept_name_id'
 
+  default_scope { where(locale: I18n.locale) }
+
   belongs_to :user, class_name: 'User', foreign_key: :creator, primary_key: :user_id, optional: true
   belongs_to :voider, class_name: 'User', foreign_key: :voided_by, primary_key: :user_id, optional: true
   belongs_to :concept, foreign_key: :concept_id, primary_key: :concept_id, optional: true

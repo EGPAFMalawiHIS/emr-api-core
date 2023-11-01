@@ -63,6 +63,10 @@ module ParamConstants
         ]
     ]
 
+    CONCEPT_WHITELISTED_PARAMS = [
+       :shortName, :description, :formText, :datatype, :class, :isSet, :version
+    ]
+
     ENCOUNTER_SEARCH_PARAMS = [
         :encounterType,
         :patient,

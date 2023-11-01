@@ -11,7 +11,4 @@ class ConceptSet < ApplicationRecord
 
   validates :concept_id, presence: true
   validates :concept_set, presence: true
-  validates :creator, presence: true
-  validates :date_created, presence: true
-  validates :uuid, presence: true
 end
