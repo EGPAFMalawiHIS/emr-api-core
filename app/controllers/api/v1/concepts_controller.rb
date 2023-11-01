@@ -1,39 +1,20 @@
 class Api::V1::ConceptsController < ApplicationController
-  before_action :set_concept, only: [:show, :update, :destroy]
-
   respond_to :json
 
   def index
-    @concepts = Concept.all
-    respond_with(@concepts)
+    render json: ConceptService.find_concepts(params), status: :ok
   end
 
   def show
-    respond_with(@concept)
+    respond_with(Concept.find_by_uuid(params[:id]))
   end
 
   def create
-    @concept = Concept.new(concept_params)
-    @concept.save
-    respond_with(@concept)
-  end
-
-  def update
-    @concept.update(concept_params)
-    respond_with(@concept)
-  end
-
-  def destroy
-    @concept.destroy
-    respond_with(@concept)
+    render json: ConceptService.create_concept(concept_params), status: :created
   end
 
   private
-    def set_concept
-      @concept = Concept.find(params[:id])
-    end
-
     def concept_params
-      params.require(:concept).permit(:retired, :short_name, :description, :form_text, :datatype_id, :class_id, :is_set, :creator, :date_created, :version, :changed_by, :date_changed, :retired_by, :date_retired, :retire_reason, :uuid)
+      ParamConstants::CONCEPT_WHITELISTED_PARAMS
     end
 end
