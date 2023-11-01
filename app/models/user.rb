@@ -1,16 +1,42 @@
 class User < RetirableRecord
+  include BCrypt
+
   validates :username, presence: true, uniqueness: true
   validates :person, presence: true
   
   belongs_to :person
-  has_many :roles
+  has_many :user_roles
   has_many :user_properties
 
+  def as_json(options = {})
+    super(options.merge(
+      only: %i[username uuid],
+      # include: { person },
+      methods: %i[user_properties user_roles person]
+    )
+    )
+  end
+
+
+  def user_password
+    @user_password ||= Password.new(password)
+  end
+
+  def self.create_hash(new_password)
+    Password.create(new_password)
+  end
+
+
+  def authenticate(unencrypted_password)
+    user_password == unencrypted_password
+  end
+
   def self.current
-    {
-      user_id: 1,
-      username: 'admin'
-    }
+    Thread.current['current_user']
+  end
+
+  def self.current=(user)
+    Thread.current['current_user'] = user
   end
   
   def is_super_user?

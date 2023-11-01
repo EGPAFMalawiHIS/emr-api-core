@@ -135,6 +135,11 @@ Rails.application.routes.draw do
       resources :care_settings
       resources :allergy_reactions
       resources :allergies
+      resources :auth do
+        collection do
+          post 'login'
+        end
+      end
     end
   end
 end
